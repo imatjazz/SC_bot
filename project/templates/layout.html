@@ -1,0 +1,66 @@
+{% set active_page = active_page|default('start') -%}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}?v=3">
+    <title>Flask Starter</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='css/theme.css' ) }}" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='external/css/font-awesome.min.css') }}">
+    <!-- Chosen CSS -->
+    <link href="{{ url_for('static', filename='external/css/chosen.css' ) }}" rel="stylesheet">
+    <!-- Chosen Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='external/css/bootstrap-chosen.css' ) }}" rel="stylesheet">
+    <!-- Custom -->
+    <link href="{{ url_for('static', filename='css/layout.css' ) }}" rel="stylesheet">
+
+
+    {% block style %} {% endblock %}
+</head>
+
+<body>
+    <!-- jQuery Version 1.11.1 -->
+    <script src="{{ url_for('static', filename='external/js/jquery.js' ) }}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='external/js/bootstrap.min.js' ) }}"></script>
+    <!-- Chosen JavaScript -->
+    <script src="{{ url_for('static', filename='external/js/chosen.jquery.js' ) }}"></script>
+
+    <!-- Navbar -->  
+    <nav class="navbar navbar-static-top navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <!-- Branding left and search bar -->
+            <div class="navbar-header">
+                <a href="/start"><h3 class="navbar-brand">Flask Starter</h3></a>
+            </div>
+
+            <!-- Navbar right menu -->
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.get_id() %}<li><a href='#'>My Profile</a></li>
+                <li><a href='{{ url_for("logout") }}'>Logout</a></li>
+                {% else %}
+                <li><a href='{{ url_for("login") }}'>Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-container">
+        {% block content %} {% endblock %}
+    </div>
+
+     <script src="{{ url_for('static', filename='js/layout.js' ) }}"></script>
+    <!-- Extra JS -->
+    {% block js %} {% endblock %}
+   
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+ h1 {
+        font-family: 'Roboto', Asap, Verdana, sans-serif;
+    }
+
+    #page-container {
+        margin-top: 0px;
+    }
+
+    #KPMGlogo {
+        height: 25px;
+        float: left;
+        margin-right: 10px;
+        margin-top: 12px;
+    }
+    /* layout.css Style */
+
+    .upload-drop-zone {
+        height: 200px;
+        border-width: 2px;
+        margin-bottom: 20px;
+    }
+    /* skin.css Style*/
+
+    .upload-drop-zone {
+        color: white;
+        border-style: dashed;
+        border-color: white;
+        line-height: 200px;
+        text-align: center;
+        font-size: 2em;
+    }
+
+    .upload-drop-zone.drop {
+        color: #222;
+        border-color: #222;
+    }
+
+    .upload-drop-zone.dropped {
+        color: black;
+    }
+
+    h3.navbar-brand {
+        color: white;
+        margin: 0;
+    }
+
+    #nav-box{
+        width:205%;
+        margin-top:10px;
+        font-size:16px;
+        color: #888;
+        text-shadow: 0px 1px 0 #aaa;
+    }
+
+    #nav-box{
+        width:205%; 
+        margin-top:10px; 
+        font-size:16px;
+    }
+
+    #nav-button{
+        margin-left: 210px; 
+        margin-top: 10px; 
+        font-size:11px;
+    }
+
+    #nav-rfp{
+        margin-left: 5px; 
+        margin-top: 10px; 
+        font-size:11px;
+    }
+
+    #bug-report{
+        padding: 10px;
+        margin: 0px;
+        background-color: rgb(0, 51, 141);
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        color: white;
+        border: 0;
+        border-radius: 0;
+    }
+
+    #close-button{
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    .layout-margin {
+    margin-left: 50px;
+    }
+
+
+    /* Overriding styles */
+
+::-webkit-input-placeholder {
+   font-size: 13px!important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+      font-size: 13px!important;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+      font-size: 13px!important;
+}

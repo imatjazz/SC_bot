@@ -1,0 +1,33 @@
+
+body{
+    background:#eee;    
+}
+
+#myLogin {
+  width: 40%;
+  margin-left: 30%;
+  margin-top: 70px;
+}
+
+#loginError {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin: 10px;
+  text-shadow: #000 1px 1px 2px;
+}
+
+#myLogin ::-webkit-input-placeholder {font-size: 19px !important;}
+#myLogin ::-moz-placeholder {font-size: 19px !important;}
+#myLogin :-ms-input-placeholder {font-size: 19px !important;}
+#myLogin input:-moz-placeholder {font-size: 19px !important;}
+
+#myLogin input[type='text']::placeholder, #myLogin input[type='password']::placeholder {
+  font-size: 19px !important;
+  color: #999;
+}
+
+#myLogin input[type='text'], #myLogin input[type='password'] {
+  color: #444;
+  font-size: 18px;
+}

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% set active_page = 'start' %}
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/login.css' ) }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="myLogin">
+      <form class="form-signin" id="submitForm" method="POST">
+        {% if error %}
+    <div class="error" id="loginError"><p>Error: {{ error }}</p></div>
+  {% endif %}
+        <label for="user_name" class="sr-only">User Name</label>
+        <input type="text" id="user_name" name="user_name" class="form-control" placeholder="User" required autofocus>
+        <label for="user_pass" class="sr-only">Password</label>
+        <input type="password" id="user_pass" name="user_pass" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" id="LoginSubmitBtn" type="submit">Sign In</button>
+      </form>
+    </div>
+<script>
+/* Event listener for login button */
+$( "body" ).on( "click", '#loginSubmitBtn', function() {
+    
+    var parent = $(this).parent();
+    $(this).hide();
+    $(parent).append('<div id="spinner"><i class="fa fa-spin fa-cog fa-2x"></i></div>');
+    var formData = $('#myLogin');
+    console.log(formData);
+
+    $.ajax({
+  url: '/login',
+        type: 'POST',
+  data: formData, 
+        success: function(result) {
+
+        },
+  error: function(error) {
+      $('#spinner').remove();
+      $(this).show();
+      $(this).css('background-color', 'red');
+  }
+    });
+});
+
+</script>
+{% endblock %}
+
