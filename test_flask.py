@@ -26,8 +26,8 @@ class TestViews(flask_testing.TestCase):
         return self.client.get('/logout')
 
     def test_login(self):
-        response = self.login('csuder1', 'password')
-        self.assertEqual(response._status_code, 302)
+        response = self.login('csuder1', 'password'
+)        self.assertEqual(response._status_code, 302)
         self.assertTrue('start' in response.location)
 
     def test_login_fail(self): # Works fine
