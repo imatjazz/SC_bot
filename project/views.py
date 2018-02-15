@@ -13,7 +13,6 @@ from datetime import datetime, timedelta
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from flask_api import status
 from sqlalchemy import Column, Integer, String, DateTime
 
 from werkzeug.utils import secure_filename
@@ -30,10 +29,8 @@ from flask_bcrypt import check_password_hash
 #from email.mime.text import MIMEText
 #from email.mime.multipart import MIMEMultipart
 #from email.mime.base import MIMEBa
-from flask_mail import Mail, Message
 import smtplib
 #from email import encoders
-import flask_security
 from wtforms import SubmitField
 #import FlaskForm
 
@@ -143,7 +140,7 @@ def create_app(debug = False):
         db.session.commit()
 
         print('User successfully registered')
-        
+
 
         # Returning to 'start' page after registering the users
         return redirect(url_for('start'))
@@ -173,7 +170,7 @@ def create_app(debug = False):
                     db.session.add(user)
                     db.session.commit()
                     login_user(user, remember=True)
-                    
+
                     next = request.args.get('next')
                     # Login successful - go to start page or next page
                     return redirect(next or url_for('start'))
