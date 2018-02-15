@@ -29,28 +29,15 @@ from flask_bcrypt import check_password_hash
 #from email.mime.text import MIMEText
 #from email.mime.multipart import MIMEMultipart
 #from email.mime.base import MIMEBa
-import smtplib
 #from email import encoders
-from wtforms import SubmitField
 #import FlaskForm
 
 # CV Extraction Imp
 import logging
-import pandas as pd
-import numpy as np
 import string
-import urllib
-from tika import parser
-import nltk
 import re
-import csv
-import codecs
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 from os import listdir
 from os.path import isfile, join
-import urllib.parse as parse
-import urllib.request
 from shutil import copyfile
 
 #testv##
@@ -65,7 +52,7 @@ sys.path.append('project')
 
 #local imports
 from project import config
-from dbmodel import *
+from .dbmodel import *
 
 
 ############################### Init ################################
