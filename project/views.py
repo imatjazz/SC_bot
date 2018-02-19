@@ -113,6 +113,14 @@ def create_app(debug = False):
         '''
         return render_template('start.html')
 
+    @app.route('/kit')
+    @login_required
+    def kit():
+        '''
+        Show class examples page.
+        '''
+        return render_template('kit.html')
+
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
     @login_required
