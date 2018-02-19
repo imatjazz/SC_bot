@@ -111,23 +111,23 @@ def create_app(debug = False):
         '''
         Show start page.
         '''
-        return 'Success!'
+        return render_template('start.html')
 
     ###################### Registration helper ##################################
-    @app.route('/register')
-    def register():
+    @app.route('/register/<uname>/<upass>')
+    @login_required
+    def register(uname = 'csuder1', upass= 'password'):
         """
         Register a user in the DB with a username and password
         """
         # Registering KPMG employees
-        user_add = User(user_name = 'csuder1', user_pass = generate_password_hash('password'), registered_on = datetime.utcnow(), is_admin = 1)
+        user_add = User(user_name = uname, user_pass = generate_password_hash(upass), registered_on = datetime.utcnow())
 
         # Adding to the database
         db.session.add(user_add)
         db.session.commit()
 
         print('User successfully registered')
-
 
         # Returning to 'start' page after registering the users
         return redirect(url_for('start'))

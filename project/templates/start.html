@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% set active_page = 'start' %}
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/start.css' ) }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div id="chat-wrapper" class="main col-md-3 col-lg-3 col-sm-12">
+	<div id="chat-title-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<h4 id="chat-title">Chat</h4>
+	</div>
+	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<div class="chat-message bot">Hello</div>
+		<div class="chat-message human">Hi</div>
+		<div class="chat-message bot">Hellogfk ngmfg nfdkjghrkjgfdjkfljglkfdgjfdlkgjlkfgjdflkgjfdlkgjfdklgfdkjghfdkjghkj</div>
+		<div class="chat-message human">Hi fkdlg nmb dfhgkjfdhgjkhskjf I am writing a long sentence hn jdk hfkjds</div>
+		<div class="chat-message bot">Hello blablablajf ir tjkrdkjghfdgfd hg</div>
+		<div class="chat-message bot">Hi</div>
+	</div>
+	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
+	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<input type="text" id="chat-input" placeholder="Send a message..." />
+		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+	</div>
+</div>
+<div id="additional-wrapper" class="main col-md-9 col-lg-9 col-sm-12"></div>
+{% endblock %}
+
