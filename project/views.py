@@ -9,45 +9,14 @@ Python 36
 ###################### Imports ####################
 import sys
 import os, inspect, uuid, json
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, DateTime
-
-from werkzeug.utils import secure_filename
-from jinja2 import Environment
-import urllib.request
-import requests
-import requests_cache
-from sqlalchemy import text
-from sqlalchemy import types
-import random
 from flask_bcrypt import generate_password_hash
 from flask_bcrypt import check_password_hash
-#from smtplib import smtp
-#from email.mime.text import MIMEText
-#from email.mime.multipart import MIMEMultipart
-#from email.mime.base import MIMEBa
-#from email import encoders
-#import FlaskForm
-
-# CV Extraction Imp
-import logging
-import string
-import re
-from os import listdir
-from os.path import isfile, join
-from shutil import copyfile
-
-#testv##
-from sqlalchemy import or_
-from sqlalchemy.engine import  RowProxy
-from sqlalchemy.orm import aliased
-from sqlalchemy import desc
 
 #Path
-sys.path.append('project/src')
 sys.path.append('project')
 
 #local imports
@@ -57,8 +26,6 @@ from .dbmodel import *
 
 ############################### Init ################################
 def create_app(debug = False):
-
-    requests_cache.install_cache()
 
     # Create the Flask app
     app = Flask(__name__)
@@ -89,12 +56,8 @@ def create_app(debug = False):
     login_manager = LoginManager()
     # Configure the application for login
     login_manager.init_app(app)
-    # Set the login view
     login_manager.login_view = 'login'
-    # Set custom log-in message
     login_manager.login_message = 'You must be logged in to view this page. Please Log In'
-    # Keep track of logged in user
-    user_logged_in = ''
 
     @login_manager.user_loader
     def user_loader(user_name):
@@ -120,6 +83,22 @@ def create_app(debug = False):
         Show class examples page.
         '''
         return render_template('kit.html')
+
+    @app.route('/message', methods=['POST'])
+    @login_required
+    def message():
+        '''
+        Exchange messages with the front end.
+        '''
+        messageReceived = request.form.get('message')
+        if messageReceived is None:
+            messageReceived = ''
+        
+        # TODO do stuff
+
+        messageSend = 'Hello'
+        tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
+        return json.dumps({'message': messageSend, 'tiles': tiles})
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
