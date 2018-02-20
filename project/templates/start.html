@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% set active_page = 'start' %}
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/start.css' ) }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div id="chat-wrapper" class="main col-md-4 col-lg-4 col-sm-12">
+	<div id="chat-title-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<h4 id="chat-title">Chat</h4>
+	</div>
+	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		{% for message in messages %}
+		<div class="chat-message {{message.who}}">{{message.body}}</div>
+		{% endfor %}
+	</div>
+	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
+	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<input type="text" id="chat-input" placeholder="Send a message..." />
+		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+	</div>
+</div>
+<div id="additional-wrapper" class="main col-md-8 col-lg-8 col-sm-12">
+	<div id="breadcrumb-wrapper" class="row">
+		<ul class="custom-breadcrumb">
+			{% for crumb in breadcrumbs %}
+				<li class="
+				{% if loop.index < breadcrumb_current %}done-crumb
+				{% elif loop.index == breadcrumb_current %}in-progress-crumb
+				{% elif loop.index % 2 == 0 %}not-started-even-crumb
+				{% else %}not-started-odd-crumb{% endif %}
+				">{{ crumb }}</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div id="tile-wrapper" class="row">
+		{% for tile in tiles %}
+		<div class="tile col-sm-12 col-md-12 col-lg-12">
+			<h4 class="tile-title">{{tile.title}}</h4>
+			<div class="tile-body">{{tile.body}}</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+var messageSendURL = "{{ url_for('message') }}";
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
+{% endblock %}
+

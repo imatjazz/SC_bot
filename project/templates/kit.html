@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% set active_page = 'start' %}
+
+{% block style %}
+<link href="{{ url_for('static', filename='css/start.css' ) }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div id="chat-wrapper" class="main col-md-4 col-lg-4 col-sm-12">
+	<div id="chat-title-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<h4 id="chat-title">Chat</h4>
+	</div>
+	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<div class="chat-message bot">Hello</div>
+		<div class="chat-message human">Hi</div>
+		<div class="chat-message bot">Hellogfk ngmfg nfdkjghrkjgfdjkfljglkfdgjfdlkgjlkfgjdflkgjfdlkgjfdklgfdkjghfdkjghkj</div>
+		<div class="chat-message human">Hi fkdlg nmb dfhgkjfdhgjkhskjf I am writing a long sentence hn jdk hfkjds</div>
+		<div class="chat-message bot">Hello blablablajf ir tjkrdkjghfdgfd hg</div>
+		<div class="chat-message bot">Hi</div>
+	</div>
+	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
+	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		<input type="text" id="chat-input" placeholder="Send a message..." />
+		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+	</div>
+</div>
+<div id="additional-wrapper" class="main col-md-8 col-lg-8 col-sm-12">
+	<div class="breadcrumb-wrapper row">
+		<ul class="custom-breadcrumb">
+		    <li class="done-crumb">Your details</li>
+		    <li class="done-crumb">More stuff</li>
+		    <li class="in-progress-crumb">Employment history</li>
+		    <li class="not-started-odd-crumb">Financials</li>
+		    <li class="not-started-even-crumb">Another section</li>
+		    <li class="not-started-odd-crumb">Loan details</li>
+		    <li class="not-started-even-crumb">Upload your documents</li>
+		</ul>
+	</div>
+	<div class="tile-wrapper row">
+		<div class="tile col-sm-12 col-md-12 col-lg-12">
+			<h4 class="tile-title">Tile title</h4>
+			<div class="tile-body">The secondary colours should be used to complement or highlight the AMP ink blue. In certain circumstances, you can use a secondary colour as the dominant colour but you need to get approval from the AMP Brand team before publishing.</div>
+		</div>
+		<div class="tile col-sm-12 col-md-12 col-lg-12">
+			<h4 class="tile-title">Tile title</h4>
+			<div class="tile-body">The secondary colours should be used to complement or highlight the AMP ink blue. In certain circumstances, you can use a secondary colour as the dominant colour but you need to get approval from the AMP Brand team before publishing.</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

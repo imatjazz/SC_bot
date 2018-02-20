@@ -1,42 +1,13 @@
+input:focus {
+    outline:none;
+}
+
  h1 {
         font-family: 'Roboto', Asap, Verdana, sans-serif;
     }
 
     #page-container {
         margin-top: 0px;
-    }
-
-    #KPMGlogo {
-        height: 25px;
-        float: left;
-        margin-right: 10px;
-        margin-top: 12px;
-    }
-    /* layout.css Style */
-
-    .upload-drop-zone {
-        height: 200px;
-        border-width: 2px;
-        margin-bottom: 20px;
-    }
-    /* skin.css Style*/
-
-    .upload-drop-zone {
-        color: white;
-        border-style: dashed;
-        border-color: white;
-        line-height: 200px;
-        text-align: center;
-        font-size: 2em;
-    }
-
-    .upload-drop-zone.drop {
-        color: #222;
-        border-color: #222;
-    }
-
-    .upload-drop-zone.dropped {
-        color: black;
     }
 
     h3.navbar-brand {
@@ -82,25 +53,19 @@
         border-radius: 0;
     }
 
-    #close-button{
-        background-color: transparent;
-        border-color: transparent;
-    }
-
     .layout-margin {
     margin-left: 50px;
     }
 
-
-    /* Overriding styles */
-
-::-webkit-input-placeholder {
-   font-size: 13px!important;
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus{
+    background-color: #00aae0;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-      font-size: 13px!important;
+/*.navbar-inverse{
+    background-color: #001e41;
+    border-color: #001e41;
 }
-::-moz-placeholder {  /* Firefox 19+ */
-      font-size: 13px!important;
-}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+    color: white;
+}*/

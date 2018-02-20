@@ -1,24 +1,8 @@
 // Layout.js 
 // Note: applied to all pages that extend layout.html
 
-//Search redirect
-function doSearch() {
-    var search_data = document.getElementById("nav-box").value;
-    window.location = results_path+search_data
-}
-
-/************************** Event listeners *************************/
-$("#nav-button").on({click: function(){doSearch()}});
-
-$("#nav-box").keydown(function(event){
-    if(event.keyCode == 13){
-        event.preventDefault();
-        $("#nav-button").trigger('click');
-    }
-});
-
 /***************** DropZone Widget Behaviour for file upload ********/      
-+ function($) {
+/*+ function($) {
     'use strict';
 
     // UPLOAD CLASS DEFINITION
@@ -52,4 +36,4 @@ $("#nav-box").keydown(function(event){
         }   
     }
 
-}(jQuery);
+}(jQuery);*/

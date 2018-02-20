@@ -1,0 +1,256 @@
+
+body{
+    background:#eee;    
+}
+
+.navbar{
+  margin-bottom: 0;
+}
+
+.main{
+  height: calc(100vh - 51px);;
+}
+
+/* Left */
+#chat-wrapper{
+  background-color: white;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Chat title */
+#chat-title-wrapper{
+  background-color: #8DCEF2;
+}
+
+#chat-title{
+  padding: 10px 0;
+}
+
+/* Chat message area */
+#chat-message-wrapper{
+  height: calc(100vh - 85px - 78.8px);
+  padding: 0;
+  overflow-y: auto;
+}
+
+#chat-message-wrapper::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+    
+#chat-message-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+#chat-message-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(204, 210, 217, 0.5);
+    border-radius: 10px;
+}
+
+.chat-message{
+  border-radius: 15px;
+  display:table;
+  font-size: 80%;
+  padding: 1% 1.3em;
+  margin: 0.8% 1%;
+  font-variant: italic;
+  color: #001e41;
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.chat-message.bot{
+  background-color: #EEF3F6;
+  float: left;
+  clear: both;
+}
+
+.chat-message.human{
+  background-color: #8DCEF2;
+  float: right;
+  clear: both;
+}
+
+/* Chat text input */
+#chat-input-wrapper{
+  height: 30px;
+}
+
+#chat-input{
+  width: calc(100% - 50px);
+  border: none;
+  font-size: 0.85em;
+}
+
+#chat-input:focus{
+  border-bottom: 2px solid #8DCEF2;
+}
+
+#chat-input::-webkit-input-placeholder {
+   font-style: italic;
+}
+#chat-input:-moz-placeholder {
+   font-style: italic;  
+}
+#chat-input::-moz-placeholder {
+   font-style: italic;  
+}
+#chat-input:-ms-input-placeholder {  
+   font-style: italic; 
+}
+
+#chat-submit-btn{
+  width: 20px;
+  padding: 0;
+}
+
+#chat-submit-btn.btn-default{
+  border: none;
+}
+
+#chat-submit-btn.btn-default:hover{
+  border: none;
+  background-color: transparent;
+  color: #004983;
+}
+
+/* Right */
+#additional-wrapper{
+  background: /*url('../img/background.png')*/ #EEF8FD;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Breadcrumb */
+
+.custom-breadcrumb{
+  list-style:none;
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 2px;
+}
+
+.custom-breadcrumb li {
+  text-decoration: none; 
+  padding: 5px 0 5px 50px;
+  position: relative; 
+  display: block;
+  float: left;
+  margin-right: 1px;
+  font-family: "Rokkitt Light", "Courier New", serif;
+}
+
+.custom-breadcrumb li:after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  /*
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;*/
+
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  position: absolute;
+  top: 144%;
+  margin-top: -50px;
+  left: 100%;
+  z-index: 2;
+}
+
+.custom-breadcrumb li:before {
+  content: " "; 
+  display: block; 
+  width: 0; 
+  height: 0;
+  
+/*
+  border-top: 50px solid transparent;       
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid white;
+  position: absolute;
+  top: 50%; */
+
+
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 30px solid transparent;
+  position: absolute;
+  top: 50%;
+
+  margin-top: -50px; 
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.in-progress-crumb{
+    background-color: #001E41;
+    color: white;
+}
+.in-progress-crumb:after{
+    border-left:30px solid #001E41;
+}
+
+.not-started-even-crumb{
+    background-color: #64B5E5;
+    color: white;
+}
+.not-started-even-crumb:after{
+    border-left: 30px solid #64B5E5;
+}
+
+.not-started-odd-crumb{
+    background-color: #00AAE0;
+    color: white;
+}
+.not-started-odd-crumb:after{
+    border-left: 30px solid #00AAE0;
+}
+
+.done-crumb:after{
+    border-left:30px solid #EEF3F6;
+}
+
+.done-crumb{
+    background: #EEF3F6;
+}
+
+/* Tiles */
+#tile-wrapper {
+    height: calc(100vh - 50px - 38px);
+    overflow-y: auto;
+}
+
+#tile-wrapper::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+    
+#tile-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+#tile-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(204, 210, 217, 1);
+    border-radius: 10px;
+}
+
+.tile{
+  margin: 2px 5px;
+  background-color: #001E41;
+  padding: 10px;
+  width: calc(100% - 11px);
+}
+.tile-title{
+  color: #8DCEF2;
+}
+.tile-body{
+  color: white;
+  padding: 5px;
+  font-size: 0.85em;
+}

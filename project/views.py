@@ -9,45 +9,14 @@ Python 36
 ###################### Imports ####################
 import sys
 import os, inspect, uuid, json
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, DateTime
-
-from werkzeug.utils import secure_filename
-from jinja2 import Environment
-import urllib.request
-import requests
-import requests_cache
-from sqlalchemy import text
-from sqlalchemy import types
-import random
 from flask_bcrypt import generate_password_hash
 from flask_bcrypt import check_password_hash
-#from smtplib import smtp
-#from email.mime.text import MIMEText
-#from email.mime.multipart import MIMEMultipart
-#from email.mime.base import MIMEBa
-#from email import encoders
-#import FlaskForm
-
-# CV Extraction Imp
-import logging
-import string
-import re
-from os import listdir
-from os.path import isfile, join
-from shutil import copyfile
-
-#testv##
-from sqlalchemy import or_
-from sqlalchemy.engine import  RowProxy
-from sqlalchemy.orm import aliased
-from sqlalchemy import desc
 
 #Path
-sys.path.append('project/src')
 sys.path.append('project')
 
 #local imports
@@ -57,8 +26,6 @@ from .dbmodel import *
 
 ############################### Init ################################
 def create_app(debug = False):
-
-    requests_cache.install_cache()
 
     # Create the Flask app
     app = Flask(__name__)
@@ -89,12 +56,8 @@ def create_app(debug = False):
     login_manager = LoginManager()
     # Configure the application for login
     login_manager.init_app(app)
-    # Set the login view
     login_manager.login_view = 'login'
-    # Set custom log-in message
     login_manager.login_message = 'You must be logged in to view this page. Please Log In'
-    # Keep track of logged in user
-    user_logged_in = ''
 
     @login_manager.user_loader
     def user_loader(user_name):
@@ -111,23 +74,61 @@ def create_app(debug = False):
         '''
         Show start page.
         '''
-        return 'Success!'
+        #Breadcrumb
+        #TODO get this from DB or config
+        breadcrumbs = ['Your details', 'More stuff', 'Employment history', 'Financials', 'Another section', 'Loan details'];
+        #TODO get this from session
+        breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
+
+        #Existing messages
+        #TODO change to session
+        messages = []
+
+        #Current tiles
+        #TODO change to session
+        tiles = []
+        return render_template('start.html', breadcrumbs = breadcrumbs, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
+
+    @app.route('/kit')
+    @login_required
+    def kit():
+        '''
+        Show class examples page.
+        '''
+        return render_template('kit.html')
+
+    @app.route('/message', methods=['POST'])
+    @login_required
+    def message():
+        '''
+        Exchange messages with the front end.
+        '''
+        message_received = request.form.get('message')
+        if message_received is None:
+            message_received = ''
+        
+        # TODO do stuff
+
+        message_send = 'Hello'
+        tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
+        breadcrumb_current = 2
+        return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Registration helper ##################################
-    @app.route('/register')
-    def register():
+    @app.route('/register/<uname>/<upass>')
+    @login_required
+    def register(uname = 'csuder1', upass= 'password'):
         """
         Register a user in the DB with a username and password
         """
         # Registering KPMG employees
-        user_add = User(user_name = 'csuder1', user_pass = generate_password_hash('password'), registered_on = datetime.utcnow(), is_admin = 1)
+        user_add = User(user_name = uname, user_pass = generate_password_hash(upass), registered_on = datetime.utcnow())
 
         # Adding to the database
         db.session.add(user_add)
         db.session.commit()
 
         print('User successfully registered')
-
 
         # Returning to 'start' page after registering the users
         return redirect(url_for('start'))
