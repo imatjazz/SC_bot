@@ -221,6 +221,25 @@ body{
 }
 
 /* Tiles */
+#tile-wrapper {
+    height: calc(100vh - 50px - 38px);
+    overflow-y: auto;
+}
+
+#tile-wrapper::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+    
+#tile-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+#tile-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(204, 210, 217, 1);
+    border-radius: 10px;
+}
+
 .tile{
   margin: 2px 5px;
   background-color: #001E41;

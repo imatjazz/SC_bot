@@ -11,7 +11,9 @@
 		<h4 id="chat-title">Chat</h4>
 	</div>
 	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
-		<div class="chat-message bot">Hello</div>
+		{% for message in messages %}
+		<div class="chat-message {{message.who}}">{{message.body}}</div>
+		{% endfor %}
 	</div>
 	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
 	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
@@ -22,97 +24,31 @@
 <div id="additional-wrapper" class="main col-md-8 col-lg-8 col-sm-12">
 	<div id="breadcrumb-wrapper" class="row">
 		<ul class="custom-breadcrumb">
-		    <li class="done-crumb">Your details</li>
-		    <li class="done-crumb">More stuff</li>
-		    <li class="in-progress-crumb">Employment history</li>
-		    <li class="not-started-odd-crumb">Financials</li>
-		    <li class="not-started-even-crumb">Another section</li>
-		    <li class="not-started-odd-crumb">Loan details</li>
-		    <li class="not-started-even-crumb">Upload your documents</li>
+			{% for crumb in breadcrumbs %}
+				<li class="
+				{% if loop.index < breadcrumb_current %}done-crumb
+				{% elif loop.index == breadcrumb_current %}in-progress-crumb
+				{% elif loop.index % 2 == 0 %}not-started-even-crumb
+				{% else %}not-started-odd-crumb{% endif %}
+				">{{ crumb }}</li>
+			{% endfor %}
 		</ul>
 	</div>
 	<div id="tile-wrapper" class="row">
+		{% for tile in tiles %}
+		<div class="tile col-sm-12 col-md-12 col-lg-12">
+			<h4 class="tile-title">{{tile.title}}</h4>
+			<div class="tile-body">{{tile.body}}</div>
+		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}
 
 {% block js %}
 <script>
-var messageSendURL = '/message';
-var inputEnabled = true;
-
-/* Submit on enter */
-$("#chat-input").keydown(function(event){
-    if(event.keyCode == 13){
-        event.preventDefault();
-        $("#chat-submit-btn").trigger('click');
-    }
-});
-
-/* Event listeners */
-$('#chat-submit-btn').click(messageSubmit);
-
-/* Helpers */
-//add a message to UI, who is 'human' or 'bot'
-function messageAdd(who, message){
-	var chat = $('#chat-message-wrapper');
-	chat.append('<div class="chat-message '+ who +'">'+ message +'</div>');
-	chat.scrollTop(chat.prop("scrollHeight"));
-}
-//submit message in input
-function messageSubmit(){
-	if(!inputEnabled) return; //Don't let the user submit a message while a request is in progress
-	inputEnabled =- false;
-	var message = $('#chat-input').val();
-	$('#chat-input').val(''); //Clear the input
-	messageAdd('human', message);
-	messageSend(message);
-}
-//add tile to UI
-function tileAdd(tile){
-	var tileBody = ['<div class="tile col-sm-12 col-md-12 col-lg-12">',
-			'<h4 class="tile-title">', tile.title, '</h4>',
-			'<div class="tile-body">', tile.body , '</div></div>'];
-	tileBody = tileBody.join('');
-	$('#tile-wrapper').append(tileBody);
-}
-//clear tiles
-function tilesRemove(){
-	$('.tile').remove();
-}
-
-/* AJAX queries */
-function messageSend(message){
-	//Request
-	var data = {'message': message};
-	var q = $.post(messageSendURL, data);
-	
-	//Success
-	q.done(function(res){
-		var res = JSON.parse(res);
-		//add message
-		if(Object.keys(res).indexOf('message') > -1){
-			messageAdd('bot', res['message']);
-		}
-		//enable input
-		inputEnabled = true;
-		//remove tiles
-		tilesRemove();
-		//add tiles
-		if(Object.keys(res).indexOf('tiles') > -1){
-			var tiles = res['tiles'];
-			for(var i = 0; i < tiles.length; i++){
-				tileAdd(tiles[i]);
-			}
-		}
-	});
-	
-	//Failure
-	q.fail(function(res){
-		inputEnabled = true;
-		alert('An error occured while sending your message to the bot: ' + res);
-	});
-}
+var messageSendURL = "{{ url_for('message') }}";
 </script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
 {% endblock %}
 

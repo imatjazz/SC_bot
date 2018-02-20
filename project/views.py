@@ -74,7 +74,20 @@ def create_app(debug = False):
         '''
         Show start page.
         '''
-        return render_template('start.html')
+        #Breadcrumb
+        #TODO get this from DB or config
+        breadcrumbs = ['Your details', 'More stuff', 'Employment history', 'Financials', 'Another section', 'Loan details'];
+        #TODO get this from session
+        breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
+
+        #Existing messages
+        #TODO change to session
+        messages = []
+
+        #Current tiles
+        #TODO change to session
+        tiles = []
+        return render_template('start.html', breadcrumbs = breadcrumbs, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
 
     @app.route('/kit')
     @login_required
@@ -90,15 +103,16 @@ def create_app(debug = False):
         '''
         Exchange messages with the front end.
         '''
-        messageReceived = request.form.get('message')
-        if messageReceived is None:
-            messageReceived = ''
+        message_received = request.form.get('message')
+        if message_received is None:
+            message_received = ''
         
         # TODO do stuff
 
-        messageSend = 'Hello'
+        message_send = 'Hello'
         tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
-        return json.dumps({'message': messageSend, 'tiles': tiles})
+        breadcrumb_current = 2
+        return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
