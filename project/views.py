@@ -15,6 +15,7 @@ from flask_login import LoginManager, login_user, current_user, login_required, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import generate_password_hash
 from flask_bcrypt import check_password_hash
+from flask_session import Session
 
 #Path
 sys.path.append('project')
@@ -22,6 +23,15 @@ sys.path.append('project')
 #local imports
 from project import config
 from .dbmodel import *
+import api
+
+
+
+#######################
+#Major HACK HACK HACK
+Me = api.Watson()
+#Major HACK HACK HACK
+#######################
 
 
 ############################### Init ################################
@@ -47,6 +57,12 @@ def create_app(debug = False):
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #Initialise flask session
+    app.config['SESSION_TYPE'] = 'filesystem'
+    Session(app)
+
+    #initialise API to Watson
+
 
     ##### Initialize db from dbmodel ###
     db.init_app(app)
@@ -84,6 +100,9 @@ def create_app(debug = False):
         #TODO change to session
         messages = []
 
+        #TODO Reload session context
+        session['context'] = None
+
         #Current tiles
         #TODO change to session
         tiles = []
@@ -103,13 +122,42 @@ def create_app(debug = False):
         '''
         Exchange messages with the front end.
         '''
+
+
+
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
-        
-        # TODO do stuff
 
-        message_send = 'Hello'
+        context = session['context']
+        response = Me.watson_message(query=message_received,
+                                                          context=context)
+
+        new_context = response['context']
+        current_node = new_context['system']['dialog_stack'][0]['dialog_node']
+
+
+        if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
+            api.validate(current_node)       #TODO
+            """
+            the context variable could be an object eg:
+                driversLicence: {'value': 4556,
+                                 'valid': True}
+            On start we read in a list of VALIDATEABLE_FIELDS and save it to session['validatable_fields']. (or we can read new fields that have a 'valid' property)
+            When that contextVariable appears in the context list:
+            - run validate(contextVariable)
+            - if true we update the contextVariable['valid'] = True. Then pop() from session['validatable_fields']
+            - if false we update contextVariable['value'] = ''
+            - Send it back to watson.
+            """
+
+        session['context'] = new_context
+        api.log_response(response)
+        api.update_form_DB(new_context)
+        api.tile_generation(new_context)
+        message_send = response['output']['text']
+        print(json.dumps(message_send, indent=2))
+
         tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
         breadcrumb_current = 2
         return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
@@ -158,6 +206,7 @@ def create_app(debug = False):
                     db.session.add(user)
                     db.session.commit()
                     login_user(user, remember=True)
+
 
                     next = request.args.get('next')
                     # Login successful - go to start page or next page

@@ -63,13 +63,13 @@ function messageSend(message){
 	//Request
 	var data = {'message': message};
 	var q = $.post(messageSendURL, data);
-	
+
 	//Success
 	q.done(function(res){
 		var res = JSON.parse(res);
 		//add message
 		if(Object.keys(res).indexOf('message') > -1){
-			messageAdd('bot', res['message']);
+			$(res['message']).each(function(d, i){messageAdd('bot', i)});
 		}
 		//enable input
 		inputEnabled = true;
@@ -88,7 +88,7 @@ function messageSend(message){
 			if(!isNaN(i)) updateBreadcrumb(curr);
 		}
 	});
-	
+
 	//Failure
 	q.fail(function(res){
 		inputEnabled = true;
