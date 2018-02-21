@@ -20,9 +20,9 @@ function messageAdd(who, message){
 }
 //submit message in input
 function messageSubmit(){
-	if(!inputEnabled) return; //Don't let the user submit a message while a request is in progress
-	inputEnabled =- false;
 	var message = $('#chat-input').val();
+	if(!inputEnabled || message.length == 0) return; //Don't let the user submit a message while a request is in progress
+	inputEnabled =- false;
 	$('#chat-input').val(''); //Clear the input
 	messageAdd('human', message);
 	messageSend(message);
@@ -63,13 +63,13 @@ function messageSend(message){
 	//Request
 	var data = {'message': message};
 	var q = $.post(messageSendURL, data);
-	
+
 	//Success
 	q.done(function(res){
 		var res = JSON.parse(res);
 		//add message
 		if(Object.keys(res).indexOf('message') > -1){
-			messageAdd('bot', res['message']);
+			$(res['message']).each(function(d, i){messageAdd('bot', i)});
 		}
 		//enable input
 		inputEnabled = true;
@@ -88,10 +88,10 @@ function messageSend(message){
 			if(!isNaN(i)) updateBreadcrumb(curr);
 		}
 	});
-	
+
 	//Failure
 	q.fail(function(res){
 		inputEnabled = true;
-		alert('An error occured while sending your message to the bot: ' + res);
+		alert('An error occured while sending your message to the bot: ' + JSON.stringify(res));
 	});
 }

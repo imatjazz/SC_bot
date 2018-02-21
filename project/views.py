@@ -15,6 +15,7 @@ from flask_login import LoginManager, login_user, current_user, login_required, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import generate_password_hash
 from flask_bcrypt import check_password_hash
+from flask_session import Session
 
 #Path
 sys.path.append('project')
@@ -22,6 +23,15 @@ sys.path.append('project')
 #local imports
 from project import config
 from .dbmodel import *
+import api
+
+
+
+#######################
+#Major HACK HACK HACK
+Me = api.Watson()
+#Major HACK HACK HACK
+#######################
 
 
 ############################### Init ################################
@@ -47,6 +57,12 @@ def create_app(debug = False):
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #Initialise flask session
+    app.config['SESSION_TYPE'] = 'filesystem'
+    Session(app)
+
+    #initialise API to Watson
+
 
     ##### Initialize db from dbmodel ###
     db.init_app(app)
@@ -76,13 +92,16 @@ def create_app(debug = False):
         '''
         #Breadcrumb
         #TODO get this from DB or config
-        breadcrumbs = ['Your details', 'More stuff', 'Employment history', 'Financials', 'Another section', 'Loan details'];
+        breadcrumbs = ['Personal & employment', 'Financials', 'Loan requirements', 'Offset accounts', 'Additional information', 'Privacy', 'Documents'];
         #TODO get this from session
         breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
 
         #Existing messages
         #TODO change to session
         messages = []
+
+        #TODO Reload session context
+        session['context'] = None
 
         #Current tiles
         #TODO change to session
@@ -103,16 +122,71 @@ def create_app(debug = False):
         '''
         Exchange messages with the front end.
         '''
+
+
+
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
-        
-        # TODO do stuff
 
-        message_send = 'Hello'
-        tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
-        breadcrumb_current = 2
+        context = session['context'] if 'context' in session else None          #TODO session recovery
+        response = Me.watson_message(query=message_received,
+                                     context=context)
+
+        new_context = response['context']
+        current_node = new_context['system']['dialog_stack'][0]['dialog_node']
+
+
+        if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
+            api.validate(current_node)       #TODO
+
+
+        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
+            if new_context['autofillConfirm'] == 'false':
+                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
+                new_context['autofillConfirm'] = 'true'
+
+
+
+        session['context'] = new_context
+        api.log_response(response)
+        api.update_form_DB(new_context)
+        tiles = tile_generation(new_context)
+        message_send = response['output']['text']
+
+        breadcrumb_current = 1
         return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
+
+    ###################### Tile views ###########################################
+    def applicant_details_from_sys(context):
+        productType = context['productType']
+        template = render_template('tiles/applicant_details_from_sys.html', productType = productType)
+        tile = {'title': 'Please validate your details', 'body': template}
+        return tile
+
+    def applicant_employment_details_from_sys(context):
+        template = render_template('tiles/applicant_employment_details_from_sys.html')
+        tile = {'title': 'Please validate your details', 'body': template}
+        return tile
+
+    tiles_index = {
+        'node_68_1519021622252': [applicant_details_from_sys],
+        'slot_50_1519019902036': [applicant_employment_details_from_sys]
+    }
+
+    def tile_generation(context):
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+        print(json.dumps(context, indent=2))
+        if current_node not in tiles_index.keys():
+            return []
+
+        tile_paths = tiles_index[current_node]
+        tiles = []
+        for path in tile_paths:
+           #tiles.append(eval(f))
+           tiles.append(path(context))
+           #tiles.append(root_1(context))
+        return tiles
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
@@ -158,6 +232,7 @@ def create_app(debug = False):
                     db.session.add(user)
                     db.session.commit()
                     login_user(user, remember=True)
+
 
                     next = request.args.get('next')
                     # Login successful - go to start page or next page
