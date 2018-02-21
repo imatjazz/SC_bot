@@ -129,7 +129,7 @@ def create_app(debug = False):
         if message_received is None:
             message_received = ''
 
-        context = session['context'] if 'context' in session else None
+        context = session['context'] if 'context' in session else None          #TODO session recovery
         response = Me.watson_message(query=message_received,
                                      context=context)
 
@@ -141,15 +141,17 @@ def create_app(debug = False):
             api.validate(current_node)       #TODO
 
 
-        if 'piiConfirm' in new_context.keys():
-            if new_context['piiConfirm']:
-                new_context['autofillDone'] = True
+        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
+            if new_context['autofillConfirm'] == 'false':
+                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
+                new_context['autofillConfirm'] = 'true'
+
 
 
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-        tiles = tile_generation(current_node, new_context)
+        tiles = tile_generation(new_context)
         message_send = response['output']['text']
 
         breadcrumb_current = 1
@@ -158,15 +160,22 @@ def create_app(debug = False):
     ###################### Tile views ###########################################
     def applicant_details_from_sys(context):
         productType = context['productType']
-        template = render_template('tiles/applicant_details_from_sys.html', productType = productType) 
+        template = render_template('tiles/applicant_details_from_sys.html', productType = productType)
         tile = {'title': 'Please validate your details', 'body': template}
-        return tile 
+        return tile
+
+    def applicant_employment_details_from_sys(context):
+        template = render_template('tiles/applicant_employment_details_from_sys.html')
+        tile = {'title': 'Please validate your details', 'body': template}
+        return tile
 
     tiles_index = {
-        'node_22_1519017849723': [applicant_details_from_sys]
+        'node_68_1519021622252': [applicant_details_from_sys],
+        'slot_50_1519019902036': [applicant_employment_details_from_sys]
     }
 
-    def tile_generation(current_node, context):
+    def tile_generation(context):
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
         print(json.dumps(context, indent=2))
         if current_node not in tiles_index.keys():
             return []
