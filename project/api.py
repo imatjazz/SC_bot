@@ -1,5 +1,6 @@
 import watson_developer_cloud as watson
 import json
+import re
 
 import config
 
@@ -20,7 +21,6 @@ class Watson(watson.ConversationV1):
         return response
 
 
-
 def validate(node_id, value=None):
     return True
 
@@ -35,4 +35,38 @@ def update_form_DB(context):
     pass
 
 def tile_generation(context):
-    return None
+    tiles = []
+    if context:
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+        print(current_node)
+
+        if current_node == 'node_22_1519017849723':
+            tile_title = "Your Personal Details"
+            tiles.append(tile_table(title=tile_title, content=config.EXAMPLE_USER))
+
+
+        if current_node == 'slot_50_1519019902036':
+            tile_title = 'Employment history'
+            tiles.append(tile_table(title=tile_title, content=config.EXAMPLE_CURRENT_EMPLOYMENT_HISTORY))
+
+
+
+    return tiles
+
+def tile_table(title, content):
+    tile_title = title.title()
+    tile_content = '<table><tr>'
+    content_list = []
+    if not isinstance(content, dict):
+        raise TypeError('Content provided is not in a dictionary format. Cannot generate table')
+
+    for key in content:
+        content_list.append('<td>' + str(re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))', r' \1', key)).title() + '</td><td>' + str(content[key]) + '</td>')
+    tile_content += "<tr></tr>".join(content_list) + '</tr></table>'
+    tile = {'title': tile_title, 'body': tile_content}
+
+    return tile
+
+def print_context(context):
+    for key in context:
+        
