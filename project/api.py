@@ -35,4 +35,4 @@ def update_form_DB(context):
     pass
 
 def tile_generation(context):
-    pass
+    return None

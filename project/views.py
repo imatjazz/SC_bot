@@ -131,7 +131,7 @@ def create_app(debug = False):
 
         context = session['context']
         response = Me.watson_message(query=message_received,
-                                                          context=context)
+                                     context=context)
 
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
@@ -139,27 +139,20 @@ def create_app(debug = False):
 
         if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
             api.validate(current_node)       #TODO
-            """
-            the context variable could be an object eg:
-                driversLicence: {'value': 4556,
-                                 'valid': True}
-            On start we read in a list of VALIDATEABLE_FIELDS and save it to session['validatable_fields']. (or we can read new fields that have a 'valid' property)
-            When that contextVariable appears in the context list:
-            - run validate(contextVariable)
-            - if true we update the contextVariable['valid'] = True. Then pop() from session['validatable_fields']
-            - if false we update contextVariable['value'] = ''
-            - Send it back to watson.
-            """
+
+
+        if 'piiConfirm' in new_context.keys():
+            if new_context['piiConfirm']:
+                new_context['autofillDone'] = True
+
 
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-        api.tile_generation(new_context)
+        tiles = api.tile_generation(current_node)
         message_send = response['output']['text']
-        print(json.dumps(message_send, indent=2))
 
-        tiles = [{'title': 'Title', 'body': 'fkdlfkdl;sdkfs'}, {'title': 'fkdlfsd', 'body': 'fdklf;kdl;fsd'}]
-        breadcrumb_current = 2
+        breadcrumb_current = 1
         return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Registration helper ##################################
