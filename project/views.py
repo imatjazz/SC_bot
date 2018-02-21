@@ -129,7 +129,10 @@ def create_app(debug = False):
         if message_received is None:
             message_received = ''
 
-        context = session['context']
+        try:
+            context = session['context']                                        #TODO fix issues with loading a flask session after refresh
+        except:
+            context = None
         response = Me.watson_message(query=message_received,
                                      context=context)
 
@@ -137,23 +140,24 @@ def create_app(debug = False):
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
 
-        if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
-            api.validate(current_node)       #TODO
-
+        if current_node in config.VALIDATEABLE_FIELDS:                          #TODO could validate based on context variable name
+            api.validate(current_node)
 
         if 'piiConfirm' in new_context.keys():
             if new_context['piiConfirm']:
+                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
                 new_context['autofillDone'] = True
-
 
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-        tiles = api.tile_generation(current_node)
-        message_send = response['output']['text']
 
+        tiles = api.tile_generation(new_context)
+        message_send = response['output']['text']
         breadcrumb_current = 1
-        return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
+        return json.dumps({'message': message_send,
+                           'tiles': tiles,
+                           'breadcrumb_current': breadcrumb_current})
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
