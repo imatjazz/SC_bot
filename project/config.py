@@ -14,3 +14,27 @@ WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
 VALIDATEABLE_FIELDS = ['driversLicence']
+
+EXAMPLE_USER = {
+               'firstName': 'Marlin',
+               'lastName': 'Anemone',
+               'employmentType': 'Full-time',
+               'employmentTitle': 'Explorer',
+               'employmentStartDate': '02/2017',
+               'yearsTenure': '1',
+               'employer': 'Fish-finding services',
+               'employerSubburb': 'Sydney',
+               'employerState': 'NSW',
+               'employerPostcode': '2000'
+              }
+
+EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
+                           'employmentType': 'Full-time',
+                           'employmentTitle': 'Explorer',
+                           'employmentStartDate': '02/2017',
+                           'yearsTenure': '1',
+                           'employer': 'Fish-finding services',
+                           'employerSubburb': 'Sydney',
+                           'employerState': 'NSW',
+                           'employerPostcode': '2000'
+                          }
