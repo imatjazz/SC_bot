@@ -39,8 +39,8 @@ def tile_generation(context):
     if context:
         current_node = context['system']['dialog_stack'][0]['dialog_node']
         print(current_node)
-
-        if current_node == 'node_22_1519017849723':
+        print_context(context)
+        if current_node == 'node_68_1519021622252':
             tile_title = "Your Personal Details"
             tiles.append(tile_table(title=tile_title, content=config.EXAMPLE_USER))
 
@@ -69,4 +69,5 @@ def tile_table(title, content):
 
 def print_context(context):
     for key in context:
-        
+        if key != 'system':
+            print(key, context[key])

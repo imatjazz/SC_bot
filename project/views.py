@@ -143,10 +143,10 @@ def create_app(debug = False):
         if current_node in config.VALIDATEABLE_FIELDS:                          #TODO could validate based on context variable name
             api.validate(current_node)
 
-        if 'piiConfirm' in new_context.keys():
-            if new_context['piiConfirm']:
+        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
+            if new_context['autofillConfirm'] == 'false':
                 new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
-                new_context['autofillDone'] = True
+                new_context['autofillConfirm'] = 'true'
 
         session['context'] = new_context
         api.log_response(response)
