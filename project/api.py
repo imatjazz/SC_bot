@@ -33,6 +33,3 @@ def log_response(response):
 
 def update_form_DB(context):
     pass
-
-def tile_generation(context):
-    return None

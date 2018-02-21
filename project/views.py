@@ -92,7 +92,7 @@ def create_app(debug = False):
         '''
         #Breadcrumb
         #TODO get this from DB or config
-        breadcrumbs = ['Your details', 'More stuff', 'Employment history', 'Financials', 'Another section', 'Loan details'];
+        breadcrumbs = ['Personal & employment', 'Financials', 'Loan requirements', 'Offset accounts', 'Additional information', 'Privacy', 'Documents'];
         #TODO get this from session
         breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
 
@@ -129,7 +129,7 @@ def create_app(debug = False):
         if message_received is None:
             message_received = ''
 
-        context = session['context']
+        context = session['context'] if 'context' in session else None
         response = Me.watson_message(query=message_received,
                                      context=context)
 
@@ -149,11 +149,35 @@ def create_app(debug = False):
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-        tiles = api.tile_generation(current_node)
+        tiles = tile_generation(current_node, new_context)
         message_send = response['output']['text']
 
         breadcrumb_current = 1
         return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
+
+    ###################### Tile views ###########################################
+    def applicant_details_from_sys(context):
+        productType = context['productType']
+        template = render_template('tiles/applicant_details_from_sys.html', productType = productType) 
+        tile = {'title': 'Please validate your details', 'body': template}
+        return tile 
+
+    tiles_index = {
+        'node_22_1519017849723': [applicant_details_from_sys]
+    }
+
+    def tile_generation(current_node, context):
+        print(json.dumps(context, indent=2))
+        if current_node not in tiles_index.keys():
+            return []
+
+        tile_paths = tiles_index[current_node]
+        tiles = []
+        for path in tile_paths:
+           #tiles.append(eval(f))
+           tiles.append(path(context))
+           #tiles.append(root_1(context))
+        return tiles
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
