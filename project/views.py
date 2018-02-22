@@ -152,10 +152,11 @@ def create_app(debug = False):
         api.log_response(response)
         api.update_form_DB(new_context)
         tiles = tile_generation(new_context)
+        buttons = button_generation(new_context)
         message_send = response['output']['text']
 
         breadcrumb_current = 1
-        return json.dumps({'message': message_send, 'tiles': tiles, 'breadcrumb_current': breadcrumb_current})
+        return json.dumps({'message': message_send, 'tiles': tiles, 'buttons': buttons, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Tile views ###########################################
     def applicant_details_from_sys(context):
@@ -193,6 +194,28 @@ def create_app(debug = False):
            tiles.append(path(context))
            #tiles.append(root_1(context))
         return tiles
+
+    ###################### Button views ###########################################
+    def purpose_1(context):
+        buttons = ['New home loan', 'Refinance']
+        return buttons
+    def type_of_borrower(context):
+        buttons = ['Individual applicant', 'Joint applicants', 'Company', 'Trust'] 
+        return buttons
+
+    buttons_index = {
+        'root': purpose_1,
+        'node_15_1519016713312': type_of_borrower
+    }
+
+    def button_generation(context):
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+        if current_node not in buttons_index.keys():
+            return []
+
+        button_path = buttons_index[current_node]
+        buttons = button_path(context)
+        return buttons
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
