@@ -166,7 +166,7 @@ def create_app(debug = False):
 
     def applicant_employment_details_from_sys(context):
         template = render_template('tiles/applicant_employment_details_from_sys.html')
-        tile = {'title': 'Please validate your details', 'body': template}
+        tile = {'title': 'Your employment history', 'body': template}
         return tile
 
     tiles_index = {
