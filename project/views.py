@@ -157,7 +157,7 @@ def create_app(debug = False):
         if employmentTypePrevious is not None:
             template = render_template('tiles/applicant_employment_details_full.html', employmentTypePrevious = context['employmentTypePrevious'], businessDescription = context['businessDescription'])
             title = 'Please validate your employment history'
-        else: 
+        else:
             template = render_template('tiles/applicant_details_from_sys.html')
             title = 'Please validate your details'
         tile = {'title': title, 'body': template}
@@ -174,8 +174,8 @@ def create_app(debug = False):
     }
 
     def tile_generation(context):
-        current_node = context['system']['dialog_stack'][0]['dialog_node']
         print(json.dumps(context, indent=2))
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
         if current_node not in tiles_index.keys():
             return []
 
