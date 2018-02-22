@@ -2,8 +2,9 @@
 .board {
     width: 100%;
     height: auto;
-    margin: 30px auto;
+    margin: 10px auto;
     background: none;
+    border-left: 2px solid #00AAE0;
 }
 
 .board .nav-tabs {
@@ -168,9 +169,7 @@ div[role="tabpanel"]:after {
 }
 #second-row, #third-row {
     width: 35%;
-    text-align: center;
     margin: 0 0 0 10px;
-    display: inline-block;
 }
 
 #second-row .text, #third-row .text{
@@ -194,37 +193,24 @@ div[role="tabpanel"]:after {
 	font-weight: bold;
 }
 
+.board .circle-icon {
+    padding-top: 1.5em;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-left: -18px;
+}
+
 </style>
 <div class="board">
-    <ul class="nav nav-tabs col-md-12 col-sm-12 col-lg-12">
-        <div class="liner"></div>
-        <li rel-index="0" class="active">
-            <a href="#step-1" class="btn" aria-controls="step-1" role="tab" data-toggle="tab">
-                <span class="start"><i class="fa fa-map-marker fa-2x"></i></span>
-                <span class="start text">Today</span>
-            </a>
-        </li>
-        <li rel-index="1">
-            <a id="step2" href="#step-2" class="btn" aria-controls="step-2" role="tab" data-toggle="tab">
-                <span class="start"><i class="fa fa-map-marker fa-2x"></i></span>
-                <span class="start text">18/03/2015</span>
-            </a>
-        </li>
-        <li rel-index="1">
-            <a id="step3" href="#step-3" class="btn" aria-controls="step-3" role="tab" data-toggle="tab">
-                <span class="start new"><i class="fa fa-map-marker fa-2x"></i></span>
-                <span class="start text">---</span>
-            </a>
-        </li>
-    </ul>
-    <br/>
-    <div id="second-row">
+    <div id="second-row">   	
+    	<div class="text circle-icon"><i class="fa fa-circle"></i></div>
     	<div id="user-icon" class="text"><i class="fa fa-address-card fa-4x"></i></div>
     	<div id="text-position" class="text"><span class="position">Senior Analyst</span> - Part time<br/><span class="location">AMP Circular Quay</span></div>
     </div>
     <div id="third-row">
+    	<div class="text circle-icon"><i class="fa fa-circle"></i></div>
     	<div id="user-icon" class="text"><i class="fa fa-address-card fa-4x"></i></div>
-    	<div id="text-position" class="text"><span class="position">___________</span> - ___________<br/><span class="location">___________</span></div>
+    	<div id="text-position" class="text"><span class="position">{{ employmentTypePrevious }}</span><br/><span class="location">{{  businessDescription }}</span></div>
     </div>
 </div>
 

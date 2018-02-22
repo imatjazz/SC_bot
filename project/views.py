@@ -153,13 +153,19 @@ def create_app(debug = False):
     ###################### Tile views ###########################################
     def applicant_details_from_sys(context):
         productType = context['productType']
-        template = render_template('tiles/applicant_details_from_sys.html', productType = productType)
-        tile = {'title': 'Please validate your details', 'body': template}
+        employmentTypePrevious = context['employmentTypePrevious'] if 'employmentTypePrevious' in context.keys() else None
+        if employmentTypePrevious is not None:
+            template = render_template('tiles/applicant_employment_details_full.html', employmentTypePrevious = context['employmentTypePrevious'], businessDescription = context['businessDescription'])
+            title = 'Please validate your employment history'
+        else: 
+            template = render_template('tiles/applicant_details_from_sys.html')
+            title = 'Please validate your details'
+        tile = {'title': title, 'body': template}
         return tile
 
     def applicant_employment_details_from_sys(context):
         template = render_template('tiles/applicant_employment_details_from_sys.html')
-        tile = {'title': 'Please validate your details', 'body': template}
+        tile = {'title': 'Your employment history', 'body': template}
         return tile
 
     tiles_index = {
