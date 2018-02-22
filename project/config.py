@@ -16,15 +16,26 @@ WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 VALIDATEABLE_FIELDS = ['driversLicence']
 
 EXAMPLE_USER = {
+<<<<<<< HEAD
                'firstName': 'Marlin',
                'lastName': 'Anemone',
                'employmentType': 'Full-time',
                'employmentTitle': 'Explorer',
+=======
+               'firstName': 'John',
+               'middleName': 'Bla bla',
+               'lastName': 'Doe',
+               'DOB': '02/05/1990',
+               'address': '123 ABC Lane, Sydney',
+               'employmentType': 'Part-time',
+               'employmentTitle': 'Senior Analyst',
+>>>>>>> refs/remotes/origin/master
                'employmentStartDate': '02/2017',
                'yearsTenure': '1',
                'employer': 'Fish-finding services',
                'employerSubburb': 'Sydney',
                'employerState': 'NSW',
+<<<<<<< HEAD
                'employerPostcode': '2000'
               }
 
@@ -38,3 +49,19 @@ EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
                            'employerState': 'NSW',
                            'employerPostcode': '2000'
                           }
+=======
+               'employerPostcode': '2000',
+               'officeLocation': 'AMP Circular Quay'
+              }
+EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
+                                     'employmentType': 'Part-time',
+                                     'employmentTitle': 'Senior Analyst',
+                                     'employmentStartDate': '02/2017',
+                                     'yearsTenure': '1',
+                                     'employer': 'Fish-finding services',
+                                     'employerSubburb': 'Sydney',
+                                     'employerState': 'NSW',
+                                     'employerPostcode': '2000',
+                                     'officeLocation': 'AMP Circular Quay'
+                                     }
+>>>>>>> refs/remotes/origin/master

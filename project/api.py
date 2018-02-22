@@ -33,6 +33,7 @@ def log_response(response):
 
 def update_form_DB(context):
     pass
+<<<<<<< HEAD
 
 def tile_generation(context):
     tiles = []
@@ -71,3 +72,5 @@ def print_context(context):
     for key in context:
         if key != 'system':
             print(key, context[key])
+=======
+>>>>>>> refs/remotes/origin/master
