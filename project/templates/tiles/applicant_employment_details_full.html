@@ -1,0 +1,216 @@
+<style>
+.board {
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    background: none;
+    border-left: 2px solid #00AAE0;
+}
+
+.board .nav-tabs {
+    position: relative;
+    margin: 0px auto;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+.liner {
+    height: 1px;
+    background: white;
+    position: absolute;
+    width: 75%;
+    margin: 10px 2%;
+    left: 0;
+    right: 0;
+    top: 50%;
+    z-index: 1;
+}
+
+.board .nav-tabs > li {
+    width: 33%;
+}
+
+
+.board .nav-tabs > li[rel-index="-1"]:after {
+    left: calc(50% + 100%);
+}
+
+.board .nav-tabs > li[rel-index="-2"]:after {
+    left: calc(50% + 200%);
+}
+
+.board .nav-tabs > li[rel-index="-3"]:after {
+    left: calc(50% + 300%);
+}
+
+.board .nav-tabs > li[rel-index="1"]:after {
+    left: calc(50% - 100% );
+}
+
+.board .nav-tabs > li[rel-index="2"]:after {
+    left: calc(50% - 200%);
+}
+
+.board .nav-tabs > li[rel-index="3"]:after {
+    left: calc(50% - 300%);
+}
+
+.board .nav-tabs > li a {
+    width: auto;
+    height: 70px;
+    line-height: 70px;
+    margin: 10px 0;
+    border-radius: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.board .nav-tabs > li a:hover {
+    border: none;
+    background: none;
+}
+
+.board .nav-tabs > li.active a, .board .nav-tabs > li.active a:hover {
+    border: none;
+    background: none;
+}
+
+.board .nav-tabs > li span {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    border-radius: 100%;
+    background: white;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+}
+
+.board .nav-tabs > li:nth-of-type(1) span {
+    color: #3e5e9a;
+    border: 2px solid #3e5e9a;
+}
+
+.board .nav-tabs > li:nth-of-type(1).active span {
+    color: #fff;
+    background: #3e5e9a;
+}
+
+.board .nav-tabs > li:nth-of-type(2) span {
+    color: #f1685e;
+    border: 2px solid #f1685e;
+}
+
+.board .nav-tabs > li:nth-of-type(2).active span {
+    color: #fff;
+    background: #f1685e;
+}
+
+.board .nav-tabs > li:nth-of-type(3) span {
+    color: #febe29;
+    border: 2px solid #febe29;
+}
+
+.board .nav-tabs > li:nth-of-type(3).active span {
+    color: #fff;
+    background: #febe29;
+}
+
+.board .nav-tabs > li:nth-of-type(4) span {
+    color: #25c225;
+    border: 2px solid #25c225;
+}
+
+.board .nav-tabs > li:nth-of-type(4).active span {
+    color: #fff;
+    background: #25c225;
+}
+
+.board .nav-tabs > li > a.disabled {
+    opacity: 1;
+}
+
+.board .nav-tabs > li > a.disabled span {
+    border-color: #ddd;
+    color: #aaa;
+}
+
+div[role="tabpanel"]:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+#step3{
+	margin-right: 0;
+}
+
+/* Begin Business Info */
+
+.board .nav-tabs > li span.start, .board .nav-tabs > li:nth-of-type(1).active span.start {
+    background: transparent;
+    border: none;
+    color: #00AAE0;
+}
+
+.board .nav-tabs > li span.start.new, .board .nav-tabs > li:nth-of-type(1).active span.start.new{
+	color: #EEF3F6;
+}
+
+.board .nav-tabs > li span.start.text, .board .nav-tabs > li:nth-of-type(1).active span.start.text{
+	margin-top: 25px;
+	font-size: 1em;
+	color: white;
+}
+#second-row, #third-row {
+    width: 35%;
+    margin: 0 0 0 10px;
+}
+
+#second-row .text, #third-row .text{
+	display: inline-block;
+}
+
+#second-row #user-icon, #third-row #user-icon{
+	margin-right: 10px;
+}
+
+#second-row #text-position, #third-row #text-position{
+	text-align: left;
+    vertical-align: super;		
+}
+
+.board span.location{
+	color: #00AAE0;
+	font-size: 1em;
+}
+.board span.position{
+	font-weight: bold;
+}
+
+.board .circle-icon {
+    padding-top: 1.5em;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-left: -18px;
+}
+
+</style>
+<div class="board">
+    <div id="second-row">   	
+    	<div class="text circle-icon"><i class="fa fa-circle"></i></div>
+    	<div id="user-icon" class="text"><i class="fa fa-address-card fa-4x"></i></div>
+    	<div id="text-position" class="text"><span class="position">Senior Analyst</span> - Part time<br/><span class="location">AMP Circular Quay</span></div>
+    </div>
+    <div id="third-row">
+    	<div class="text circle-icon"><i class="fa fa-circle"></i></div>
+    	<div id="user-icon" class="text"><i class="fa fa-address-card fa-4x"></i></div>
+    	<div id="text-position" class="text"><span class="position">{{ employmentTypePrevious }}</span><br/><span class="location">{{  businessDescription }}</span></div>
+    </div>
+</div>
+

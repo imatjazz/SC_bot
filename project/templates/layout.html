@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.ico') }}?v=3">
-    <title>{% if current_user.get_id() %}AMP Employee Home Lending Bot{% else %}Welcome{% endif %}</title>
+    <title>{% if current_user.get_id() %}AMP Employee Home Lending{% else %}Welcome{% endif %}</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename='css/theme.css' ) }}" rel="stylesheet">
     <!-- Font awesome CSS -->
@@ -38,7 +38,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <!-- Branding left and search bar -->
             <div class="navbar-header">
-                <a href="/start"><h3 class="navbar-brand">{% if current_user.get_id() %}AMP Employee Home Lending Bot{% else %}Welcome{% endif %}</h3></a>
+                <a href="/start"><h3 class="navbar-brand">{% if current_user.get_id() %}AMP Employee Home Lending{% else %}Welcome{% endif %}</h3></a>
             </div>
 
             <!-- Navbar right menu -->
