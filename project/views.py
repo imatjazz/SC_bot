@@ -129,52 +129,22 @@ def create_app(debug = False):
         if message_received is None:
             message_received = ''
 
-<<<<<<< HEAD
-        try:
-            context = session['context']                                        #TODO fix issues with loading a flask session after refresh
-        except:
-            context = None
-=======
         context = session['context'] if 'context' in session else None          #TODO session recovery
->>>>>>> refs/remotes/origin/master
         response = Me.watson_message(query=message_received,
                                      context=context)
 
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-
-<<<<<<< HEAD
-        if current_node in config.VALIDATEABLE_FIELDS:                          #TODO could validate based on context variable name
-            api.validate(current_node)
-=======
         if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
-            api.validate(current_node)       #TODO
-
-
-        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
-            if new_context['autofillConfirm'] == 'false':
-                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
-                new_context['autofillConfirm'] = 'true'
-
->>>>>>> refs/remotes/origin/master
-
-        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
-            if new_context['autofillConfirm'] == 'false':
-                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
-                new_context['autofillConfirm'] = 'true'
+            new_context = api.validate(new_context)
 
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-<<<<<<< HEAD
-=======
         tiles = tile_generation(new_context)
         message_send = response['output']['text']
->>>>>>> refs/remotes/origin/master
 
-        tiles = api.tile_generation(new_context)
-        message_send = response['output']['text']
         breadcrumb_current = 1
         return json.dumps({'message': message_send,
                            'tiles': tiles,

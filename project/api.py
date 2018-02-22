@@ -21,8 +21,13 @@ class Watson(watson.ConversationV1):
         return response
 
 
-def validate(node_id, value=None):
-    return True
+def validate(new_context, value=None):
+    if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
+        if new_context['autofillConfirm'] == 'false':
+            new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
+            new_context['autofillConfirm'] = 'true'
+            return new_context
+
 
 def cache_context(context, session):
 
@@ -33,7 +38,7 @@ def log_response(response):
 
 def update_form_DB(context):
     pass
-<<<<<<< HEAD
+
 
 def tile_generation(context):
     tiles = []
@@ -72,5 +77,3 @@ def print_context(context):
     for key in context:
         if key != 'system':
             print(key, context[key])
-=======
->>>>>>> refs/remotes/origin/master

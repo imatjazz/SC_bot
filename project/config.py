@@ -13,15 +13,13 @@ WATSON_PASSWORD='DGm2hKYjVnV3'
 WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
-VALIDATEABLE_FIELDS = ['driversLicence']
+VALIDATEABLE_FIELDS = ['node_68_1519021622252']
 
 EXAMPLE_USER = {
-<<<<<<< HEAD
                'firstName': 'Marlin',
                'lastName': 'Anemone',
                'employmentType': 'Full-time',
                'employmentTitle': 'Explorer',
-=======
                'firstName': 'John',
                'middleName': 'Bla bla',
                'lastName': 'Doe',
@@ -29,27 +27,11 @@ EXAMPLE_USER = {
                'address': '123 ABC Lane, Sydney',
                'employmentType': 'Part-time',
                'employmentTitle': 'Senior Analyst',
->>>>>>> refs/remotes/origin/master
                'employmentStartDate': '02/2017',
                'yearsTenure': '1',
                'employer': 'Fish-finding services',
                'employerSubburb': 'Sydney',
                'employerState': 'NSW',
-<<<<<<< HEAD
-               'employerPostcode': '2000'
-              }
-
-EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
-                           'employmentType': 'Full-time',
-                           'employmentTitle': 'Explorer',
-                           'employmentStartDate': '02/2017',
-                           'yearsTenure': '1',
-                           'employer': 'Fish-finding services',
-                           'employerSubburb': 'Sydney',
-                           'employerState': 'NSW',
-                           'employerPostcode': '2000'
-                          }
-=======
                'employerPostcode': '2000',
                'officeLocation': 'AMP Circular Quay'
               }
@@ -64,4 +46,3 @@ EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
                                      'employerPostcode': '2000',
                                      'officeLocation': 'AMP Circular Quay'
                                      }
->>>>>>> refs/remotes/origin/master
