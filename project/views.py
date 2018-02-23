@@ -23,7 +23,7 @@ sys.path.append('project')
 #local imports
 from project import config
 from .dbmodel import *
-import api
+from project import api, buttons, tiles
 
 
 
@@ -108,40 +108,24 @@ def create_app(debug = False):
         tiles = []
         return render_template('start.html', breadcrumbs = breadcrumbs, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
 
-    @app.route('/kit')
-    @login_required
-    def kit():
-        '''
-        Show class examples page.
-        '''
-        return render_template('kit.html')
-
     @app.route('/message', methods=['POST'])
     @login_required
     def message():
         '''
         Exchange messages with the front end.
         '''
-
-
-
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
 
-        try:                                                                    #TODO session recovery
-            context = session['context']
-        except TypeError as e:
-            context = None
-            print(e)
-
+        context = api.retrive_cached_context(session)                           #now behind a try except wrapper
         response = Me.watson_message(query=message_received,
                                      context=context)
 
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-        if current_node in config.VALIDATEABLE_FIELDS:                          #TODO could validate based on context variable name
+        if current_node in config.VALIDATEABLE_FIELDS:                          #validate now performs preppulation. TODO may need to run a DB query though
             new_context = api.validate(new_context)
             if new_context is None:
                 raise TypeError('Context was set to None in validate function')
@@ -149,50 +133,49 @@ def create_app(debug = False):
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
-        tiles = tile_generation(new_context)
+        ts = tile_generation(new_context)
+        bs = button_generation(new_context)
         message_send = response['output']['text']
 
         breadcrumb_current = 1
         return json.dumps({'message': message_send,
-                           'tiles': tiles,
+                           'tiles': ts,
+                           'buttons': bs,
                            'breadcrumb_current': breadcrumb_current})
 
-    ###################### Tile views ###########################################
-    def applicant_details_from_sys(context):
-        productType = context['productType']
-        employmentTypePrevious = context['employmentTypePrevious'] if 'employmentTypePrevious' in context.keys() else None
-        if employmentTypePrevious is not None:
-            template = render_template('tiles/applicant_employment_details_full.html', employmentTypePrevious = context['employmentTypePrevious'], businessDescription = context['businessDescription'])
-            title = 'Please validate your employment history'
-        else:
-            template = render_template('tiles/applicant_details_from_sys.html')
-            title = 'Please validate your details'
-        tile = {'title': title, 'body': template}
-        return tile
+    ###################### Buttons ########################################
+    def button_generation(context):
+        '''
+        Check if buttons are available for current node and generate list
+        '''
 
-    def applicant_employment_details_from_sys(context):
-        template = render_template('tiles/applicant_employment_details_from_sys.html')
-        tile = {'title': 'Your employment history', 'body': template}
-        return tile
-
-    tiles_index = {
-        'node_68_1519021622252': [applicant_details_from_sys],
-        'slot_50_1519019902036': [applicant_employment_details_from_sys]
-    }
-
-    def tile_generation(context):
-        print(json.dumps(context, indent=2))
         current_node = context['system']['dialog_stack'][0]['dialog_node']
-        if current_node not in tiles_index.keys():
+        if current_node not in buttons.BUTTONS_INDEX.keys():
             return []
 
-        tile_paths = tiles_index[current_node]
-        tiles = []
+        button_path = buttons.BUTTONS_INDEX[current_node]
+        bs = button_path(context)
+        return bs
+
+    ###################### Tile ###########################################
+    def tile_generation(context):
+        '''
+        Check if tiles are available for current node and generate html
+        '''
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+        print(json.dumps(context, indent=2))
+        if current_node not in tiles.TILES_INDEX.keys():
+            return []
+
+        tile_paths = tiles.TILES_INDEX[current_node]
+        ts = []
         for path in tile_paths:
-           #tiles.append(eval(f))
-           tiles.append(path(context))
-           #tiles.append(root_1(context))
-        return tiles
+           res = path(context)
+           template = render_template(res[1], args = res[2])
+           tile = {'title': res[0], 'body': template}
+           ts.append(tile)
+        return ts
+
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
