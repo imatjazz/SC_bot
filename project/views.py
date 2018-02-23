@@ -54,7 +54,7 @@ def create_app(debug = False):
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://aimkpmg:Kn0ckKn0ck@employeebotpostgres.cdzci8hdolza.ap-southeast-2.rds.amazonaws.com:8080/employeebotpostgres'
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Initialise flask session

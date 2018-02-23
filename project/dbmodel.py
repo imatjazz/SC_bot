@@ -37,10 +37,10 @@ class User(db.Model):
     """
     __tablename__ = 'users'
 
-    user_name = db.Column('user_name', db.String(50), primary_key=True)
-    user_pass = db.Column('user_pass', db.String(100))
-    registered_on = db.Column('registered_on', db.DateTime(True))
-    is_admin = db.Column('is_admin', db.Boolean, default = False)
+    user_name = db.Column('userName', db.String(50), primary_key=True)
+    user_pass = db.Column('userPass', db.String(100))
+    registered_on = db.Column('registereOn', db.DateTime(True))
+    is_admin = db.Column('isAdmin', db.Boolean, default = False)
 
     def is_active(self):
         """ All users are active by default"""
@@ -60,3 +60,33 @@ class User(db.Model):
 
     pass
 
+
+class Employee(db.Model):
+
+    user_name = db.Column('userName', db.String(50), primary_key = True)
+    currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
+    currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
+    currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
+    accountNumber = db.Column('accountNumber', db.Integer(), default = 58495743895)
+    ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100), default = True)
+
+    pass
+
+class CRM(Employee):
+    """
+    Emmulates the CRM system table
+    """
+    __tablename__ = "crm"
+
+    def get_data(self, user_name):
+        for key in self.keys():
+            print(key)
+
+
+
+class Form_DB(Employee):
+    """
+    stores the identified variables from end user
+    """
+
+    __tablename__ = 'form'
