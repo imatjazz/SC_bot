@@ -1,16 +1,5 @@
 var inputEnabled = true;
 
-/* Submit on enter */
-$("#chat-input").keydown(function(event){
-    if(event.keyCode == 13){
-        event.preventDefault();
-        $("#chat-submit-btn").trigger('click');
-    }
-});
-
-/* Event listeners */
-$('#chat-submit-btn').click(messageSubmit);
-
 /* Helpers */
 //add a message to UI, who is 'human' or 'bot'
 function messageAdd(who, message){
@@ -24,6 +13,7 @@ function messageSubmit(){
 	if(!inputEnabled || message.length == 0) return; //Don't let the user submit a message while a request is in progress
 	inputEnabled =- false;
 	$('#chat-input').val(''); //Clear the input
+	$('#chat-input').focus();
 	messageAdd('human', message);
 	messageSend(message);
 }
@@ -38,6 +28,38 @@ function tileAdd(tile){
 //clear tiles
 function tilesRemove(){
 	$('.tile').remove();
+}
+
+//add buttons to UI
+function buttonsAdd(buttons){
+	var buttonBodyTemplate = ['<div class="chat-message chat-button">' ,'</div>'];
+	var buttonBody = [];
+	for(var i = 0; i<buttons.length; i++){
+		buttonBody.push(buttonBodyTemplate[0]);
+		buttonBody.push(buttons[i]);
+		buttonBody.push(buttonBodyTemplate[1]);
+	}
+	$('#chat-button-wrapper').append(buttonBody.join(''));
+	var h = $('#chat-button-wrapper').css('height');
+	$('#chat-button-wrapper').css('margin-top', '-'+h)
+	var chat = $('#chat-message-wrapper');
+	chat.css('padding-bottom', h);
+	chat.scrollTop(chat.prop("scrollHeight"));
+
+}
+//clear buttons
+function buttonsRemove(){
+	$('#chat-button-wrapper').css('margin-top', '0px')
+	$('#chat-message-wrapper').css('padding-bottom', '0px');
+	$('#chat-button-wrapper .chat-button').remove();
+}
+
+//click button
+function buttonClick(d){
+	var val = $(this).text();
+	$('#chat-input').val(val);
+	buttonsRemove();
+	messageSubmit();
 }
 
 //update breadcrumb current position
@@ -82,6 +104,12 @@ function messageSend(message){
 				tileAdd(tiles[i]);
 			}
 		}
+		//remove buttons
+		buttonsRemove();
+		//add buttons
+		if(Object.keys(res).indexOf('buttons') > -1){
+			buttonsAdd(res['buttons']);
+		}
 		//change breadcrumb
 		if(Object.keys(res).indexOf('breadcrumb_current') > -1){
 			var curr = parseInt(res['breadcrumb_current']);
@@ -95,3 +123,17 @@ function messageSend(message){
 		alert('An error occured while sending your message to the bot: ' + JSON.stringify(res));
 	});
 }
+
+
+/* Submit on enter */
+$("#chat-input").keydown(function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $("#chat-submit-btn").trigger('click');
+    }
+});
+
+/* Event listeners */
+$('#chat-submit-btn').click(messageSubmit);
+$(document).on('click', '.chat-message.chat-button', buttonClick);
+

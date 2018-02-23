@@ -91,6 +91,38 @@ body::after {
   clear: both;
 }
 
+#chat-button-wrapper{
+  padding: 0;
+}
+
+.chat-message.chat-button{
+  margin-right: 0;
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid #81b8d7;
+  background: rgb(208,228,247); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(142,205,237,1) 0%, rgba(119,197,239,1) 51%, rgba(142,205,237,1) 90%, rgba(135,188,234,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(142,205,237,1) 0%,rgba(119,197,239,1) 51%,rgba(142,205,237,1) 90%,rgba(135,188,234,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(142,205,237,1) 0%,rgba(119,197,239,1) 51%,rgba(142,205,237,1) 90%,rgba(135,188,234,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 ); /* IE6-9 */
+}
+
+.chat-message.chat-button:hover{
+  background: rgb(231,241,251); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(200,231,246,1) 0%, rgba(187,226,247,1) 51%, rgba(200,231,246,1) 90%, rgba(195,222,245,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(200,231,246,1) 0%,rgba(187,226,247,1) 51%,rgba(200,231,246,1) 90%,rgba(195,222,245,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(200,231,246,1) 0%,rgba(187,226,247,1) 51%,rgba(200,231,246,1) 90%,rgba(195,222,245,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7f1fb', endColorstr='#c3def5',GradientType=0 ); /* IE6-9 */
+}
+
+.chat-message.chat-button:active{
+  background: rgb(33,117,195); /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(26,118,164,1) 0%, rgba(19,111,161,1) 51%, rgba(26,118,164,1) 90%, rgba(28,97,158,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(26,118,164,1) 0%,rgba(19,111,161,1) 51%,rgba(26,118,164,1) 90%,rgba(28,97,158,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(26,118,164,1) 0%,rgba(19,111,161,1) 51%,rgba(26,118,164,1) 90%,rgba(28,97,158,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2175c3', endColorstr='#1c619e',GradientType=0 ); /* IE6-9 */
+}
+
 /* Chat text input */
 #chat-input-wrapper {
     height: 55px;
