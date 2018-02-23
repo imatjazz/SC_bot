@@ -294,7 +294,7 @@ body::after {
 
 /* Tiles */
 #tile-wrapper {
-    height: calc(100vh - 71px - 38px);
+    height: calc(100vh - 71px - 58px);
     overflow-y: auto;
 }
 
