@@ -125,8 +125,6 @@ def create_app(debug = False):
                 new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
                 new_context['autofillConfirm'] = 'true'
 
-
-
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)

@@ -79,8 +79,6 @@ function updateBreadcrumb(curr){
 			crumbHTML[1] = 'not-started-odd-crumb';
 		}
 
-		wrapper.append(crumbHTML.join(''));
-
 		if(i == curr[0]){
 			var subBreadcrumbs = crumb['sub'];
 			for(var j = 1; j <= subBreadcrumbs.length; j++){
@@ -97,6 +95,8 @@ function updateBreadcrumb(curr){
 				}
 				wrapper.append(subCrumbHTML.join(''));
 			}
+		}else{
+			wrapper.append(crumbHTML.join(''));
 		}
 	}
 }

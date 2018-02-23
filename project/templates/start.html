@@ -25,12 +25,6 @@
 	<div id="breadcrumb-wrapper" class="row">
 		<ul class="custom-breadcrumb">
 			{% for crumb in breadcrumbs %}
-				<li class="crumb 
-				{% if loop.index < breadcrumb_current[0] %}done-crumb
-				{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
-				{% elif loop.index % 2 == 0 %}not-started-even-crumb
-				{% else %}not-started-odd-crumb{% endif %}
-				"><a>{{ crumb.name }}</a></li>
 				{% if loop.index == breadcrumb_current[0] %}
 					{% for subcrumb in crumb.sub %}
 						<li class="sub-crumb 
@@ -40,6 +34,13 @@
 						{% else %}sub-not-started-odd-crumb{% endif %}
 						"><a>{{ subcrumb }}</a></li>
 					{% endfor %}
+				{% else %}
+					<li class="crumb 
+					{% if loop.index < breadcrumb_current[0] %}done-crumb
+					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
+					{% elif loop.index % 2 == 0 %}not-started-even-crumb
+					{% else %}not-started-odd-crumb{% endif %}
+					"><a>{{ crumb.name }}</a></li>
 				{% endif %}
 			{% endfor %}
 		</ul>
