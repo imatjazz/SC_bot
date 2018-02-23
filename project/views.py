@@ -29,8 +29,6 @@ import api
 import buttons
 import tiles
 
-
-
 #######################
 #Major HACK HACK HACK
 Me = api.Watson()
@@ -52,9 +50,6 @@ def create_app(debug = False):
         inspect.currentframe())))
     STATIC_ROOT = DIR_ROOT + '/static/'
 
-    #App config
-    #app.config['UPLOADS'] = STATIC_ROOT + 'uploads'
-
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
@@ -64,10 +59,6 @@ def create_app(debug = False):
     #Initialise flask session
     app.config['SESSION_TYPE'] = 'filesystem'
     Session(app)
-
-    #initialise API to Watson
-
-    #initialise package views
 
     ##### Initialize db from dbmodel ###
     db.init_app(app)
@@ -80,11 +71,6 @@ def create_app(debug = False):
     login_manager.login_view = 'login'
     login_manager.login_message = 'You must be logged in to view this page. Please Log In'
 
-    @login_manager.user_loader
-    def user_loader(user_name):
-        """Given user_name - unique user identifier - return User Object"""
-        return User.query.get(user_name)
-
     ###########################################################
     # Views
     ###########################################################
@@ -96,10 +82,8 @@ def create_app(debug = False):
         Show start page.
         '''
         #Breadcrumb
-        #TODO get this from DB or config
-        breadcrumbs = ['Personal & employment', 'Financials', 'Loan requirements', 'Offset accounts', 'Additional information', 'Privacy', 'Documents'];
         #TODO get this from session
-        breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
+        breadcrumb_current = [1, 1] #this is 1 indexed, not 0 indexed!
 
         #Existing messages
         #TODO change to session
@@ -111,7 +95,7 @@ def create_app(debug = False):
         #Current tiles
         #TODO change to session
         tiles = []
-        return render_template('start.html', breadcrumbs = breadcrumbs, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
+        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
 
     @app.route('/message', methods=['POST'])
     @login_required
@@ -150,7 +134,7 @@ def create_app(debug = False):
         bs = button_generation(new_context)
         message_send = response['output']['text']
 
-        breadcrumb_current = 1
+        breadcrumb_current = [3, 2]
         return json.dumps({'message': message_send, 'tiles': ts, 'buttons': bs, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Buttons ########################################
@@ -185,7 +169,14 @@ def create_app(debug = False):
            ts.append(tile)
         return ts
 
-    ###################### Registration helper ##################################
+    ############################################################################################
+    ###################### User authentication and management ##################################
+    ############################################################################################
+    @login_manager.user_loader
+    def user_loader(user_name):
+        """Given user_name - unique user identifier - return User Object"""
+        return User.query.get(user_name)
+
     @app.route('/register/<uname>/<upass>')
     @login_required
     def register(uname = 'csuder1', upass= 'password'):
