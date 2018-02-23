@@ -129,15 +129,22 @@ def create_app(debug = False):
         if message_received is None:
             message_received = ''
 
-        context = session['context'] if 'context' in session else None          #TODO session recovery
+        try:                                                                    #TODO session recovery
+            context = session['context']
+        except TypeError as e:
+            context = None
+            print(e)
+
         response = Me.watson_message(query=message_received,
                                      context=context)
 
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-        if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
+        if current_node in config.VALIDATEABLE_FIELDS:                          #TODO could validate based on context variable name
             new_context = api.validate(new_context)
+            if new_context is None:
+                raise TypeError('Context was set to None in validate function')
 
         session['context'] = new_context
         api.log_response(response)

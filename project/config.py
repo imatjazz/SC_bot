@@ -24,16 +24,17 @@ EXAMPLE_USER = {
                'middleName': 'Bla bla',
                'lastName': 'Doe',
                'DOB': '02/05/1990',
-               'address': '123 ABC Lane, Sydney',
+               'currentAddress': '123 ABC Lane, Sydney',
                'employmentType': 'Part-time',
                'employmentTitle': 'Senior Analyst',
                'employmentStartDate': '02/2017',
-               'yearsTenure': '1',
+               'yearsTenure': '2',
                'employer': 'Fish-finding services',
                'employerSubburb': 'Sydney',
                'employerState': 'NSW',
                'employerPostcode': '2000',
-               'officeLocation': 'AMP Circular Quay'
+               'officeLocation': 'AMP Circular Quay',
+               'driversLicence': '4581651651'
               }
 EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
                                      'employmentType': 'Part-time',

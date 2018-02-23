@@ -1,10 +1,16 @@
+#Third party libraries
 import watson_developer_cloud as watson
+
+#Standard python libraries
 import json
 import re
+import datetime as dt
 
+#Local libraries
 import config
 
 
+#modified watson object
 class Watson(watson.ConversationV1):
 
     def __init__(self):
@@ -21,12 +27,23 @@ class Watson(watson.ConversationV1):
         return response
 
 
-def validate(new_context, value=None):
-    if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
-        if new_context['autofillConfirm'] == 'false':
-            new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
-            new_context['autofillConfirm'] = 'true'
-            return new_context
+def validate(context):
+    if 'piiConfirm' in context.keys() and 'autofillConfirm' in context.keys():
+        if context['autofillConfirm'] == 'false':
+            context = {**context, **config.EXAMPLE_USER}            #merge an example users data into current context
+            context['autofillConfirm'] = 'true'
+            return context
+
+    current_node = context['system']['dialog_stack'][0]['dialog_node']
+    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] or 'dates' in context.keys():
+        earliest_date = dt.datetime.strptime(str(context['dates'][0]), "%Y-%m-%d")
+        todays_date = dt.datetime.today()
+        years = str((todays_date - earliest_date).days/365)
+        context['yearsTenure'] = years
+
+
+
+    return context
 
 
 def cache_context(context, session):
