@@ -13,6 +13,15 @@ WATSON_PASSWORD='DGm2hKYjVnV3'
 WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
+BREADCRUMBS = [
+  {'name': 'Personal & employment', 'sub': ['Personal details', 'Employment history', 'Family situation']},
+  {'name': 'Financials', 'sub': ['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Offset accounts', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Additional information', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Privacy', 'sub': []},
+  {'name': 'Documents', 'sub': []} 
+]        
+
 VALIDATEABLE_FIELDS = ['driversLicence']
 
 EXAMPLE_USER = {

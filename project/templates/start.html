@@ -25,12 +25,23 @@
 	<div id="breadcrumb-wrapper" class="row">
 		<ul class="custom-breadcrumb">
 			{% for crumb in breadcrumbs %}
-				<li class="
-				{% if loop.index < breadcrumb_current %}done-crumb
-				{% elif loop.index == breadcrumb_current %}in-progress-crumb
-				{% elif loop.index % 2 == 0 %}not-started-even-crumb
-				{% else %}not-started-odd-crumb{% endif %}
-				">{{ crumb }}</li>
+				{% if loop.index == breadcrumb_current[0] %}
+					{% for subcrumb in crumb.sub %}
+						<li class="sub-crumb 
+						{% if loop.index < breadcrumb_current[1] %}sub-done-crumb
+						{% elif loop.index == breadcrumb_current[1] %}sub-in-progress-crumb
+						{% elif loop.index % 2 == 0 %}sub-not-started-even-crumb
+						{% else %}sub-not-started-odd-crumb{% endif %}
+						"><a>{{ subcrumb }}</a></li>
+					{% endfor %}
+				{% else %}
+					<li class="crumb 
+					{% if loop.index < breadcrumb_current[0] %}done-crumb
+					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
+					{% elif loop.index % 2 == 0 %}not-started-even-crumb
+					{% else %}not-started-odd-crumb{% endif %}
+					"><a>{{ crumb.name }}</a></li>
+				{% endif %}
 			{% endfor %}
 		</ul>
 	</div>
@@ -48,6 +59,7 @@
 {% block js %}
 <script>
 var messageSendURL = "{{ url_for('message') }}";
+var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
 {% endblock %}
