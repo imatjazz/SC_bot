@@ -51,7 +51,7 @@ def validate(context):
 def retrive_cached_context(session):
     try:                                                                        #TODO robust session recovery
         context = session['context']
-    except TypeError as e:
+    except KeyError as e:
         context = None
         print(e)                                                                #TODO log exception
     return context
