@@ -100,6 +100,15 @@ class Form_DB(db.Model):
     __tablename__ = 'form'
 
     userName = db.Column('userName', db.String(50), primary_key = True)
+    firstName = db.Column('firstName', db.String(100))
+    middleName = db.Column('middleName', db.String(100))
+    lastName = db.Column('lastName', db.String(100))
+    dateOfBirth = db.Column('dateOfBirth', db.String(100))
+    currAddress = db.Column('currAddress', db.String(200))
+    currJobTitle = db.Column('currJobTitle', db.String(100))
+    currEmploymentType = db.Column('currEmploymentType', db.String(100))
+    currEmploymentStartDate = db.Column('currEmploymentStartDate', db.String(100))
+    currEmployer = db.Column('currEmployer', db.String(100), default = 'AMP')
     currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
     currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
     currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
