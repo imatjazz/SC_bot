@@ -54,7 +54,14 @@ def create_app(debug = False):
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://aimkpmg:Kn0ckKn0ck@employeebotpostgres.cdzci8hdolza.ap-southeast-2.rds.amazonaws.com:8080/employeebot'
+    #########################
+    #webserver SQLite
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    #########################
+    #Postgres AWS instance
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://aimkpmg:Kn0ckKn0ck@employeebotpostgres.cdzci8hdolza.ap-southeast-2.rds.amazonaws.com:8000/employeebot'
+    #########################
+
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Initialise flask session
@@ -179,7 +186,7 @@ def create_app(debug = False):
 
     ###################### Registration helper ##################################
     @app.route('/register/<uname>/<upass>')
-    @login_required
+    #@login_required
     def register(uname = 'csuder1', upass= 'password'):
         """
         Register a user in the DB with a username and password
@@ -247,14 +254,33 @@ def create_app(debug = False):
         logout_user()
         return redirect(url_for('login'))
 
-    @app.route('/updateDBModel')
+    @app.route('/createDBModel')
     #@login_required
-    def updateDBModel():
+    def createDBModel():
         '''
         Create all tables.
         '''
         db.create_all()
         db.session.commit()
         return json.dumps({"status": "Success"})
+
+    @app.route('/dropDBModel')
+    @login_required
+    def dropDBModel():
+        '''
+        Drop all tables.
+        '''
+        db.drop_all()
+        db.session.commit()
+        return json.dumps({"status": "Success"})
+
+    @app.route('/createCRM')
+    @login_required
+    def access_CRM(uname='csuder1'):
+        crm_add = CRM(userName=uname)
+        db.session.add(crm_add)
+        db.session.commit()
+        return json.dumps({"status": "Success"})
+
 
     return app

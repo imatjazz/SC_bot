@@ -8,6 +8,7 @@ import datetime as dt
 
 #Local libraries
 import config
+from dbmodel import CRM
 
 
 #modified watson object
@@ -30,7 +31,7 @@ class Watson(watson.ConversationV1):
 def validate(context):
     if 'piiConfirm' in context.keys() and 'autofillConfirm' in context.keys():
         if context['autofillConfirm'] == 'false':
-            context = {**context, **config.EXAMPLE_USER}            #merge an example users data into current context
+            context = {**context, **access_CRM()}            #merge an example users data into current context
             context['autofillConfirm'] = 'true'
             return context
 
@@ -44,6 +45,7 @@ def validate(context):
 
 
     return context
+
 
 
 def retrive_cached_context(session):
@@ -103,3 +105,11 @@ def print_context(context):
     for key in context:
         if key != 'system':
             print(key, context[key])
+
+
+def access_CRM(uname='csuder1'):
+    row = CRM.query.get(uname)
+    d = {}
+    for column in row.__table__.columns:
+        d[column.name] = str(getattr(row, column.name))
+    return d

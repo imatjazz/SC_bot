@@ -61,9 +61,45 @@ class User(db.Model):
     pass
 
 
-class Employee(db.Model):
+class CRM(db.Model):
 
-    user_name = db.Column('userName', db.String(50), primary_key = True)
+
+    __tablename__ = "crm"
+
+    userName = db.Column('userName', db.String(50), primary_key = True)
+    firstName = db.Column('firstName', db.String(100))
+    middleName = db.Column('middleName', db.String(100))
+    lastName = db.Column('lastName', db.String(100))
+    dateOfBirth = db.Column('dateOfBirth', db.String(100))
+    currAddress = db.Column('currAddress', db.String(200))
+    currJobTitle = db.Column('currJobTitle', db.String(100))
+    currEmploymentType = db.Column('currEmploymentType', db.String(100))
+    currEmploymentStartDate = db.Column('currEmploymentStartDate', db.String(100))
+    currEmployer = db.Column('currEmployer', db.String(100), default = 'AMP')
+    currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
+    currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
+    currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
+    accountNumber = db.Column('accountNumber', db.Integer(), default = 58495743895)
+    ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100), default = True)
+
+
+
+
+
+
+
+
+    pass
+
+
+class Form_DB(db.Model):
+    """
+    stores the identified variables from end user
+    """
+
+    __tablename__ = 'form'
+
+    userName = db.Column('userName', db.String(50), primary_key = True)
     currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
     currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
     currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
@@ -71,22 +107,3 @@ class Employee(db.Model):
     ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100), default = True)
 
     pass
-
-class CRM(Employee):
-    """
-    Emmulates the CRM system table
-    """
-    __tablename__ = "crm"
-
-    def get_data(self, user_name):
-        for key in self.keys():
-            print(key)
-
-
-
-class Form_DB(Employee):
-    """
-    stores the identified variables from end user
-    """
-
-    __tablename__ = 'form'
