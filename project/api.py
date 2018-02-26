@@ -7,7 +7,7 @@ import re
 import datetime as dt
 
 #Local libraries
-import config
+from project import config
 from dbmodel import CRM
 
 
