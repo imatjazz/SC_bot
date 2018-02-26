@@ -23,6 +23,7 @@ sys.path.append('project')
 #local imports
 from project import config
 from .dbmodel import *
+from .logmodel import *
 
 #package improts
 import api
@@ -54,6 +55,10 @@ def create_app(debug = False):
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_BINDS'] = {
+        'users':    'sqlite:///database.db',
+        'log':      'sqlite:///log.db'
+    }
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Initialise flask session
@@ -62,6 +67,7 @@ def create_app(debug = False):
 
     ##### Initialize db from dbmodel ###
     db.init_app(app)
+    log.init_app(app)
 
     ########### Login Manager ##########
     # Set Up Login Management for the application
@@ -82,10 +88,25 @@ def create_app(debug = False):
         '''
         Show start page.
         '''
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
         if nosession:
             session['context'] = None
-            session.pop('dialog')
-            session.pop('state')
+            if 'dialog' in session: session.pop('dialog')
+            if 'state' in session: session.pop('state')
+            session['uid'] = str(uuid.uuid4())
+
+        #Log restart to audit log
+        l = LogEntry(   timestamp = datetime.utcnow(),
+                        user_name = current_user.user_name,
+                        session_id = session['uid'], 
+                        event_type = 'start loaded', 
+                        context = json.dumps(session['context']) if 'context' in session else '{}',
+                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
+                        state = json.dumps(session['state'])  if 'state' in session else '{}'
+                    )
+        log.session.add(l)
+        log.session.commit()
 
         #Get data from session
         #Existing messages
@@ -106,6 +127,8 @@ def create_app(debug = False):
         '''
         Exchange messages with the front end.
         '''
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
@@ -113,6 +136,17 @@ def create_app(debug = False):
         if 'dialog' not in session:
             session['dialog'] = []
         session['dialog'].append({'who': 'human', 'message': message_received})
+        #Log to audit log
+        l = LogEntry(   timestamp = datetime.utcnow(),
+                        user_name = current_user.user_name,
+                        session_id = session['uid'], 
+                        event_type = 'received message from user', 
+                        context = json.dumps(session['context']) if 'context' in session else '{}',
+                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
+                        state = json.dumps(session['state'])  if 'state' in session else '{}'
+                    )
+        log.session.add(l)
+        log.session.commit()
 
         #Send current user text + old context to Watson
         context = session['context'] if 'context' in session else None
@@ -152,6 +186,17 @@ def create_app(debug = False):
         session['state']['breadcrumb'] = breadcrumb_current
         for m in message_send:
             session['dialog'].append({'who': 'bot', 'message': m})
+        #Log to audit log
+        l = LogEntry(   timestamp = datetime.utcnow(),
+                        user_name = current_user.user_name,
+                        session_id = session['uid'], 
+                        event_type = 'response to UI', 
+                        context = json.dumps(session['context']) if 'context' in session else '{}',
+                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
+                        state = json.dumps(session['state'])  if 'state' in session else '{}'
+                    )
+        log.session.add(l)
+        log.session.commit()
         
         return json.dumps({'message': message_send, 'tiles': ts, 'buttons': bs, 'breadcrumb_current': breadcrumb_current})
 
@@ -239,6 +284,8 @@ def create_app(debug = False):
                     db.session.commit()
                     login_user(user, remember=True)
 
+                    session['uid'] = str(uuid.uuid4())
+
 
                     next = request.args.get('next')
                     # Login successful - go to start page or next page
@@ -272,6 +319,9 @@ def create_app(debug = False):
         '''
         db.create_all()
         db.session.commit()
+
+        log.create_all(bind='log')
+        log.session.commit()
         return json.dumps({"status": "Success"})
 
     return app
