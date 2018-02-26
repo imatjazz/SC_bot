@@ -8,7 +8,7 @@ import datetime as dt
 
 #Local libraries
 from project import config
-from dbmodel import CRM
+from project.dbmodel import CRM
 
 
 #modified watson object
