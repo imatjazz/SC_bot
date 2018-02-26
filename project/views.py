@@ -189,7 +189,7 @@ def create_app(debug = False):
         Check if tiles are available for current node and generate html
         '''
         current_node = context['system']['dialog_stack'][0]['dialog_node']
-        print(json.dumps(context, indent=2))
+        #print(json.dumps(context, indent=2))
         if current_node not in tiles.TILES_INDEX.keys():
             return []
 

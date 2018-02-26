@@ -65,6 +65,12 @@ def log_response(response):
     pass
 
 def update_form_DB(context):
+    if context:
+        for key in context.keys():
+            if key in config.FORM_FIELDS:
+                print("In:", key)
+            else:
+                print("Not in:", key)
     pass
 
 

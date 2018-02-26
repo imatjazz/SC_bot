@@ -140,5 +140,6 @@ class Form_DB(db.Model):
     currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer())
     accountNumber = db.Column('accountNumber', db.Integer())
     ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100))
+    productType = db.Column('productType', db.Boolean(100))
 
     pass
