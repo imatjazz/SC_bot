@@ -185,7 +185,7 @@ def create_app(debug = False):
 
 
     ###################### Registration helper ##################################
-    @app.route('/register/<uname>/<upass>')
+    @app.route('/register/<string:uname>/<string:upass>')
     #@login_required
     def register(uname = 'csuder1', upass= 'password'):
         """
@@ -276,8 +276,8 @@ def create_app(debug = False):
 
     @app.route('/createCRM')
     @login_required
-    def access_CRM(uname='csuder1'):
-        crm_add = CRM(userName=uname)
+    def access_CRM():
+        crm_add = CRM(userName=current_user.get_id())
         db.session.add(crm_add)
         db.session.commit()
         return json.dumps({"status": "Success"})
