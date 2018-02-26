@@ -97,16 +97,7 @@ def create_app(debug = False):
             session['uid'] = str(uuid.uuid4())
 
         #Log restart to audit log
-        l = LogEntry(   timestamp = datetime.utcnow(),
-                        user_name = current_user.user_name,
-                        session_id = session['uid'], 
-                        event_type = 'start loaded', 
-                        context = json.dumps(session['context']) if 'context' in session else '{}',
-                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
-                        state = json.dumps(session['state'])  if 'state' in session else '{}'
-                    )
-        log.session.add(l)
-        log.session.commit()
+        LogEntry(user_name = current_user.user_name, event_type = 'start loaded').save()
 
         #Get data from session
         #Existing messages
@@ -137,16 +128,7 @@ def create_app(debug = False):
             session['dialog'] = []
         session['dialog'].append({'who': 'human', 'message': message_received})
         #Log to audit log
-        l = LogEntry(   timestamp = datetime.utcnow(),
-                        user_name = current_user.user_name,
-                        session_id = session['uid'], 
-                        event_type = 'received message from user', 
-                        context = json.dumps(session['context']) if 'context' in session else '{}',
-                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
-                        state = json.dumps(session['state'])  if 'state' in session else '{}'
-                    )
-        log.session.add(l)
-        log.session.commit()
+        LogEntry(user_name = current_user.user_name, event_type = 'received message').save()
 
         #Send current user text + old context to Watson
         context = session['context'] if 'context' in session else None
@@ -169,7 +151,6 @@ def create_app(debug = False):
                 new_context['autofillConfirm'] = 'true'
 
         session['context'] = new_context
-        api.log_response(response)
         api.update_form_DB(new_context)
 
         #Generate UI bits (tiles, buttons, breadcrumb, message)
@@ -187,16 +168,7 @@ def create_app(debug = False):
         for m in message_send:
             session['dialog'].append({'who': 'bot', 'message': m})
         #Log to audit log
-        l = LogEntry(   timestamp = datetime.utcnow(),
-                        user_name = current_user.user_name,
-                        session_id = session['uid'], 
-                        event_type = 'response to UI', 
-                        context = json.dumps(session['context']) if 'context' in session else '{}',
-                        dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}',
-                        state = json.dumps(session['state'])  if 'state' in session else '{}'
-                    )
-        log.session.add(l)
-        log.session.commit()
+        LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
         
         return json.dumps({'message': message_send, 'tiles': ts, 'buttons': bs, 'breadcrumb_current': breadcrumb_current})
 

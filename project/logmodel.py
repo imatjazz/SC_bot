@@ -8,7 +8,7 @@
 """
 ###################### Imports and Init ####################
 import sys
-import os
+import os, json
 from datetime import datetime
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -49,7 +49,20 @@ class LogEntry(log.Model):
     event_type = log.Column('event_type', log.String(50))
     context = log.Column('context', log.TEXT)
     dialog = log.Column('dialog', log.TEXT)
-    state = log.Column('state', log.TEXT)
+    state = log.Column('state', log.TEXT) 
+
+    def __init__(self, user_name, event_type):
+        self.timestamp = datetime.utcnow()
+        self.user_name = user_name
+        self.session_id = session['uid'] 
+        self.event_type = event_type
+        self.context = json.dumps(session['context']) if 'context' in session else '{}'
+        self.dialog = json.dumps(session['dialog'])  if 'dialog' in session else '{}'
+        self.state = json.dumps(session['state'])  if 'state' in session else '{}'
+        
+    def save(self):
+        log.session.add(self)
+        log.session.commit()
 
     pass
 
