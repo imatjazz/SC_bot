@@ -36,7 +36,7 @@
 						{% elif loop.index == breadcrumb_current[1] %}sub-in-progress-crumb
 						{% elif loop.index % 2 == 0 %}sub-not-started-even-crumb
 						{% else %}sub-not-started-odd-crumb{% endif %}
-						"><a>{{ subcrumb }}</a></li>
+						"><a>{{ subcrumb.name }}</a></li>
 					{% endfor %}
 				{% else %}
 					<li class="crumb 
