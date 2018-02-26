@@ -14,6 +14,15 @@ WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
 VALIDATEABLE_FIELDS = ['node_68_1519021622252']
+BREADCRUMBS = [
+  {'name': 'Personal & employment', 'sub': ['Personal details', 'Employment history', 'Family situation']},
+  {'name': 'Financials', 'sub': ['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Offset accounts', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Additional information', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
+  {'name': 'Privacy', 'sub': []},
+  {'name': 'Documents', 'sub': []}
+]
+
 
 EXAMPLE_USER = {
                'firstName': 'Marlin',

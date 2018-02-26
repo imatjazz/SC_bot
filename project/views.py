@@ -21,11 +21,9 @@ from flask_session import Session
 sys.path.append('project')
 
 #local imports
-from project import config
+from project import config, api, buttons, tiles
 from .dbmodel import *
-from project import api, buttons, tiles
-
-
+from .logmodel import *
 
 #######################
 #Major HACK HACK HACK
@@ -48,31 +46,28 @@ def create_app(debug = False):
         inspect.currentframe())))
     STATIC_ROOT = DIR_ROOT + '/static/'
 
-    #App config
-    #app.config['UPLOADS'] = STATIC_ROOT + 'uploads'
-
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
     #########################
     #webserver SQLite
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_BINDS'] = {
+        'users':    'sqlite:///database.db',
+        'log':      'sqlite:///log.db'
+    }
     #########################
     #Postgres AWS instance
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://aimkpmg:Kn0ckKn0ck@employeebotpostgres.cdzci8hdolza.ap-southeast-2.rds.amazonaws.com:8000/employeebot'
     #########################
-
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Initialise flask session
     app.config['SESSION_TYPE'] = 'filesystem'
     Session(app)
 
-    #initialise API to Watson
-
-
     ##### Initialize db from dbmodel ###
     db.init_app(app)
+    log.init_app(app)
 
     ########### Login Manager ##########
     # Set Up Login Management for the application
@@ -82,38 +77,40 @@ def create_app(debug = False):
     login_manager.login_view = 'login'
     login_manager.login_message = 'You must be logged in to view this page. Please Log In'
 
-    @login_manager.user_loader
-    def user_loader(user_name):
-        """Given user_name - unique user identifier - return User Object"""
-        return User.query.get(user_name)
-
     ###########################################################
     # Views
     ###########################################################
     @app.route('/')
     @app.route('/start')
+    @app.route('/start/<nosession>')
     @login_required
-    def start():
+    def start(nosession=False):
         '''
         Show start page.
         '''
-        #Breadcrumb
-        #TODO get this from DB or config
-        breadcrumbs = ['Personal & employment', 'Financials', 'Loan requirements', 'Offset accounts', 'Additional information', 'Privacy', 'Documents'];
-        #TODO get this from session
-        breadcrumb_current = 1; #this is 1 indexed, not 0 indexed!
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
+        if nosession:
+            session['context'] = None
+            if 'dialog' in session: session.pop('dialog')
+            if 'state' in session: session.pop('state')
+            session['uid'] = str(uuid.uuid4())
 
+        #Log restart to audit log
+        LogEntry(user_name = current_user.user_name, event_type = 'start loaded').save()
+
+        #Get data from session
         #Existing messages
-        #TODO change to session
-        messages = []
+        messages = session['dialog'] if 'dialog' in session else []
 
-        #TODO Reload session context
-        session['context'] = None
+        #Breadcrumb
+        breadcrumb_current = session['state']['breadcrumb'] if 'state' in session else [1, 1] #this is 1 indexed, not 0 indexed!
 
-        #Current tiles
-        #TODO change to session
-        tiles = []
-        return render_template('start.html', breadcrumbs = breadcrumbs, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
+        #Current tiles & buttons
+        tiles = session['state']['tiles'] if 'state' in session else []
+        buttons = session['state']['buttons']  if 'state' in session else []
+
+        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons)
 
     @app.route('/message', methods=['POST'])
     @login_required
@@ -121,14 +118,24 @@ def create_app(debug = False):
         '''
         Exchange messages with the front end.
         '''
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
+        #Save for session restoration
+        if 'dialog' not in session:
+            session['dialog'] = []
+        session['dialog'].append({'who': 'human', 'message': message_received})
+        #Log to audit log
+        LogEntry(user_name = current_user.user_name, event_type = 'received message').save()
 
+        #Send current user text + old context to Watson
         context = api.retrive_cached_context(session)                           #now behind a try except wrapper
         response = Me.watson_message(query=message_received,
                                      context=context)
 
+        #Get new context + current node
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
@@ -138,13 +145,25 @@ def create_app(debug = False):
                 raise TypeError('Context was set to None in validate function')
 
         session['context'] = new_context
-        api.log_response(response)
         api.update_form_DB(new_context)
+
+        #Generate UI bits (tiles, buttons, breadcrumb, message)
         ts = tile_generation(new_context)
         bs = button_generation(new_context)
+        breadcrumb_current = [3, 2]
         message_send = response['output']['text']
 
-        breadcrumb_current = 1
+        #Save data for session restoration
+        if 'state' not in session:
+            session['state'] = {'buttons': [], 'tiles': [], 'breadcrumb': [1, 1]}
+        session['state']['buttons'] = bs
+        session['state']['tiles'] = ts
+        session['state']['breadcrumb'] = breadcrumb_current
+        for m in message_send:
+            session['dialog'].append({'who': 'bot', 'message': m})
+        #Log to audit log
+        LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
+
         return json.dumps({'message': message_send,
                            'tiles': ts,
                            'buttons': bs,
@@ -183,10 +202,16 @@ def create_app(debug = False):
            ts.append(tile)
         return ts
 
+    ############################################################################################
+    ###################### User authentication and management ##################################
+    ############################################################################################
+    @login_manager.user_loader
+    def user_loader(user_name):
+        """Given user_name - unique user identifier - return User Object"""
+        return User.query.get(user_name)
 
     ###################### Registration helper ##################################
     @app.route('/register/<string:uname>/<string:upass>')
-    #@login_required
     def register(uname = 'csuder1', upass= 'password'):
         """
         Register a user in the DB with a username and password
@@ -229,6 +254,8 @@ def create_app(debug = False):
                     db.session.commit()
                     login_user(user, remember=True)
 
+                    session['uid'] = str(uuid.uuid4())
+
 
                     next = request.args.get('next')
                     # Login successful - go to start page or next page
@@ -262,6 +289,9 @@ def create_app(debug = False):
         '''
         db.create_all()
         db.session.commit()
+
+        log.create_all(bind='log')
+        log.session.commit()
         return json.dumps({"status": "Success"})
 
     @app.route('/dropDBModel')

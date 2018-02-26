@@ -64,18 +64,39 @@ function buttonClick(d){
 
 //update breadcrumb current position
 function updateBreadcrumb(curr){
-	var breadcrumbs = $('.custom-breadcrumb li');
+	$('.custom-breadcrumb li').remove();
+	var wrapper = $('.custom-breadcrumb');
 	for(var i = 1; i <= breadcrumbs.length; i++){
 		var crumb = breadcrumbs[i-1];
-		$(crumb).removeClass();
-		if(i < curr) {
-			$(crumb).addClass('done-crumb');
-		}else if(i == curr){
-			$(crumb).addClass('in-progress-crumb');
+		var crumbHTML = ['<li class="crumb ', 'done-crumb','"><a>', crumb['name'], '</a></li>'];
+		if(i < curr[0]) {
+			crumbHTML[1] = 'done-crumb';
+		}else if(i == curr[0]){
+			crumbHTML[1] = 'in-progress-crumb';
 		}else if(i%2 == 0){
-			$(crumb).addClass('not-started-even-crumb');
+			crumbHTML[1] = 'not-started-even-crumb';
 		}else{
-			$(crumb).addClass('not-started-odd-crumb');
+			crumbHTML[1] = 'not-started-odd-crumb';
+		}
+
+		if(i == curr[0]){
+			var subBreadcrumbs = crumb['sub'];
+			for(var j = 1; j <= subBreadcrumbs.length; j++){
+				var subCrumb = subBreadcrumbs[j-1];
+				var subCrumbHTML = ['<li class="sub-crumb ', 'sub-done-crumb','"><a>', subCrumb, '</a></li>'];
+				if(j < curr[1]) {
+					subCrumbHTML[1] = 'sub-done-crumb';
+				}else if(j == curr[1]){
+					subCrumbHTML[1] = 'sub-in-progress-crumb';
+				}else if(j%2 == 0){
+					subCrumbHTML[1] = 'sub-not-started-even-crumb';
+				}else{
+					subCrumbHTML[1] = 'sub-not-started-odd-crumb';
+				}
+				wrapper.append(subCrumbHTML.join(''));
+			}
+		}else{
+			wrapper.append(crumbHTML.join(''));
 		}
 	}
 }
@@ -112,8 +133,8 @@ function messageSend(message){
 		}
 		//change breadcrumb
 		if(Object.keys(res).indexOf('breadcrumb_current') > -1){
-			var curr = parseInt(res['breadcrumb_current']);
-			if(!isNaN(i)) updateBreadcrumb(curr);
+			var curr = res['breadcrumb_current'];
+			if(curr.length == 2) updateBreadcrumb(curr);
 		}
 	});
 

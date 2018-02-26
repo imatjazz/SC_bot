@@ -11,11 +11,15 @@
 		<h4 id="chat-title">Chat</h4>
 	</div>
 	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
-		{% for message in messages %}
-		<div class="chat-message {{message.who}}">{{message.body}}</div>
+		{% for m in messages %}
+		<div class="chat-message {{m.who}}">{{m.message}}</div>
 		{% endfor %}
 	</div>
-	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
+	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		{% for b in buttons %}
+		<div class="chat-message chat-button">{{b}}</div>
+		{% endfor %}
+	</div>
 	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
 		<input type="text" id="chat-input" placeholder="Send a message..." />
 		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
@@ -25,12 +29,23 @@
 	<div id="breadcrumb-wrapper" class="row">
 		<ul class="custom-breadcrumb">
 			{% for crumb in breadcrumbs %}
-				<li class="
-				{% if loop.index < breadcrumb_current %}done-crumb
-				{% elif loop.index == breadcrumb_current %}in-progress-crumb
-				{% elif loop.index % 2 == 0 %}not-started-even-crumb
-				{% else %}not-started-odd-crumb{% endif %}
-				">{{ crumb }}</li>
+				{% if loop.index == breadcrumb_current[0] %}
+					{% for subcrumb in crumb.sub %}
+						<li class="sub-crumb 
+						{% if loop.index < breadcrumb_current[1] %}sub-done-crumb
+						{% elif loop.index == breadcrumb_current[1] %}sub-in-progress-crumb
+						{% elif loop.index % 2 == 0 %}sub-not-started-even-crumb
+						{% else %}sub-not-started-odd-crumb{% endif %}
+						"><a>{{ subcrumb }}</a></li>
+					{% endfor %}
+				{% else %}
+					<li class="crumb 
+					{% if loop.index < breadcrumb_current[0] %}done-crumb
+					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
+					{% elif loop.index % 2 == 0 %}not-started-even-crumb
+					{% else %}not-started-odd-crumb{% endif %}
+					"><a>{{ crumb.name }}</a></li>
+				{% endif %}
 			{% endfor %}
 		</ul>
 	</div>
@@ -38,7 +53,7 @@
 		{% for tile in tiles %}
 		<div class="tile col-sm-12 col-md-12 col-lg-12">
 			<h4 class="tile-title">{{tile.title}}</h4>
-			<div class="tile-body">{{tile.body}}</div>
+			<div class="tile-body">{{tile.body | safe}}</div>
 		</div>
 		{% endfor %}
 	</div>
@@ -48,6 +63,7 @@
 {% block js %}
 <script>
 var messageSendURL = "{{ url_for('message') }}";
+var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
 {% endblock %}
