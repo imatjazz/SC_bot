@@ -14,13 +14,59 @@ WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
 VALIDATEABLE_FIELDS = ['node_68_1519021622252']
+
+#TODO finalise breadcrumb nodes
 BREADCRUMBS = [
-  {'name': 'Personal & employment', 'sub': ['Personal details', 'Employment history', 'Family situation']},
-  {'name': 'Financials', 'sub': ['Loan purpose', 'Loan structure', 'Loan financing']},
-  {'name': 'Offset accounts', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
-  {'name': 'Additional information', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
-  {'name': 'Privacy', 'sub': []},
-  {'name': 'Documents', 'sub': []}
+  {'name': 'Personal', 'node_id': 'root', 
+    'sub': [
+         {'name': 'Personal details', 'node_id': 'root'}, 
+         {'name': 'Addresses', 'node_id': 'node_68_1519021622252'}, 
+         {'name': 'Employment', 'node_id': 'slot_50_1519019902036'}
+    ]
+  },
+  {'name': 'Financials', 'node_id': 'node_21_1519017509279', 
+    'sub': [
+      {'name': 'Assets', 'node_id': 'null'},
+      {'name': 'Liabilities', 'node_id': 'null'},
+      {'name': 'Expenses', 'node_id': 'null'},
+      {'name': 'Funds position', 'node_id': 'null'}
+    ]
+  },
+  {'name': 'Loan requirements', 'node_id': 'null', 
+    'sub': [
+      {'name': 'Purpose', 'node_id': 'null'},
+      {'name': 'Loan structure', 'node_id': 'null'},
+      {'name': 'Offset', 'node_id': 'null'},
+      {'name': 'Master Limit', 'node_id': 'null'},
+      {'name': 'LMI', 'node_id': 'null'},
+      {'name': 'SRG', 'node_id': 'null'}
+    ]
+  },
+  {'name': 'Additional', 'node_id': 'null', 
+    'sub': [
+      {'name': 'Security', 'node_id': 'null'},
+      {'name': 'Solicitor', 'node_id': 'null'},
+      {'name': 'Source of wealth', 'node_id': 'null'},
+      {'name': 'Communications', 'node_id': 'null'}
+    ]
+  },
+  {'name': 'Privacy', 'node_id': 'null', 
+    'sub': [
+      {'name': 'Loan requirements', 'node_id': 'null'},
+      {'name': 'Identification', 'node_id': 'null'},
+      {'name': 'Tax', 'node_id': 'null'},
+      {'name': 'Fee payments', 'node_id': 'null'},
+      {'name': 'Privacy statement', 'node_id': 'null'},
+      {'name': 'Declaration', 'node_id': 'null'}
+    ]
+  },
+  {'name': 'Documents', 'node_id': 'null', 
+    'sub': [
+      {'name': 'Identification', 'node_id': 'null'},
+      {'name': 'Income', 'node_id': 'null'},
+      {'name': 'Property', 'node_id': 'null'}
+    ]
+  }
 ]
 
 

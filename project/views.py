@@ -150,7 +150,7 @@ def create_app(debug = False):
         #Generate UI bits (tiles, buttons, breadcrumb, message)
         ts = tile_generation(new_context)
         bs = button_generation(new_context)
-        breadcrumb_current = [3, 2]
+        breadcrumb_current = breadcrumb_generation(new_context)
         message_send = response['output']['text']
 
         #Save data for session restoration
@@ -169,6 +169,39 @@ def create_app(debug = False):
                            'buttons': bs,
                            'breadcrumb_current': breadcrumb_current})
 
+    ###################### Breadcrumb ########################################
+    def breadcrumb_generation(context):
+        '''
+        Return current breadcrumb state based on dialog node - this is hacky
+        '''
+
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+
+        bc = session['state']['breadcrumb'] if 'state' in session else [1, 1]
+        switch_nodes = []
+        start_flag = True
+        found = False
+        #start at the current breadcrumb, look inside its subcrumbs, if no new node, look into the next crumbs
+        #if not found don't modify - if found, increment
+        for i in range(bc[0]-1,len(config.BREADCRUMBS)):
+            curr = config.BREADCRUMBS[i]
+            sub = curr['sub']
+            if start_flag:
+                start_flag = False
+                for j in range(bc[1]-1, len(sub)):
+                    if sub[j]['node_id'] == current_node:
+                        bc[1] = j+1
+                        found = True
+                        break
+            else:
+                if curr['node_id'] == current_node:
+                    bc[0] = i+1
+                    bc[1] = 1
+                    found = True
+
+            if found:
+                break
+        return bc
     ###################### Buttons ########################################
     def button_generation(context):
         '''

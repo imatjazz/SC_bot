@@ -180,6 +180,7 @@ body::after {
   font-size: 0.8em;
   font-family: "Rokkitt Light", "Courier New", serif;
   float: left;
+  height: 52px;
 }
 .custom-breadcrumb li a {
   display: block;
@@ -199,6 +200,10 @@ body::after {
   height: 50px;
   line-height: 50px;
   margin-right: 27px;
+}
+.custom-breadcrumb li.crumb a i.fa-green {
+    color: green;
+    vertical-align: text-top;
 }
 .custom-breadcrumb li.sub-crumb a:before, .custom-breadcrumb li.sub-crumb a:after {
   border-width: 25px 10px;
@@ -241,21 +246,8 @@ body::after {
   border-left-color:#007DBE;
 }
 
-.custom-breadcrumb li.done-crumb a {
-  background-color: #001e41;
-  color: white;
-}
-.custom-breadcrumb li.done-crumb a:before {
-  border-color:#001e41;
-  border-left-color: transparent;
-}
-.custom-breadcrumb li.done-crumb a:after {
-  border-left-color: #001e41;
-}
-
 .custom-breadcrumb li.sub-crumb{
   font-size: 0.9em;
-  
 }
 
 .custom-breadcrumb li.sub-crumb a {
