@@ -76,26 +76,29 @@ def create_app(debug = False):
     ###########################################################
     @app.route('/')
     @app.route('/start')
+    @app.route('/start/<nosession>')
     @login_required
-    def start():
+    def start(nosession=False):
         '''
         Show start page.
         '''
-        #Breadcrumb
-        #TODO get this from session
-        breadcrumb_current = [1, 1] #this is 1 indexed, not 0 indexed!
+        if nosession:
+            session['context'] = None
+            session.pop('dialog')
+            session.pop('state')
 
+        #Get data from session
         #Existing messages
-        #TODO change to session
-        messages = []
+        messages = session['dialog'] if 'dialog' in session else []
 
-        #TODO Reload session context
-        session['context'] = None
+        #Breadcrumb
+        breadcrumb_current = session['state']['breadcrumb'] if 'state' in session else [1, 1] #this is 1 indexed, not 0 indexed!
+        
+        #Current tiles & buttons
+        tiles = session['state']['tiles'] if 'state' in session else []
+        buttons = session['state']['buttons']  if 'state' in session else []
 
-        #Current tiles
-        #TODO change to session
-        tiles = []
-        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles)
+        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons)
 
     @app.route('/message', methods=['POST'])
     @login_required
@@ -106,20 +109,26 @@ def create_app(debug = False):
         message_received = request.form.get('message')
         if message_received is None:
             message_received = ''
+        #Save for session restoration
+        if 'dialog' not in session:
+            session['dialog'] = []
+        session['dialog'].append({'who': 'human', 'message': message_received})
 
-        context = session['context'] if 'context' in session else None          #TODO session recovery
+        #Send current user text + old context to Watson
+        context = session['context'] if 'context' in session else None
         response = Me.watson_message(query=message_received,
                                      context=context)
 
+        #Get new context + current node
         new_context = response['context']
         print(json.dumps(new_context, indent=2))
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-
+        #Validate data if current node validateable
         if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
             api.validate(current_node)       #TODO
 
-
+        #Data from DB
         if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
             if new_context['autofillConfirm'] == 'false':
                 new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
@@ -128,11 +137,22 @@ def create_app(debug = False):
         session['context'] = new_context
         api.log_response(response)
         api.update_form_DB(new_context)
+
+        #Generate UI bits (tiles, buttons, breadcrumb, message)
         ts = tile_generation(new_context)
         bs = button_generation(new_context)
-        message_send = response['output']['text']
-
         breadcrumb_current = [3, 2]
+        message_send = response['output']['text']
+        
+        #Save data for session restoration
+        if 'state' not in session:
+            session['state'] = {'buttons': [], 'tiles': [], 'breadcrumb': [1, 1]}
+        session['state']['buttons'] = bs
+        session['state']['tiles'] = ts
+        session['state']['breadcrumb'] = breadcrumb_current
+        for m in message_send:
+            session['dialog'].append({'who': 'bot', 'message': m})
+        
         return json.dumps({'message': message_send, 'tiles': ts, 'buttons': bs, 'breadcrumb_current': breadcrumb_current})
 
     ###################### Buttons ########################################

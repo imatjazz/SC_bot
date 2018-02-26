@@ -11,11 +11,15 @@
 		<h4 id="chat-title">Chat</h4>
 	</div>
 	<div id="chat-message-wrapper" class="col-sm-12 col-md-12 col-lg-12">
-		{% for message in messages %}
-		<div class="chat-message {{message.who}}">{{message.body}}</div>
+		{% for m in messages %}
+		<div class="chat-message {{m.who}}">{{m.message}}</div>
 		{% endfor %}
 	</div>
-	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12"></div>
+	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+		{% for b in buttons %}
+		<div class="chat-message chat-button">{{b}}</div>
+		{% endfor %}
+	</div>
 	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
 		<input type="text" id="chat-input" placeholder="Send a message..." />
 		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
@@ -49,7 +53,7 @@
 		{% for tile in tiles %}
 		<div class="tile col-sm-12 col-md-12 col-lg-12">
 			<h4 class="tile-title">{{tile.title}}</h4>
-			<div class="tile-body">{{tile.body}}</div>
+			<div class="tile-body">{{tile.body | safe}}</div>
 		</div>
 		{% endfor %}
 	</div>
