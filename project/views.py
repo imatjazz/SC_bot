@@ -287,7 +287,7 @@ def create_app(debug = False):
         '''
         Create all tables.
         '''
-        db.create_all()
+        db.create_all(bind='users')
         db.session.commit()
 
         log.create_all(bind='log')

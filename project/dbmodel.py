@@ -36,6 +36,7 @@ class User(db.Model):
 
     """
     __tablename__ = 'users'
+    __bind_key__ = 'users'
 
     user_name = db.Column('userName', db.String(50), primary_key=True)
     user_pass = db.Column('userPass', db.String(100))
@@ -65,6 +66,7 @@ class CRM(db.Model):
 
 
     __tablename__ = "crm"
+    __bind_key__ = 'users'
 
     userName = db.Column('userName', db.String(50), primary_key = True)
     firstName = db.Column('firstName', db.String(100))
@@ -98,6 +100,7 @@ class Form_DB(db.Model):
     """
 
     __tablename__ = 'form'
+    __bind_key__ = 'users'
 
     userName = db.Column('userName', db.String(50), primary_key = True)
     firstName = db.Column('firstName', db.String(100))
