@@ -71,6 +71,7 @@ function updateBreadcrumb(curr){
 		var crumbHTML = ['<li class="crumb ', 'done-crumb','"><a>', crumb['name'], '</a></li>'];
 		if(i < curr[0]) {
 			crumbHTML[1] = 'done-crumb';
+			crumbHTML[3] += ' <i class="fa fa-check fa-green"></i>'
 		}else if(i == curr[0]){
 			crumbHTML[1] = 'in-progress-crumb';
 		}else if(i%2 == 0){

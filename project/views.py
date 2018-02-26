@@ -137,7 +137,6 @@ def create_app(debug = False):
 
         #Get new context + current node
         new_context = response['context']
-        print(json.dumps(new_context, indent=2))
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
         if current_node in config.VALIDATEABLE_FIELDS:                          #validate now performs preppulation. TODO may need to run a DB query though
@@ -188,6 +187,7 @@ def create_app(debug = False):
             curr = config.BREADCRUMBS[i]
             sub = curr['sub']
             if start_flag:
+                start_flag = False
                 for j in range(bc[1]-1, len(sub)):
                     if sub[j]['node_id'] == current_node:
                         bc[1] = j+1

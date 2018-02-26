@@ -44,7 +44,7 @@
 					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
 					{% elif loop.index % 2 == 0 %}not-started-even-crumb
 					{% else %}not-started-odd-crumb{% endif %}
-					"><a>{{ crumb.name }}</a></li>
+					"><a>{{ crumb.name }} {% if loop.index < breadcrumb_current[0] %}<i class="fa fa-check fa-green"></i>{% endif %}</a></li>
 				{% endif %}
 			{% endfor %}
 		</ul>
