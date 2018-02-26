@@ -13,32 +13,37 @@ WATSON_PASSWORD='DGm2hKYjVnV3'
 WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
+VALIDATEABLE_FIELDS = ['node_68_1519021622252']
 BREADCRUMBS = [
   {'name': 'Personal & employment', 'sub': ['Personal details', 'Employment history', 'Family situation']},
   {'name': 'Financials', 'sub': ['Loan purpose', 'Loan structure', 'Loan financing']},
   {'name': 'Offset accounts', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
   {'name': 'Additional information', 'sub':['Loan purpose', 'Loan structure', 'Loan financing']},
   {'name': 'Privacy', 'sub': []},
-  {'name': 'Documents', 'sub': []} 
-]        
+  {'name': 'Documents', 'sub': []}
+]
 
-VALIDATEABLE_FIELDS = ['driversLicence']
 
 EXAMPLE_USER = {
+               'firstName': 'Marlin',
+               'lastName': 'Anemone',
+               'employmentType': 'Full-time',
+               'employmentTitle': 'Explorer',
                'firstName': 'John',
                'middleName': 'Bla bla',
                'lastName': 'Doe',
                'DOB': '02/05/1990',
-               'address': '123 ABC Lane, Sydney',
+               'currentAddress': '123 ABC Lane, Sydney',
                'employmentType': 'Part-time',
                'employmentTitle': 'Senior Analyst',
                'employmentStartDate': '02/2017',
-               'yearsTenure': '1',
+               'yearsTenure': '2',
                'employer': 'Fish-finding services',
                'employerSubburb': 'Sydney',
                'employerState': 'NSW',
                'employerPostcode': '2000',
-               'officeLocation': 'AMP Circular Quay'
+               'officeLocation': 'AMP Circular Quay',
+               'driversLicence': '4581651651'
               }
 EXAMPLE_CURRENT_EMPLOYMENT_HISTORY = {
                                      'employmentType': 'Part-time',

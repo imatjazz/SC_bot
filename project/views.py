@@ -21,14 +21,9 @@ from flask_session import Session
 sys.path.append('project')
 
 #local imports
-from project import config
+from project import config, api, buttons, tiles
 from .dbmodel import *
 from .logmodel import *
-
-#package improts
-import api
-import buttons
-import tiles
 
 #######################
 #Major HACK HACK HACK
@@ -54,11 +49,16 @@ def create_app(debug = False):
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     # Set DSN to link to SQL Server
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    #########################
+    #webserver SQLite
     app.config['SQLALCHEMY_BINDS'] = {
         'users':    'sqlite:///database.db',
         'log':      'sqlite:///log.db'
     }
+    #########################
+    #Postgres AWS instance
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://aimkpmg:Kn0ckKn0ck@employeebotpostgres.cdzci8hdolza.ap-southeast-2.rds.amazonaws.com:8000/employeebot'
+    #########################
     app.config['SQLALCHEMY_POOL_RECYCLE'] = 7200
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     #Initialise flask session
@@ -105,7 +105,7 @@ def create_app(debug = False):
 
         #Breadcrumb
         breadcrumb_current = session['state']['breadcrumb'] if 'state' in session else [1, 1] #this is 1 indexed, not 0 indexed!
-        
+
         #Current tiles & buttons
         tiles = session['state']['tiles'] if 'state' in session else []
         buttons = session['state']['buttons']  if 'state' in session else []
@@ -131,24 +131,18 @@ def create_app(debug = False):
         LogEntry(user_name = current_user.user_name, event_type = 'received message').save()
 
         #Send current user text + old context to Watson
-        context = session['context'] if 'context' in session else None
+        context = api.retrive_cached_context(session)                           #now behind a try except wrapper
         response = Me.watson_message(query=message_received,
                                      context=context)
 
         #Get new context + current node
         new_context = response['context']
-        print(json.dumps(new_context, indent=2))
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-        #Validate data if current node validateable
-        if current_node in config.VALIDATEABLE_FIELDS:      #TODO could validate based on context variable name
-            api.validate(current_node)       #TODO
-
-        #Data from DB
-        if 'piiConfirm' in new_context.keys() and 'autofillConfirm' in new_context.keys():
-            if new_context['autofillConfirm'] == 'false':
-                new_context = {**new_context, **config.EXAMPLE_USER}            #merge an example users data into current context
-                new_context['autofillConfirm'] = 'true'
+        if current_node in config.VALIDATEABLE_FIELDS:                          #validate now performs preppulation. TODO may need to run a DB query though
+            new_context = api.validate(new_context)
+            if new_context is None:
+                raise TypeError('Context was set to None in validate function')
 
         session['context'] = new_context
         api.update_form_DB(new_context)
@@ -158,7 +152,7 @@ def create_app(debug = False):
         bs = button_generation(new_context)
         breadcrumb_current = [3, 2]
         message_send = response['output']['text']
-        
+
         #Save data for session restoration
         if 'state' not in session:
             session['state'] = {'buttons': [], 'tiles': [], 'breadcrumb': [1, 1]}
@@ -169,8 +163,11 @@ def create_app(debug = False):
             session['dialog'].append({'who': 'bot', 'message': m})
         #Log to audit log
         LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
-        
-        return json.dumps({'message': message_send, 'tiles': ts, 'buttons': bs, 'breadcrumb_current': breadcrumb_current})
+
+        return json.dumps({'message': message_send,
+                           'tiles': ts,
+                           'buttons': bs,
+                           'breadcrumb_current': breadcrumb_current})
 
     ###################### Buttons ########################################
     def button_generation(context):
@@ -185,6 +182,7 @@ def create_app(debug = False):
         button_path = buttons.BUTTONS_INDEX[current_node]
         bs = button_path(context)
         return bs
+
     ###################### Tile ###########################################
     def tile_generation(context):
         '''
@@ -212,8 +210,8 @@ def create_app(debug = False):
         """Given user_name - unique user identifier - return User Object"""
         return User.query.get(user_name)
 
-    @app.route('/register/<uname>/<upass>')
-    @login_required
+    ###################### Registration helper ##################################
+    @app.route('/register/<string:uname>/<string:upass>')
     def register(uname = 'csuder1', upass= 'password'):
         """
         Register a user in the DB with a username and password
@@ -283,9 +281,9 @@ def create_app(debug = False):
         logout_user()
         return redirect(url_for('login'))
 
-    @app.route('/updateDBModel')
+    @app.route('/createDBModel')
     #@login_required
-    def updateDBModel():
+    def createDBModel():
         '''
         Create all tables.
         '''
@@ -295,5 +293,24 @@ def create_app(debug = False):
         log.create_all(bind='log')
         log.session.commit()
         return json.dumps({"status": "Success"})
+
+    @app.route('/dropDBModel')
+    @login_required
+    def dropDBModel():
+        '''
+        Drop all tables.
+        '''
+        db.drop_all()
+        db.session.commit()
+        return json.dumps({"status": "Success"})
+
+    @app.route('/createCRM')
+    @login_required
+    def access_CRM():
+        crm_add = CRM(userName=current_user.get_id())
+        db.session.add(crm_add)
+        db.session.commit()
+        return json.dumps({"status": "Success"})
+
 
     return app
