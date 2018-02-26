@@ -4,3 +4,4 @@ project/static/profile_pictures
 project/static/uploads
 *.sqlite
 flask_session/*
+log.db
