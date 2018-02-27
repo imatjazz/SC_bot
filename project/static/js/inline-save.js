@@ -26,3 +26,7 @@ function inlineSave () {
 };
 
 $(document).on('input change keypress propertychange', '.editable input', inlineSave);
+$(document).on('click', '.editable', function(){ 
+	var input = $($(this).children()[0]); 
+	var tmp = input.val(); input.focus().val("").blur().focus().val(tmp);
+});
