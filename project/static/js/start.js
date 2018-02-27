@@ -71,6 +71,7 @@ function updateBreadcrumb(curr){
 		var crumbHTML = ['<li class="crumb ', 'done-crumb','"><a>', crumb['name'], '</a></li>'];
 		if(i < curr[0]) {
 			crumbHTML[1] = 'done-crumb';
+			crumbHTML[3] += ' <i class="fa fa-check fa-green"></i>'
 		}else if(i == curr[0]){
 			crumbHTML[1] = 'in-progress-crumb';
 		}else if(i%2 == 0){
@@ -83,7 +84,7 @@ function updateBreadcrumb(curr){
 			var subBreadcrumbs = crumb['sub'];
 			for(var j = 1; j <= subBreadcrumbs.length; j++){
 				var subCrumb = subBreadcrumbs[j-1];
-				var subCrumbHTML = ['<li class="sub-crumb ', 'sub-done-crumb','"><a>', subCrumb, '</a></li>'];
+				var subCrumbHTML = ['<li class="sub-crumb ', 'sub-done-crumb','"><a>', subCrumb['name'], '</a></li>'];
 				if(j < curr[1]) {
 					subCrumbHTML[1] = 'sub-done-crumb';
 				}else if(j == curr[1]){

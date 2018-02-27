@@ -36,7 +36,7 @@
 						{% elif loop.index == breadcrumb_current[1] %}sub-in-progress-crumb
 						{% elif loop.index % 2 == 0 %}sub-not-started-even-crumb
 						{% else %}sub-not-started-odd-crumb{% endif %}
-						"><a>{{ subcrumb }}</a></li>
+						"><a>{{ subcrumb.name }}</a></li>
 					{% endfor %}
 				{% else %}
 					<li class="crumb 
@@ -44,7 +44,7 @@
 					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
 					{% elif loop.index % 2 == 0 %}not-started-even-crumb
 					{% else %}not-started-odd-crumb{% endif %}
-					"><a>{{ crumb.name }}</a></li>
+					"><a>{{ crumb.name }} {% if loop.index < breadcrumb_current[0] %}<i class="fa fa-check fa-green"></i>{% endif %}</a></li>
 				{% endif %}
 			{% endfor %}
 		</ul>
@@ -63,8 +63,10 @@
 {% block js %}
 <script>
 var messageSendURL = "{{ url_for('message') }}";
+var inlineSaveURL = "{{ url_for('inline_save') }}";
 var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/inline-save.js') }}"></script>
 {% endblock %}
 

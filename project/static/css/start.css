@@ -180,6 +180,7 @@ body::after {
   font-size: 0.8em;
   font-family: "Rokkitt Light", "Courier New", serif;
   float: left;
+  height: 52px;
 }
 .custom-breadcrumb li a {
   display: block;
@@ -199,6 +200,10 @@ body::after {
   height: 50px;
   line-height: 50px;
   margin-right: 27px;
+}
+.custom-breadcrumb li.crumb a i.fa-green {
+    color: green;
+    vertical-align: text-top;
 }
 .custom-breadcrumb li.sub-crumb a:before, .custom-breadcrumb li.sub-crumb a:after {
   border-width: 25px 10px;
@@ -241,21 +246,8 @@ body::after {
   border-left-color:#007DBE;
 }
 
-.custom-breadcrumb li.done-crumb a {
-  background-color: #001e41;
-  color: white;
-}
-.custom-breadcrumb li.done-crumb a:before {
-  border-color:#001e41;
-  border-left-color: transparent;
-}
-.custom-breadcrumb li.done-crumb a:after {
-  border-left-color: #001e41;
-}
-
 .custom-breadcrumb li.sub-crumb{
   font-size: 0.9em;
-  
 }
 
 .custom-breadcrumb li.sub-crumb a {
@@ -325,4 +317,37 @@ body::after {
   color: white;
   padding: 5px;
   font-size: 0.85em;
+}
+
+.tile-body .table{
+  margin-top: 20px;
+}
+
+.tile-body .table > tbody > tr > th{
+  vertical-align: middle;
+}
+
+.tile-body td.editable input{
+  background-color: transparent;
+  border: none;
+  padding: 5px 35px 5px 5px;
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
+.tile-body td.editable:after{ 
+   content: "\f044";
+   font-family: Font Awesome\ 5 Free;
+   font-weight: normal;
+   font-style: normal;
+   margin: 0px 10px 0px -40px;
+   text-decoration:none;
+} 
+
+.tile-body td.editable input:hover{
+  background-color: rgba(141, 206, 242, 0.1);
+}
+
+.tile-body td.editable input:focus{
+  background-color: rgba(141, 206, 242, 0.3);
 }
