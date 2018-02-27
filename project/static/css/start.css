@@ -246,6 +246,19 @@ body::after {
   border-left-color:#007DBE;
 }
 
+.custom-breadcrumb li.done-crumb a:hover {
+  cursor: pointer;
+  background-color: #00aae0;
+  color: white;
+}
+.custom-breadcrumb li.done-crumb a:hover:before {
+  border-color:#00aae0;
+  border-left-color: transparent;
+}
+.custom-breadcrumb li.done-crumb a:hover:after {
+  border-left-color:#00aae0;
+}
+
 .custom-breadcrumb li.sub-crumb{
   font-size: 0.9em;
 }
@@ -319,12 +332,26 @@ body::after {
   font-size: 0.85em;
 }
 
+.tile-body #status{
+  display: table;
+}
+
 .tile-body .table{
   margin-top: 20px;
+  padding: 5px;
 }
 
 .tile-body .table > tbody > tr > th{
   vertical-align: middle;
+}
+
+.tile-body .table > thead > tr > th, 
+.tile-body .table > tbody > tr > th, 
+.tile-body .table > tfoot > tr > th, 
+.tile-body .table > thead > tr > td, 
+.tile-body .table > tbody > tr > td, 
+.tile-body .table > tfoot > tr > td{
+  padding: 0;
 }
 
 .tile-body td.editable input{

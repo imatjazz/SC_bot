@@ -5,3 +5,4 @@ project/static/uploads
 *.sqlite
 flask_session/*
 log.db
+.ipynb
