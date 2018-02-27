@@ -1,8 +1,20 @@
 <div id="status" class="label label-success">no changes made</div>
-<div class="row col-md-12 col-sm-12 col-lg-12">
+{% set l = args|length %}
+<div class="col-md-6 col-sm-6 col-lg-6">
 <table class="table table-responsive">
 	{% for arg in args %}
+	{% if loop.index <= l/2 %}
 	<tr><th>{{arg.name}}</th><td id="{{arg.field}}" class="editable"><input type="text" value="{{arg.value}}" /></td></tr>
+	{% endif %}
+	{% endfor %}
+</table>
+</div>
+<div class="col-md-6 col-sm-6 col-lg-6">
+<table class="table table-responsive">
+	{% for arg in args %}
+	{% if loop.index > l/2 %}
+	<tr><th>{{arg.name}}</th><td id="{{arg.field}}" class="editable"><input type="text" value="{{arg.value}}" /></td></tr>
+	{% endif %}
 	{% endfor %}
 </table>
 </div>

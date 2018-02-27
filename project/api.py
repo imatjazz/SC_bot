@@ -34,6 +34,7 @@ def validate(context, uname):
         if context['autofillConfirm'] == 'false':
             context = {**context, **access_CRM(uname)}            #merge an example users data into current context
             context['autofillConfirm'] = 'true'
+            context['driversLicenceValid'] = "true" if 'driversLicence' in context else "false" #TODO remove HACK and actually validate
             return context
 
     current_node = context['system']['dialog_stack'][0]['dialog_node']

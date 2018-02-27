@@ -141,7 +141,7 @@ def create_app(debug = False):
         if field is None or 'context' not in session or field not in session['context']:
             raise KeyError('Field "' + str(field) + '" is not a valid field or was not found in context.')
         #TODO validation
-        session['context'] = api.validate(session['context'])
+        session['context'] = api.validate(session['context'], current_user.get_id())
         session['context'][field] = value
         #regenerate session tile html with new value
         ts = tile_generation(session['context'])

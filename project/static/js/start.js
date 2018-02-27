@@ -111,6 +111,7 @@ function getValidationTile(){
 
 	//Success
 	q.done(function(res){
+		tilesRemove();
 		tileAdd(JSON.parse(res)['tiles'][0]);
 		console.log(res);
 	});

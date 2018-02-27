@@ -332,12 +332,26 @@ body::after {
   font-size: 0.85em;
 }
 
+.tile-body #status{
+  display: table;
+}
+
 .tile-body .table{
   margin-top: 20px;
+  padding: 5px;
 }
 
 .tile-body .table > tbody > tr > th{
   vertical-align: middle;
+}
+
+.tile-body .table > thead > tr > th, 
+.tile-body .table > tbody > tr > th, 
+.tile-body .table > tfoot > tr > th, 
+.tile-body .table > thead > tr > td, 
+.tile-body .table > tbody > tr > td, 
+.tile-body .table > tfoot > tr > td{
+  padding: 0;
 }
 
 .tile-body td.editable input{
