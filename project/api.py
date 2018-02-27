@@ -8,7 +8,8 @@ import datetime as dt
 
 #Local libraries
 from project import config
-from project.dbmodel import CRM
+from project.dbmodel import CRM, FormDB
+
 
 
 #modified watson object
@@ -28,19 +29,25 @@ class Watson(watson.ConversationV1):
         return response
 
 
-def validate(context):
+def validate(context, uname):
     if 'piiConfirm' in context.keys() and 'autofillConfirm' in context.keys():
         if context['autofillConfirm'] == 'false':
-            context = {**context, **access_CRM()}            #merge an example users data into current context
+            context = {**context, **access_CRM(uname)}            #merge an example users data into current context
             context['autofillConfirm'] = 'true'
             return context
 
     current_node = context['system']['dialog_stack'][0]['dialog_node']
-    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] or 'dates' in context.keys():
-        earliest_date = dt.datetime.strptime(str(context['dates'][0]), "%Y-%m-%d")
-        todays_date = dt.datetime.today()
-        years = str((todays_date - earliest_date).days/365)
-        context['yearsTenure'] = years
+    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] and 'prevEmploymentDates' in context.keys():
+        dates = context['prevEmploymentDates']
+        print(dates)
+        if isinstance(dates, list):
+            earliest_date = dt.datetime.strptime(str(dates[0]), "%Y-%m-%d")
+            todays_date = dt.datetime.today()
+            years = str((todays_date - earliest_date).days/365)
+            context['yearsTenure'] = years
+        else:
+            print("Single date received:", dates)
+
 
 
 
@@ -64,7 +71,29 @@ def cache_context(context, session):
 def log_response(response):
     pass
 
-def update_form_DB(context):
+def update_form_DB(context, uname):
+
+    if context:
+        d = {}
+        current_node = context['system']['dialog_stack'][0]['dialog_node']
+
+        for key in context.keys():
+            if key in config.FORM_FIELDS:
+                row = FormDB.query.get(uname)
+                if key in row.__table__.columns:
+                    d[key] = context[key]
+                else:
+                    print("[DataBase Error]: Context variable " + key + " in config, but not in DB")
+            else:
+                print("Context variable not mapped in config:", key)
+
+        if current_node == 'node_4_1519016328035' and False:                    #the confirmation node ID
+            #TODO Update table using these commands
+            """
+            db.session.query(FormDB).update(d)
+            db.session.commit()
+            """
+            pass
     pass
 
 
@@ -107,7 +136,7 @@ def print_context(context):
             print(key, context[key])
 
 
-def access_CRM(uname='csuder1'):
+def access_CRM(uname):
     row = CRM.query.get(uname)
     d = {}
     for column in row.__table__.columns:
