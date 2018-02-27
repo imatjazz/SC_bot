@@ -36,13 +36,13 @@ def validate(context):
             return context
 
     current_node = context['system']['dialog_stack'][0]['dialog_node']
-    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] or 'dates' in context.keys():
-        earliest_date = dt.datetime.strptime(str(context['dates'][0]), "%Y-%m-%d")
+    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] or 'currEmploymentDateStart' in context.keys():
+        print(json.dumps(context, indent=2))
+        start_date = context['prevEmploymentDateStart'] if 'prevEmploymentDateStart' in context else 'currEmploymentDateStart'
+        earliest_date = dt.datetime.strptime(str(start_date), "%Y-%m-%d")
         todays_date = dt.datetime.today()
-        years = str((todays_date - earliest_date).days/365)
+        years = int((todays_date - earliest_date).days/365)
         context['yearsTenure'] = years
-
-
 
     return context
 

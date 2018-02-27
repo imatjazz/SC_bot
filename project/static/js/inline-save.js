@@ -22,7 +22,7 @@ function inlineSave () {
         	console.log(data);
         });
         
-    }, 1000);
+    }, 2000);
 };
 
 $(document).on('input change keypress propertychange', '.editable input', inlineSave);

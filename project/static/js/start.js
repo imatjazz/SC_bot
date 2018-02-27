@@ -103,6 +103,22 @@ function updateBreadcrumb(curr){
 }
 
 /* AJAX queries */
+function getValidationTile(){
+	var breadcrumb = $(this).text().trim();
+	//Request
+	var data = {'breadcrumb': breadcrumb};
+	var q = $.post(getValidationTileURL, data);
+
+	//Success
+	q.done(function(res){
+		tileAdd(JSON.parse(res)['tiles'][0]);
+		console.log(res);
+	});
+	q.fail(function(err){
+		alert(err);
+		console.log(data);
+	});
+}
 function messageSend(message){
 	//Request
 	var data = {'message': message};
@@ -158,4 +174,5 @@ $("#chat-input").keydown(function(event){
 /* Event listeners */
 $('#chat-submit-btn').click(messageSubmit);
 $(document).on('click', '.chat-message.chat-button', buttonClick);
+$(document).on('click', '.done-crumb', getValidationTile);
 

@@ -64,6 +64,7 @@
 <script>
 var messageSendURL = "{{ url_for('message') }}";
 var inlineSaveURL = "{{ url_for('inline_save') }}";
+var getValidationTileURL = "{{ url_for('get_validation_tile') }}";
 var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>

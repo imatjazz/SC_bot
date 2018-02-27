@@ -113,9 +113,26 @@ def create_app(debug = False):
         return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons)
 
     ############# AJAX calls ###############################
+    @app.route('/get_validation_tile', methods=['POST'])
+    @login_required
+    def get_validation_tile():
+        '''
+        Get validation tile
+        '''
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
+        breadcrumb = 'breadcrumb_' + request.form.get('breadcrumb')
+        ts = tile_generation(session['context'], breadcrumb)
+        session['state']['tiles'] = ts
+
+        return json.dumps({'tiles': ts})
+
     @app.route('/inline_save', methods=['POST'])
     @login_required
     def inline_save():
+        '''
+        Save a field inline from a tile
+        '''
         if 'uid' not in session:
             session['uid'] = str(uuid.uuid4())
         field = request.form.get('field')
@@ -124,7 +141,7 @@ def create_app(debug = False):
         if field is None or 'context' not in session or field not in session['context']:
             raise KeyError('Field "' + str(field) + '" is not a valid field or was not found in context.')
         #TODO validation
-        
+        session['context'] = api.validate(session['context'])
         session['context'][field] = value
         #regenerate session tile html with new value
         ts = tile_generation(session['context'])
@@ -237,11 +254,11 @@ def create_app(debug = False):
         return bs
 
     ###################### Tile ###########################################
-    def tile_generation(context):
+    def tile_generation(context, special = None):
         '''
         Check if tiles are available for current node and generate html
         '''
-        current_node = context['system']['dialog_stack'][0]['dialog_node']
+        current_node = context['system']['dialog_stack'][0]['dialog_node'] if special is None else special
         print(json.dumps(context, indent=2))
         if current_node not in tiles.TILES_INDEX.keys():
             return []
