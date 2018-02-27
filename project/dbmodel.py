@@ -102,7 +102,7 @@ class CRM(db.Model):
     pass
 
 
-class Form_DB(db.Model):
+class FormDB(db.Model):
     """
     stores the identified variables from end user
     """
@@ -138,8 +138,12 @@ class Form_DB(db.Model):
     currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100))
     currEmployerState = db.Column('currEmployerState', db.String(100))
     currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer())
+    prevEmploymentType = db.Column('prevEmploymentType', db.String(100))
+    prevEmploymentABN = db.Column('prevEmploymentABN', db.String(100))
+
+
     accountNumber = db.Column('accountNumber', db.Integer())
     ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100))
-    productType = db.Column('productType', db.Boolean(100))
+    productType = db.Column('productType', db.String(100))
 
     pass

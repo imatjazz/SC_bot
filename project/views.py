@@ -129,7 +129,7 @@ def create_app(debug = False):
         session['dialog'].append({'who': 'human', 'message': message_received})
         #Log to audit log
         LogEntry(user_name = current_user.user_name, event_type = 'received message').save()
-
+        uname=current_user.get_id()
         #Send current user text + old context to Watson
         context = api.retrive_cached_context(session)                           #now behind a try except wrapper
         response = Me.watson_message(query=message_received,
@@ -140,12 +140,12 @@ def create_app(debug = False):
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
         if current_node in config.VALIDATEABLE_FIELDS:                          #validate now performs preppulation. TODO may need to run a DB query though
-            new_context = api.validate(new_context)
+            new_context = api.validate(new_context, uname)
             if new_context is None:
                 raise TypeError('Context was set to None in validate function')
 
         session['context'] = new_context
-        api.update_form_DB(new_context)
+        api.update_form_DB(new_context, uname)
 
         #Generate UI bits (tiles, buttons, breadcrumb, message)
         ts = tile_generation(new_context)
@@ -307,8 +307,16 @@ def create_app(debug = False):
     @app.route('/createCRM')
     @login_required
     def access_CRM():
-        crm_add = CRM(userName=current_user.get_id())
+        crm_add = CRM(employeeNumber=current_user.get_id())
         db.session.add(crm_add)
+        db.session.commit()
+        return json.dumps({"status": "Success"})
+
+    @app.route('/createFormDB')
+    @login_required
+    def access_FormDB():
+        row_add = FormDB(employeeNumber=current_user.get_id())
+        db.session.add(row_add)
         db.session.commit()
         return json.dumps({"status": "Success"})
 
