@@ -63,8 +63,10 @@
 {% block js %}
 <script>
 var messageSendURL = "{{ url_for('message') }}";
+var inlineSaveURL = "{{ url_for('inline_save') }}";
 var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/inline-save.js') }}"></script>
 {% endblock %}
 

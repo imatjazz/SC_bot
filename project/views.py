@@ -112,6 +112,26 @@ def create_app(debug = False):
 
         return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons)
 
+    ############# AJAX calls ###############################
+    @app.route('/inline_save', methods=['POST'])
+    @login_required
+    def inline_save():
+        if 'uid' not in session:
+            session['uid'] = str(uuid.uuid4())
+        field = request.form.get('field')
+        value = request.form.get('fieldValue')
+        #save the new value of field and update in context
+        if field is None or 'context' not in session or field not in session['context']:
+            raise KeyError('Field "' + str(field) + '" is not a valid field or was not found in context.')
+        #TODO validation
+        
+        session['context'][field] = value
+        #regenerate session tile html with new value
+        ts = tile_generation(session['context'])
+        session['state']['tiles'] = ts
+
+        return json.dumps({'field': field})
+
     @app.route('/message', methods=['POST'])
     @login_required
     def message():
