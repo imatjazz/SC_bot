@@ -1,0 +1,11 @@
+<div id="status" class="label label-success">no changes made</div>
+<div class="row col-md-12 col-sm-12 col-lg-12">
+<table class="table table-responsive">
+	{% for arg in args %}
+	<tr><th>{{arg.name}}</th><td id="{{arg.field}}" class="editable"><input type="text" value="{{arg.value}}" /></td></tr>
+	{% endfor %}
+</table>
+</div>
+<div class="row col-md-12 col-sm-12 col-lg-12">
+If this is correct, please type 'continue' to continue.
+</div>

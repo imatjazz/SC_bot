@@ -68,33 +68,41 @@ class CRM(db.Model):
     __tablename__ = "crm"
     __bind_key__ = 'users'
 
-    userName = db.Column('userName', db.String(50), primary_key = True)
+    employeeNumber = db.Column('employeeNumber', db.String(50), primary_key = True)
+    title = db.Column('title', db.String(20))
     firstName = db.Column('firstName', db.String(100))
-    middleName = db.Column('middleName', db.String(100))
-    lastName = db.Column('lastName', db.String(100))
-    dateOfBirth = db.Column('dateOfBirth', db.String(100))
-    currAddress = db.Column('currAddress', db.String(200))
+    middleNames = db.Column('middleNames', db.String(100))
+    surname = db.Column('surname', db.String(100))
+    previousNames = db.Column('previousNames', db.String(100))
+    dateOfBirth = db.Column('dateOfBirth', db.String(10))
+    gender = db.Column('gender', db.String(1))
+    driversLicence = db.Column('driversLicence', db.Integer())
+    contactNumber = db.Column('contactNumber', db.String(10))
+    mobileNumber = db.Column('mobileNumber', db.String(10))
+    email = db.Column('email', db.String(100))
+    residentialAddress = db.Column('residentialAddress', db.String(200))
+    residentialSuburb = db.Column('residentialSuburb', db.String(100))
+    residentialState = db.Column('residentialState', db.String(100))
+    residentialPostcode = db.Column('residentialPostcode', db.Integer())
+    postalAddress = db.Column('postalAddress', db.String(100))
+    postalSuburb = db.Column('postalSuburb', db.String(100))
+    postalState = db.Column('postalState', db.String(100))
+    postalPostcode = db.Column('postalPostcode', db.Integer())
     currJobTitle = db.Column('currJobTitle', db.String(100))
     currEmploymentType = db.Column('currEmploymentType', db.String(100))
-    currEmploymentStartDate = db.Column('currEmploymentStartDate', db.String(100))
+    currEmployerStartDate = db.Column('currEmployerStartDate', db.String(10))
     currEmployer = db.Column('currEmployer', db.String(100), default = 'AMP')
+    currEmployerAddress = db.Column('currEmployerAddress', db.String(100))
     currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
     currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
     currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
     accountNumber = db.Column('accountNumber', db.Integer(), default = 58495743895)
     ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100), default = True)
 
-
-
-
-
-
-
-
     pass
 
 
-class Form_DB(db.Model):
+class FormDB(db.Model):
     """
     stores the identified variables from end user
     """
@@ -102,20 +110,40 @@ class Form_DB(db.Model):
     __tablename__ = 'form'
     __bind_key__ = 'users'
 
-    userName = db.Column('userName', db.String(50), primary_key = True)
+    employeeNumber = db.Column('employeeNumber', db.String(50), primary_key = True)
+    title = db.Column('title', db.String(20))
     firstName = db.Column('firstName', db.String(100))
-    middleName = db.Column('middleName', db.String(100))
-    lastName = db.Column('lastName', db.String(100))
-    dateOfBirth = db.Column('dateOfBirth', db.String(100))
-    currAddress = db.Column('currAddress', db.String(200))
+    middleNames = db.Column('middleNames', db.String(100))
+    surname = db.Column('surname', db.String(100))
+    previousNames = db.Column('previousNames', db.String(100))
+    dateOfBirth = db.Column('dateOfBirth', db.String(10))
+    gender = db.Column('gender', db.String(1))
+    driversLicence = db.Column('driversLicence', db.Integer())
+    contactNumber = db.Column('contactNumber', db.String(10))
+    mobileNumber = db.Column('mobileNumber', db.String(10))
+    email = db.Column('email', db.String(100))
+    residentialAddress = db.Column('residentialAddress', db.String(200))
+    residentialSuburb = db.Column('residentialSuburb', db.String(100))
+    residentialState = db.Column('residentialState', db.String(100))
+    residentialPostcode = db.Column('residentialPostcode', db.Integer())
+    postalAddress = db.Column('postalAddress', db.String(100))
+    postalSuburb = db.Column('postalSuburb', db.String(100))
+    postalState = db.Column('postalState', db.String(100))
+    postalPostcode = db.Column('postalPostcode', db.Integer())
     currJobTitle = db.Column('currJobTitle', db.String(100))
     currEmploymentType = db.Column('currEmploymentType', db.String(100))
-    currEmploymentStartDate = db.Column('currEmploymentStartDate', db.String(100))
-    currEmployer = db.Column('currEmployer', db.String(100), default = 'AMP')
-    currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100), default = 'Sydney')
-    currEmployerState = db.Column('currEmployerState', db.String(100), default = 'NSW')
-    currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer(), default = 2000)
-    accountNumber = db.Column('accountNumber', db.Integer(), default = 58495743895)
-    ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100), default = True)
+    currEmployerStartDate = db.Column('currEmployerStartDate', db.String(10))
+    currEmployer = db.Column('currEmployer', db.String(100))
+    currEmployerAddress = db.Column('currEmployerAddress', db.String(100))
+    currEmployerSuburb = db.Column('currEmployerSuburb', db.String(100))
+    currEmployerState = db.Column('currEmployerState', db.String(100))
+    currEmployerPostcode = db.Column('currEmployerPostcode', db.Integer())
+    prevEmploymentType = db.Column('prevEmploymentType', db.String(100))
+    prevEmploymentABN = db.Column('prevEmploymentABN', db.String(100))
+
+
+    accountNumber = db.Column('accountNumber', db.Integer())
+    ampEmployeeFlag = db.Column('ampEmployeeFlag', db.Boolean(100))
+    productType = db.Column('productType', db.String(100))
 
     pass

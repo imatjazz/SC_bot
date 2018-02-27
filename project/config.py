@@ -69,6 +69,41 @@ BREADCRUMBS = [
   }
 ]
 
+FORM_FIELDS = [
+                'employeeNumber',
+                'title',
+                'firstName',
+                'middleNames',
+                'surname',
+                'previousNames',
+                'dateOfBirth',
+                'gender',
+                'driversLicence',
+                'contactNumber',
+                'mobileNumber',
+                'email',
+                'residentialAddress',
+                'residentialSuburb',
+                'residentialState',
+                'residentialPostcode',
+                'postalAddress',
+                'postalSuburb',
+                'postalState',
+                'postalPostcode',
+                'currJobTitle',
+                'currEmploymentType',
+                'currEmployerStartDate',
+                'currEmployer',
+                'currEmployerAddress',
+                'currEmployerSuburb',
+                'currEmployerState',
+                'currEmployerPostcode',
+                'accountNumber',
+                'ampEmployeeFlag',
+                'productType',
+                'prevEmploymentType'
+                ]
+
 
 EXAMPLE_USER = {
                'firstName': 'Marlin',
