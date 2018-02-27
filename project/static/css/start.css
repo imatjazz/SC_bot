@@ -318,3 +318,36 @@ body::after {
   padding: 5px;
   font-size: 0.85em;
 }
+
+.tile-body .table{
+  margin-top: 20px;
+}
+
+.tile-body .table > tbody > tr > th{
+  vertical-align: middle;
+}
+
+.tile-body td.editable input{
+  background-color: transparent;
+  border: none;
+  padding: 5px 35px 5px 5px;
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
+.tile-body td.editable:after{ 
+   content: "\f044";
+   font-family: Font Awesome\ 5 Free;
+   font-weight: normal;
+   font-style: normal;
+   margin: 0px 10px 0px -40px;
+   text-decoration:none;
+} 
+
+.tile-body td.editable input:hover{
+  background-color: rgba(141, 206, 242, 0.1);
+}
+
+.tile-body td.editable input:focus{
+  background-color: rgba(141, 206, 242, 0.3);
+}
