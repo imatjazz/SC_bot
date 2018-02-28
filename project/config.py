@@ -21,7 +21,8 @@ BREADCRUMBS = [
     'sub': [
          {'name': 'Personal details', 'node_id': 'root'}, 
          {'name': 'Addresses', 'node_id': 'node_68_1519021622252'}, 
-         {'name': 'Employment', 'node_id': 'slot_50_1519019902036'}
+         {'name': 'Employment', 'node_id': 'slot_50_1519019902036'},
+         {'name': 'Additional Applicant', 'node_id': 'slot_51_1519019902036'}
     ]
   },
   {'name': 'Financials', 'node_id': 'node_21_1519017509279', 
