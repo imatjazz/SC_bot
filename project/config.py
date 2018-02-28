@@ -17,14 +17,14 @@ VALIDATEABLE_FIELDS = ['node_68_1519021622252']
 
 #TODO finalise breadcrumb nodes
 BREADCRUMBS = [
-  {'name': 'Personal', 'node_id': 'root', 
+  {'name': 'Personal', 'node_id': 'root',
     'sub': [
-         {'name': 'Personal details', 'node_id': 'root'}, 
-         {'name': 'Addresses', 'node_id': 'node_68_1519021622252'}, 
+         {'name': 'Personal details', 'node_id': 'root'},
+         {'name': 'Addresses', 'node_id': 'node_68_1519021622252'},
          {'name': 'Employment', 'node_id': 'slot_50_1519019902036'}
     ]
   },
-  {'name': 'Financials', 'node_id': 'node_21_1519017509279', 
+  {'name': 'Financials', 'node_id': 'node_21_1519017509279',
     'sub': [
       {'name': 'Assets', 'node_id': 'null'},
       {'name': 'Liabilities', 'node_id': 'null'},
@@ -32,7 +32,7 @@ BREADCRUMBS = [
       {'name': 'Funds position', 'node_id': 'null'}
     ]
   },
-  {'name': 'Loan requirements', 'node_id': 'null', 
+  {'name': 'Loan requirements', 'node_id': 'null',
     'sub': [
       {'name': 'Purpose', 'node_id': 'null'},
       {'name': 'Loan structure', 'node_id': 'null'},
@@ -42,7 +42,7 @@ BREADCRUMBS = [
       {'name': 'SRG', 'node_id': 'null'}
     ]
   },
-  {'name': 'Additional', 'node_id': 'null', 
+  {'name': 'Additional', 'node_id': 'null',
     'sub': [
       {'name': 'Security', 'node_id': 'null'},
       {'name': 'Solicitor', 'node_id': 'null'},
@@ -50,7 +50,7 @@ BREADCRUMBS = [
       {'name': 'Communications', 'node_id': 'null'}
     ]
   },
-  {'name': 'Privacy', 'node_id': 'null', 
+  {'name': 'Privacy', 'node_id': 'null',
     'sub': [
       {'name': 'Loan requirements', 'node_id': 'null'},
       {'name': 'Identification', 'node_id': 'null'},
@@ -60,7 +60,7 @@ BREADCRUMBS = [
       {'name': 'Declaration', 'node_id': 'null'}
     ]
   },
-  {'name': 'Documents', 'node_id': 'null', 
+  {'name': 'Documents', 'node_id': 'null',
     'sub': [
       {'name': 'Identification', 'node_id': 'null'},
       {'name': 'Income', 'node_id': 'null'},
@@ -92,7 +92,7 @@ FORM_FIELDS = [
                 'postalPostcode',
                 'currJobTitle',
                 'currEmploymentType',
-                'currEmployerStartDate',
+                'currEmploymentStartDate',
                 'currEmployer',
                 'currEmployerAddress',
                 'currEmployerSuburb',

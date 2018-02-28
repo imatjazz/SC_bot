@@ -32,19 +32,22 @@ class Watson(watson.ConversationV1):
 def validate(context, uname):
     if 'piiConfirm' in context.keys() and 'autofillConfirm' in context.keys():
         if context['autofillConfirm'] == 'false':
-            context = {**context, **access_CRM(uname)}            #merge an example users data into current context
+            context['twoYearsAgo'] = (dt.datetime.today() - dt.timedelta(days=2*365)).strftime("%Y-%m-%d")
+            context = {**context, **access_CRM(uname)}                          #merge an example users data into current context
             context['autofillConfirm'] = 'true'
             context['driversLicenceValid'] = "true" if 'driversLicence' in context else "false" #TODO remove HACK and actually validate
             return context
 
     current_node = context['system']['dialog_stack'][0]['dialog_node']
-    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210'] or 'currEmploymentDateStart' in context.keys():
-        print(json.dumps(context, indent=2))
-        start_date = context['prevEmploymentDateStart'] if 'prevEmploymentDateStart' in context else 'currEmploymentDateStart'
-        earliest_date = dt.datetime.strptime(str(start_date), "%Y-%m-%d")
-        todays_date = dt.datetime.today()
-        years = int((todays_date - earliest_date).days/365)
-        context['yearsTenure'] = years
+    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210']:
+        if 'prevEmploymentDateStart' in context.keys():
+            print(json.dumps(context, indent=2))
+            start_date = context['prevEmploymentDateStart'] if 'prevEmploymentDateStart' in context else context['currEmploymentDateStart']
+            print(start_date)
+            earliest_date = dt.datetime.strptime(str(start_date), "%Y-%m-%d")
+            todays_date = dt.datetime.today()
+            years = int((todays_date - earliest_date).days/365)
+            context['yearsTenure'] = years
 
     return context
 
