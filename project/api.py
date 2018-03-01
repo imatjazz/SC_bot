@@ -34,13 +34,18 @@ def validate(context, uname):
         if context['autofillConfirm'] == 'false':
             context['twoYearsAgo'] = (dt.datetime.today() - dt.timedelta(days=2*365)).strftime("%Y-%m-%d")
             context = {**context, **access_CRM(uname)}                          #merge an example users data into current context
-            context['autofillConfirm'] = 'true'
             context['driversLicenceValid'] = "true" if 'driversLicence' in context else "false" #TODO remove HACK and actually validate
+            if 'currEmploymentStartDate' in context.keys():
+                 start_date = dt.datetime.strptime(str(context['currEmploymentStartDate']), "%Y-%m-%d")
+                 todays_date = dt.datetime.today()
+                 context['yearsTenure'] = round(float((todays_date - start_date).days/365),2)
+
+            context['autofillConfirm'] = 'true'
             return context
 
     current_node = context['system']['dialog_stack'][0]['dialog_node']
     print('Current node: ', current_node)
-    if current_node in ['node_68_1519021622252', 'slot_82_1519023646210']:
+    if current_node in ['node_73_1519022013998']:
         if 'prevEmploymentDateStart' in context.keys():
             print(json.dumps(context, indent=2))
             start_date = context['prevEmploymentDateStart'] if 'prevEmploymentDateStart' in context else context['currEmploymentDateStart']
@@ -137,6 +142,9 @@ def print_context(context):
         if key != 'system':
             print(key, context[key])
 
+def print_entities(entities_list):
+    for item in entities_list:
+        print("Entity:", '"' + item['entity'] + '"', "| Value:", '"' + item['value'] + '"')
 
 def access_CRM(uname):
     row = CRM.query.get(uname)

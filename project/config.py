@@ -20,12 +20,12 @@ BREADCRUMBS = [
   {'name': 'Personal', 'node_id': 'root',
     'sub': [
          {'name': 'Personal details', 'node_id': 'root'},
-         {'name': 'Addresses', 'node_id': 'node_68_1519021622252'},
-         {'name': 'Employment', 'node_id': 'slot_50_1519019902036'},
-         {'name': 'Additional Applicant', 'node_id': 'slot_51_1519019902036'}
+         {'name': 'Addresses', 'node_id': 'node_79_1519796324896'},
+         {'name': 'Employment', 'node_id': 'node_6_1519866498803'},
+         {'name': 'Additional Applicant', 'node_id': 'node_11_1519788933308'}
     ]
   },
-  {'name': 'Financials', 'node_id': 'node_21_1519017509279',
+  {'name': 'Financials', 'node_id': 'node_4_1519788481826',
     'sub': [
       {'name': 'Assets', 'node_id': 'null'},
       {'name': 'Liabilities', 'node_id': 'null'},

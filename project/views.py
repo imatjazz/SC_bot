@@ -202,13 +202,15 @@ def create_app(debug = False):
             session['dialog'].append({'who': 'bot', 'message': m})
         #Log to audit log
         LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
-        print(json.dumps(context, indent = 2))
+        api.print_entities(response['entities'])
+        print(json.dumps(new_context, indent = 2))
+
         return json.dumps({'message': message_send,
                            'tiles': ts,
                            'buttons': bs,
                            'breadcrumb_current': breadcrumb_current})
-    
-    
+
+
     ###################### Breadcrumb ########################################
     def breadcrumb_generation(context):
         '''
