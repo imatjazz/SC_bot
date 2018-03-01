@@ -43,7 +43,11 @@ body::after {
 }
 
 #chat-title{
-  padding: 10px 0;
+  padding: /*10px*/ 0;
+}
+
+#chat-title #amp_logo{
+  height: 44px;
 }
 
 /* Chat message area */
