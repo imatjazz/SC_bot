@@ -13,18 +13,19 @@ WATSON_PASSWORD='DGm2hKYjVnV3'
 WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
-VALIDATEABLE_FIELDS = ['node_68_1519021622252']
+VALIDATEABLE_FIELDS = ['node_22_1519017849723', 'node_68_1519021622252', 'node_35_1519792742214', 'node_30_1519792519750']
 
 #TODO finalise breadcrumb nodes
 BREADCRUMBS = [
   {'name': 'Personal', 'node_id': 'root',
     'sub': [
          {'name': 'Personal details', 'node_id': 'root'},
-         {'name': 'Addresses', 'node_id': 'node_68_1519021622252'},
-         {'name': 'Employment', 'node_id': 'slot_50_1519019902036'}
+         {'name': 'Addresses', 'node_id': 'node_79_1519796324896'},
+         {'name': 'Employment', 'node_id': 'node_6_1519866498803'},
+         {'name': 'Additional Applicant', 'node_id': 'node_11_1519788933308'}
     ]
   },
-  {'name': 'Financials', 'node_id': 'node_21_1519017509279',
+  {'name': 'Financials', 'node_id': 'node_4_1519788481826',
     'sub': [
       {'name': 'Assets', 'node_id': 'null'},
       {'name': 'Liabilities', 'node_id': 'null'},
