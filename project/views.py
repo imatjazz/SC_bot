@@ -176,7 +176,9 @@ def create_app(debug = False):
         new_context = response['context']
         current_node = new_context['system']['dialog_stack'][0]['dialog_node']
 
-        if current_node in config.VALIDATEABLE_FIELDS:                          #validate now performs preppulation. TODO may need to run a DB query though
+        print('Current node - prev: ', current_node)
+        if current_node in config.VALIDATEABLE_FIELDS:
+            print('validating')   #validate now performs preppulation. TODO may need to run a DB query though
             new_context = api.validate(new_context, uname)
             if new_context is None:
                 raise TypeError('Context was set to None in validate function')
@@ -200,12 +202,13 @@ def create_app(debug = False):
             session['dialog'].append({'who': 'bot', 'message': m})
         #Log to audit log
         LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
-
+        print(json.dumps(context, indent = 2))
         return json.dumps({'message': message_send,
                            'tiles': ts,
                            'buttons': bs,
                            'breadcrumb_current': breadcrumb_current})
-
+    
+    
     ###################### Breadcrumb ########################################
     def breadcrumb_generation(context):
         '''
@@ -259,7 +262,7 @@ def create_app(debug = False):
         Check if tiles are available for current node and generate html
         '''
         current_node = context['system']['dialog_stack'][0]['dialog_node'] if special is None else special
-        print(json.dumps(context, indent=2))
+        #print(json.dumps(context, indent=2))
         if current_node not in tiles.TILES_INDEX.keys():
             return []
 

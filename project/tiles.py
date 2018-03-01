@@ -14,7 +14,7 @@ def applicant_details_from_sys(context):
             {'field': 'prevEmploymentDateStart', 'name': 'Previous employment start','value': context['prevEmploymentDateStart']},
             {'field': 'prevEmploymentDateEnd', 'name': 'Previous employment end','value': context['prevEmploymentDateEnd']},
         ]
-    else: 
+    else:
         template = 'tiles/validation_table.html'
         title = 'Please validate your details'
         args = [
@@ -39,12 +39,12 @@ def applicant_details_from_sys(context):
             {'field': 'postalPostcode', 'name': 'Postal postcode','value': context['postalPostcode']},
             {'field': 'currJobTitle', 'name': 'Job title','value': context['currJobTitle']},
             {'field': 'currEmploymentType', 'name': 'Job type','value': context['currEmploymentType']},
-            {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmployerStartDate']},
+            {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmploymentStartDate']},
             {'field': 'currEmployer', 'name': 'Employer name','value': context['currEmployer']},
             {'field': 'currEmployerSuburb', 'name': 'Employer suburb','value': context["currEmployerSuburb"]},
             {'field': 'currEmployerState', 'name': 'Employer state','value': context['currEmployerState']},
             {'field': 'currEmployerPostcode', 'name': 'Employer postcode','value': context['currEmployerPostcode']},
-            {'field': 'accountNumber', 'name': 'AMP account number','value': context['currEmployerSuburb']},
+            {'field': 'accountNumber', 'name': 'AMP account number','value': context['accountNumber']},
         ]
     return [title, template, args]
 
@@ -80,7 +80,7 @@ def breadcrumb_personal_validation(context):
         {'field': 'postalPostcode', 'name': 'Postal postcode','value': context['postalPostcode']},
         {'field': 'currJobTitle', 'name': 'Job title','value': context['currJobTitle']},
         {'field': 'currEmploymentType', 'name': 'Job type','value': context['currEmploymentType']},
-        {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmployerStartDate']},
+        {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmploymentStartDate']},
         {'field': 'currEmployer', 'name': 'Employer name','value': context['currEmployer']},
         {'field': 'currEmployerSuburb', 'name': 'Employer suburb','value': context["currEmployerSuburb"]},
         {'field': 'currEmployerState', 'name': 'Employer state','value': context['currEmployerState']},
