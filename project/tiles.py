@@ -95,7 +95,7 @@ def breadcrumb_personal_validation(context):
 
 ###################### Tile index
 TILES_INDEX = {
-    'node_68_1519021622252': [applicant_details_from_sys],
+    'node_22_1519017849723': [applicant_details_from_sys],
     'slot_50_1519019902036': [applicant_employment_details_from_sys],
     'breadcrumb_Personal': [breadcrumb_personal_validation]
 }
