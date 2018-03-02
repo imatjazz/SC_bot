@@ -102,6 +102,23 @@ function updateBreadcrumb(curr){
 	}
 }
 
+//Lock and unlock the chat input box
+function lockInput(locked){
+	var input = $('#chat-input');
+	if(locked){
+		input.val('');
+		$('#chat-input-wrapper').addClass('locked');
+		input.prop('disabled', true);
+		input.prop('placeholder', 'Please select an option above');
+		$('#chat-submit-btn').hide();
+	}else{
+		$('#chat-input-wrapper').removeClass('locked');
+		input.prop('disabled', false);
+		input.prop('placeholder', 'Send a message...');
+		$('#chat-submit-btn').show();
+	}
+}
+
 /* AJAX queries */
 function getValidationTile(){
 	var breadcrumb = $(this).text().trim();
@@ -134,6 +151,12 @@ function messageSend(message){
 		}
 		//enable input
 		inputEnabled = true;
+		//locked input if locked step
+		if(Object.keys(res).indexOf('locked') > -1){
+			lockInput(res['locked']);
+		}else{
+			lockInput(false);
+		}
 		//remove tiles
 		tilesRemove();
 		//add tiles
@@ -176,4 +199,3 @@ $("#chat-input").keydown(function(event){
 $('#chat-submit-btn').click(messageSubmit);
 $(document).on('click', '.chat-message.chat-button', buttonClick);
 $(document).on('click', '.done-crumb', getValidationTile);
-

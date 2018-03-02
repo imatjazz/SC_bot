@@ -52,7 +52,7 @@ body::after {
 
 /* Chat message area */
 #chat-message-wrapper{
-  height: calc(100vh - 115px - 78.8px);
+  height: calc(100vh - 193.8px);
   padding: 0;
   overflow-y: auto;
 }
@@ -129,6 +129,10 @@ body::after {
     padding-left: 15px;
     border-top: 1px solid #EEF3F6;
     background-color: #eef3f647;
+}
+
+#chat-input-wrapper.locked{
+  background-color: rgba(141, 206, 242, 0.1);
 }
 
 #chat-input{

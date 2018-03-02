@@ -16,12 +16,9 @@
 		{% endfor %}
 	</div>
 	<div id="chat-button-wrapper" class="col-sm-12 col-md-12 col-lg-12">
-		{% for b in buttons %}
-		<div class="chat-message chat-button">{{b}}</div>
-		{% endfor %}
 	</div>
-	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12">
-		<input type="text" id="chat-input" placeholder="Send a message..." />
+	<div id="chat-input-wrapper" class="col-sm-12 col-md-12 col-lg-12 {% if locked %}locked{% endif %}">
+		<input type="text" id="chat-input" placeholder="{% if locked %}Please select an option above{% else %}Send a message...{% endif %}" {% if locked %}disabled{% endif %} />
 		<button id="chat-submit-btn" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
 	</div>
 </div>
@@ -62,6 +59,7 @@
 
 {% block js %}
 <script>
+/* Jinja vars for JS */
 var messageSendURL = "{{ url_for('message') }}";
 var inlineSaveURL = "{{ url_for('inline_save') }}";
 var getValidationTileURL = "{{ url_for('get_validation_tile') }}";
@@ -69,5 +67,9 @@ var breadcrumbs = {{ breadcrumbs | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/inline-save.js') }}"></script>
+<script>
+/* Page load */
+{% if buttons %}buttonsAdd({{buttons|safe}});{% endif %}
+</script>
 {% endblock %}
 
