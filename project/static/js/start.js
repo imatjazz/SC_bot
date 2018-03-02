@@ -56,10 +56,24 @@ function buttonsRemove(){
 
 //click button
 function buttonClick(d){
-	var val = $(this).text();
-	$('#chat-input').val(val);
-	buttonsRemove();
-	messageSubmit();
+	if(!$(this).first().find('.datepicker').length){
+		if($(this).hasClass('chat-button-submit')){
+			$('.datepicker.dropdown-menu').hide();
+			var val = $(this).parent().find('input').val();
+		}else{
+			var val = $(this).text();
+		}
+		
+		$('#chat-input').val(val);
+		buttonsRemove();
+		messageSubmit();
+	}
+}
+
+//enable datepicker on create
+function activateDatePicker(e){
+	e.preventDefault();
+	$(this).datepicker({minViewMode: 'months', maxViewMode: 'decades', format: 'mm/yyyy'});
 }
 
 //update breadcrumb current position
@@ -199,3 +213,5 @@ $("#chat-input").keydown(function(event){
 $('#chat-submit-btn').click(messageSubmit);
 $(document).on('click', '.chat-message.chat-button', buttonClick);
 $(document).on('click', '.done-crumb', getValidationTile);
+$(document).on('mouseenter', '.chat-message.chat-button .datepicker', activateDatePicker);
+$(document).on('click', '.chat-message.chat-button .chat-button-submit', buttonClick);

@@ -104,6 +104,7 @@ body::after {
   cursor: pointer;
   display: inline-block;
   border: 1px solid #81b8d7;
+  background-color: white;
 }
 
 .chat-message.chat-button:hover{
@@ -120,6 +121,12 @@ body::after {
   background: -webkit-linear-gradient(top, rgba(26,118,164,1) 0%,rgba(19,111,161,1) 51%,rgba(26,118,164,1) 90%,rgba(28,97,158,1) 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, rgba(26,118,164,1) 0%,rgba(19,111,161,1) 51%,rgba(26,118,164,1) 90%,rgba(28,97,158,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2175c3', endColorstr='#1c619e',GradientType=0 ); /* IE6-9 */
+}
+
+.chat-message.chat-button .input-group-addon, .chat-button-submit.btn{
+    margin-top: -30px;
+    height: 38px;
+    width: 38px;
 }
 
 /* Chat text input */
@@ -155,14 +162,17 @@ body::after {
    font-style: italic; 
 }
 
-#chat-submit-btn.btn-default{
-  width: 20px;
+#chat-submit-btn.btn-default, .chat-button-submit.btn{
   padding: 0;
   background-color: transparent;
   border: none;
 }
 
-#chat-submit-btn.btn-default:hover{
+#chat-submit-btn.btn-default{
+  width: 20px;
+}
+
+#chat-submit-btn.btn-default:hover, .chat-button-submit.btn:hover{
   border: none;
   background-color: transparent;
   color: #004983;
