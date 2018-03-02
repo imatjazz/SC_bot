@@ -1,5 +1,5 @@
 ###################### Button views ###########################################
-### returns : buttons list, locked flag for chat input locking 
+### returns : buttons list, locked flag for chat input locking
 def purpose_1(context):
     bs = ['New home loan', 'Refinance']
     return bs, False
