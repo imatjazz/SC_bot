@@ -43,12 +43,16 @@ body::after {
 }
 
 #chat-title{
-  padding: 10px 0;
+  padding: /*10px*/ 0;
+}
+
+#chat-title #amp_logo{
+  height: 44px;
 }
 
 /* Chat message area */
 #chat-message-wrapper{
-  height: calc(100vh - 115px - 78.8px);
+  height: calc(100vh - 193.8px);
   padding: 0;
   overflow-y: auto;
 }
@@ -100,6 +104,7 @@ body::after {
   cursor: pointer;
   display: inline-block;
   border: 1px solid #81b8d7;
+  background-color: white;
 }
 
 .chat-message.chat-button:hover{
@@ -118,6 +123,12 @@ body::after {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2175c3', endColorstr='#1c619e',GradientType=0 ); /* IE6-9 */
 }
 
+.chat-message.chat-button .input-group-addon, .chat-button-submit.btn{
+    margin-top: -30px;
+    height: 38px;
+    width: 38px;
+}
+
 /* Chat text input */
 #chat-input-wrapper {
     height: 55px;
@@ -125,6 +136,10 @@ body::after {
     padding-left: 15px;
     border-top: 1px solid #EEF3F6;
     background-color: #eef3f647;
+}
+
+#chat-input-wrapper.locked{
+  background-color: rgba(141, 206, 242, 0.1);
 }
 
 #chat-input{
@@ -147,14 +162,17 @@ body::after {
    font-style: italic; 
 }
 
-#chat-submit-btn.btn-default{
-  width: 20px;
+#chat-submit-btn.btn-default, .chat-button-submit.btn{
   padding: 0;
   background-color: transparent;
   border: none;
 }
 
-#chat-submit-btn.btn-default:hover{
+#chat-submit-btn.btn-default{
+  width: 20px;
+}
+
+#chat-submit-btn.btn-default:hover, .chat-button-submit.btn:hover{
   border: none;
   background-color: transparent;
   color: #004983;
