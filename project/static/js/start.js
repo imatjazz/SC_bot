@@ -56,14 +56,28 @@ function buttonsRemove(){
 
 //click button
 function buttonClick(d){
-	var val = $(this).text();
-	$('#chat-input').val(val);
-	buttonsRemove();
-	messageSubmit();
+	if(!$(this).first().find('.datepicker').length){
+		if($(this).hasClass('chat-button-submit')){
+			$('.datepicker.dropdown-menu').hide();
+			var val = $(this).parent().find('input').val();
+		}else{
+			var val = $(this).text();
+		}
+		
+		$('#chat-input').val(val);
+		buttonsRemove();
+		messageSubmit();
+	}
+}
+
+//enable datepicker on create
+function activateDatePicker(e){
+	e.preventDefault();
+	$(this).datepicker({minViewMode: 'months', maxViewMode: 'decades', format: 'mm/yyyy'});
 }
 
 //update breadcrumb current position
-function updateBreadcrumb(curr){
+function updateBreadcrumb(curr, initial){
 	$('.custom-breadcrumb li').remove();
 	var wrapper = $('.custom-breadcrumb');
 	for(var i = 1; i <= breadcrumbs.length; i++){
@@ -76,7 +90,7 @@ function updateBreadcrumb(curr){
 			crumbHTML[1] = 'in-progress-crumb';
 			var sum = 0;
 			wrapper.children().each( function(){ sum += $(this).width(); console.log($(this).width()) });
-			crumbHTML[3] = 'left: ' + (sum - (i == 1? 0 : 20)) + 'px';
+			crumbHTML[3] = 'left: ' + (sum - (initial && i!=1? 20 : 0)) + 'px';
 		}else if(i%2 == 0){
 			crumbHTML[1] = 'not-started-even-crumb';
 		}else{
@@ -119,6 +133,23 @@ function updateBreadcrumb(curr){
 	}
 }
 
+//Lock and unlock the chat input box
+function lockInput(locked){
+	var input = $('#chat-input');
+	if(locked){
+		input.val('');
+		$('#chat-input-wrapper').addClass('locked');
+		input.prop('disabled', true);
+		input.prop('placeholder', 'Please select an option above');
+		$('#chat-submit-btn').hide();
+	}else{
+		$('#chat-input-wrapper').removeClass('locked');
+		input.prop('disabled', false);
+		input.prop('placeholder', 'Send a message...');
+		$('#chat-submit-btn').show();
+	}
+}
+
 /* AJAX queries */
 function getValidationTile(){
 	var breadcrumb = $(this).text().trim();
@@ -151,6 +182,12 @@ function messageSend(message){
 		}
 		//enable input
 		inputEnabled = true;
+		//locked input if locked step
+		if(Object.keys(res).indexOf('locked') > -1){
+			lockInput(res['locked']);
+		}else{
+			lockInput(false);
+		}
 		//remove tiles
 		tilesRemove();
 		//add tiles
@@ -193,7 +230,11 @@ $("#chat-input").keydown(function(event){
 $('#chat-submit-btn').click(messageSubmit);
 $(document).on('click', '.chat-message.chat-button', buttonClick);
 $(document).on('click', '.done-crumb', getValidationTile);
+$(document).on('mouseenter', '.chat-message.chat-button .datepicker', activateDatePicker);
+$(document).on('click', '.chat-message.chat-button .chat-button-submit', buttonClick);
 
 /*Setup*/
-updateBreadcrumb(breadcrumb_current);
+updateBreadcrumb(breadcrumb_current, true);
+
+
 

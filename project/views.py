@@ -108,8 +108,9 @@ def create_app(debug = False):
         #Current tiles & buttons
         tiles = session['state']['tiles'] if 'state' in session else []
         buttons = session['state']['buttons']  if 'state' in session else []
+        locked = session['state']['locked']  if 'state' in session else False
 
-        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons)
+        return render_template('start.html', breadcrumbs = config.BREADCRUMBS, breadcrumb_current = breadcrumb_current, messages = messages, tiles = tiles, buttons = buttons, locked = locked)
 
     ############# AJAX calls ###############################
     @app.route('/get_validation_tile', methods=['POST'])
@@ -187,14 +188,16 @@ def create_app(debug = False):
 
         #Generate UI bits (tiles, buttons, breadcrumb, message)
         ts = tile_generation(new_context)
-        bs = button_generation(new_context)
+        bs, locked = button_generation(new_context)
+        print(bs, locked)
         breadcrumb_current = breadcrumb_generation(new_context)
         message_send = response['output']['text']
 
         #Save data for session restoration
         if 'state' not in session:
-            session['state'] = {'buttons': [], 'tiles': [], 'breadcrumb': [1, 1]}
+            session['state'] = {'buttons': [], 'locked': False, 'tiles': [], 'breadcrumb': [1, 1]}
         session['state']['buttons'] = bs
+        session['state']['locked'] = locked
         session['state']['tiles'] = ts
         session['state']['breadcrumb'] = breadcrumb_current
         for m in message_send:
@@ -207,6 +210,7 @@ def create_app(debug = False):
         return json.dumps({'message': message_send,
                            'tiles': ts,
                            'buttons': bs,
+                           'locked': locked,
                            'breadcrumb_current': breadcrumb_current})
 
 
@@ -251,11 +255,12 @@ def create_app(debug = False):
 
         current_node = context['system']['dialog_stack'][0]['dialog_node']
         if current_node not in buttons.BUTTONS_INDEX.keys():
-            return []
+            return [], False
 
         button_path = buttons.BUTTONS_INDEX[current_node]
-        bs = button_path(context)
-        return bs
+        bs, locked = button_path(context)
+        print(bs, locked)
+        return bs, locked
 
     ###################### Tile ###########################################
     def tile_generation(context, special = None):
