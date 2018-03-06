@@ -13,7 +13,7 @@ WATSON_PASSWORD='DGm2hKYjVnV3'
 WATSON_VERSION='2018-02-16'
 WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
 
-VALIDATEABLE_FIELDS = ['node_22_1519017849723', 'node_68_1519021622252', 'node_35_1519792742214', 'node_30_1519792519750']
+VALIDATEABLE_FIELDS = ['node_31_1519018934185', 'node_22_1519017849723', '[applicant_details_from_sys]', 'node_68_1519021622252', 'node_35_1519792742214', 'node_30_1519792519750']
 
 #TODO finalise breadcrumb nodes
 BREADCRUMBS = [
@@ -25,12 +25,12 @@ BREADCRUMBS = [
          {'name': 'Additional Applicant', 'node_id': 'node_11_1519788933308'}
     ]
   },
-  {'name': 'Financials', 'node_id': 'node_7_1519942056511',
+  {'name': 'Financials', 'node_id': 'node_1_1520204741645',
     'sub': [
-      {'name': 'Assets', 'node_id': 'null'},
-      {'name': 'Liabilities', 'node_id': 'null'},
-      {'name': 'Expenses', 'node_id': 'null'},
-      {'name': 'Funds position', 'node_id': 'null'}
+      {'name': 'Assets', 'node_id': 'node_1_1520204741645'},
+      {'name': 'Liabilities', 'node_id': 'node_1_1520204741645'},
+      {'name': 'Expenses', 'node_id': 'node_1_1520204741645'},
+      {'name': 'Funds position', 'node_id': 'node_1_1520204741645'}
     ]
   },
   {'name': 'Loan requirements', 'node_id': 'null',
