@@ -167,14 +167,14 @@ body::after {
   margin-left: 5px;
   width: calc(66.66666% - 16px);
 }
-/* Breadcrumb */
+/* Breadcrumb - hacky as hell, try not to change this */
 
 .custom-breadcrumb {
   list-style: none;
   display: inline-block;
   padding: 0;
   margin: 0;
-  margin-top: 10.5px;
+  margin-top: 13.5px;
 }
 .custom-breadcrumb li {
   font-size: 0.8em;
@@ -191,7 +191,6 @@ body::after {
   line-height: 40px;
   padding: 0 10px 0 5px;
   text-align: center;
-  margin-right: 23px;
 }
 .custom-breadcrumb li.crumb a {
   margin-top: 5px;
@@ -205,17 +204,10 @@ body::after {
     color: green;
     vertical-align: text-top;
 }
-.custom-breadcrumb li.sub-crumb a:before, .custom-breadcrumb li.sub-crumb a:after {
+.custom-breadcrumb li.crumb a{
   border-width: 25px 10px;
 }
-.custom-breadcrumb li:first-child a {
-  padding-left: 15px;
-  border-radius: 0;
-}
-.custom-breadcrumb li:first-child a:before {
-  border: none;
-}
-.custom-breadcrumb li a:before, .custom-breadcrumb li a:after {
+.custom-breadcrumb li.sub-crumb a:before, .custom-breadcrumb li.sub-crumb a:after {
   content: "";
   position: absolute;
   top: 0;
@@ -224,39 +216,97 @@ body::after {
   width: 0;
   height: 0;
 }
-.custom-breadcrumb li a:before {
+.custom-breadcrumb li.sub-crumb a:before {
   left: -20px;
   border-left-color: transparent;
 }
-.custom-breadcrumb li a:after {
+.custom-breadcrumb li.sub-crumb a:after {
   left: 100%;
   border-color: transparent;
   border-left-color: white;
 }
-.custom-breadcrumb li.in-progress-crumb a {
-  background-color:  #007DBE;
-  color: white;
-  margin-right: 27px;
+.custom-breadcrumb li.sub-crumb a:before, .custom-breadcrumb li.sub-crumb a:after {
+  border-width: 25px 10px;
 }
-.custom-breadcrumb li.in-progress-crumb a:before {
-  border-color:#007DBE;
-  border-left-color: transparent;
+.custom-breadcrumb li.sub-crumb.first a {
+  padding-left: 15px;
+  border-radius: 0;
 }
-.custom-breadcrumb li.in-progress-crumb a:after {
-  border-left-color:#007DBE;
+.custom-breadcrumb li.sub-crumb.first a:before {
+  border: none;
 }
 
-.custom-breadcrumb li.done-crumb a:hover {
+.custom-breadcrumb li.crumb{
+  float: left;
+  margin: 0 .5em 0 1em;
+}
+
+.custom-breadcrumb li.crumb a{
+  padding: .7em 1em;
+  float: left;
+  text-decoration: none;
+  color: #444;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+  position: relative;
+  line-height: 1.5em;
+  font-style: italic; 
+}
+
+.custom-breadcrumb li.crumb a:before,
+.custom-breadcrumb li.crumb a:after{
+  content:'';
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  width: 1em;
+  background: white;
+  transform: skew(-10deg);  
+}
+
+.custom-breadcrumb li.crumb a:before{
+
+  left: -.5em;
+  border-radius: 5px 0 0 5px;
+}
+
+.custom-breadcrumb li.crumb a:after{
+  right: -.5em;   
+  border-radius: 0 5px 5px 0;
+}
+
+.custom-breadcrumb li.crumb.in-progress-crumb a,
+.custom-breadcrumb li.crumb.in-progress-crumb a:before,
+.custom-breadcrumb li.crumb.in-progress-crumb a:after {
+  background-color: transparent;
+  color: black;
+  text-shadow: 0px 0px black;
+}
+
+.custom-breadcrumb li.crumb.in-progress-crumb{
+  position: absolute;
+  top: 2px;
+  height: 5px;
+  margin: 0;
+  padding: 0;
+}
+.custom-breadcrumb li.crumb.in-progress-crumb a {
+  padding: 0;
+  margin: 0;
+  line-height: 10px;
+  height: 10px;
+  width: 100px;
+  text-align: left;
+}
+
+.custom-breadcrumb li.crumb.done-crumb a{
+  margin-right: 27px;
+}
+.custom-breadcrumb li.crumb.done-crumb a:hover, 
+.custom-breadcrumb li.crumb.done-crumb a:hover:before, 
+.custom-breadcrumb li.crumb.done-crumb a:hover:after {
   cursor: pointer;
   background-color: #00aae0;
   color: white;
-}
-.custom-breadcrumb li.done-crumb a:hover:before {
-  border-color:#00aae0;
-  border-left-color: transparent;
-}
-.custom-breadcrumb li.done-crumb a:hover:after {
-  border-left-color:#00aae0;
 }
 
 .custom-breadcrumb li.sub-crumb{
@@ -265,6 +315,9 @@ body::after {
 
 .custom-breadcrumb li.sub-crumb a {
   background-color: white;
+}
+.custom-breadcrumb li.sub-crumb.last a {
+  margin-right: 10px;
 }
 .custom-breadcrumb li.sub-crumb a:before {
   border-color: white;
@@ -296,6 +349,23 @@ body::after {
 .custom-breadcrumb li.sub-done-crumb a:after {
   border-left-color:#001e41;
 }
+
+.custom-breadcrumb li.crumb.disabled-crumb a,
+.custom-breadcrumb li.crumb.disabled-crumb a:before,
+.custom-breadcrumb li.crumb.disabled-crumb a:after,
+.custom-breadcrumb li.sub-crumb.disabled-crumb a{
+  background-color: #CCD2D9;
+  color: #9C9E9F;
+}
+
+.custom-breadcrumb li.sub-crumb.disabled-crumb a:before{
+  border-color:#CCD2D9;
+  border-left-color: transparent;
+}
+.custom-breadcrumb li.sub-crumb.disabled-crumb a:after{
+  border-left-color:#CCD2D9;
+}
+
 
 /* Tiles */
 #tile-wrapper {

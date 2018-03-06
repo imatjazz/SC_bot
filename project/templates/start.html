@@ -28,25 +28,6 @@
 <div id="additional-wrapper" class="main col-md-8 col-lg-8 col-sm-12">
 	<div id="breadcrumb-wrapper" class="row">
 		<ul class="custom-breadcrumb">
-			{% for crumb in breadcrumbs %}
-				{% if loop.index == breadcrumb_current[0] %}
-					{% for subcrumb in crumb.sub %}
-						<li class="sub-crumb 
-						{% if loop.index < breadcrumb_current[1] %}sub-done-crumb
-						{% elif loop.index == breadcrumb_current[1] %}sub-in-progress-crumb
-						{% elif loop.index % 2 == 0 %}sub-not-started-even-crumb
-						{% else %}sub-not-started-odd-crumb{% endif %}
-						"><a>{{ subcrumb.name }}</a></li>
-					{% endfor %}
-				{% else %}
-					<li class="crumb 
-					{% if loop.index < breadcrumb_current[0] %}done-crumb
-					{% elif loop.index == breadcrumb_current[0] %}in-progress-crumb
-					{% elif loop.index % 2 == 0 %}not-started-even-crumb
-					{% else %}not-started-odd-crumb{% endif %}
-					"><a>{{ crumb.name }} {% if loop.index < breadcrumb_current[0] %}<i class="fa fa-check fa-green"></i>{% endif %}</a></li>
-				{% endif %}
-			{% endfor %}
 		</ul>
 	</div>
 	<div id="tile-wrapper" class="row">
@@ -66,6 +47,7 @@ var messageSendURL = "{{ url_for('message') }}";
 var inlineSaveURL = "{{ url_for('inline_save') }}";
 var getValidationTileURL = "{{ url_for('get_validation_tile') }}";
 var breadcrumbs = {{ breadcrumbs | safe }};
+var breadcrumb_current = {{ breadcrumb_current | safe }};
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/start.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/inline-save.js') }}"></script>

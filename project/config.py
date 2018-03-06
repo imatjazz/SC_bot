@@ -21,15 +21,13 @@ BREADCRUMBS = [
     'sub': [
          {'name': 'Personal details', 'node_id': 'root'},
          {'name': 'Addresses', 'node_id': 'node_79_1519796324896'},
-         {'name': 'Employment', 'node_id': 'node_6_1519866498803'},
-         {'name': 'Additional Applicant', 'node_id': 'node_11_1519788933308'}
+         {'name': 'Employment', 'node_id': 'node_6_1519866498803'}
     ]
   },
   {'name': 'Financials', 'node_id': 'node_4_1519788481826',
     'sub': [
-      {'name': 'Assets', 'node_id': 'null'},
-      {'name': 'Liabilities', 'node_id': 'null'},
-      {'name': 'Expenses', 'node_id': 'null'},
+      {'name': 'Assets & Liabilities', 'node_id': 'null'},
+      {'name': 'Expenses', 'node_id': 'null', 'disabled': 'true'},
       {'name': 'Funds position', 'node_id': 'null'}
     ]
   },
@@ -37,13 +35,13 @@ BREADCRUMBS = [
     'sub': [
       {'name': 'Purpose', 'node_id': 'null'},
       {'name': 'Loan structure', 'node_id': 'null'},
-      {'name': 'Offset', 'node_id': 'null'},
-      {'name': 'Master Limit', 'node_id': 'null'},
-      {'name': 'LMI', 'node_id': 'null'},
-      {'name': 'SRG', 'node_id': 'null'}
+      {'name': 'Master Limit', 'node_id': 'null', 'disabled': 'true'},
+      {'name': 'LMI', 'node_id': 'null', 'disabled': 'true'},
+      {'name': 'SRG', 'node_id': 'null', 'disabled': 'true'}
     ]
   },
   {'name': 'Additional', 'node_id': 'null',
+    'disabled': 'true',
     'sub': [
       {'name': 'Security', 'node_id': 'null'},
       {'name': 'Solicitor', 'node_id': 'null'},
@@ -52,6 +50,7 @@ BREADCRUMBS = [
     ]
   },
   {'name': 'Privacy', 'node_id': 'null',
+    'disabled': 'true',
     'sub': [
       {'name': 'Loan requirements', 'node_id': 'null'},
       {'name': 'Identification', 'node_id': 'null'},

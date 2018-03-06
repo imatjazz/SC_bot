@@ -68,18 +68,25 @@ function updateBreadcrumb(curr){
 	var wrapper = $('.custom-breadcrumb');
 	for(var i = 1; i <= breadcrumbs.length; i++){
 		var crumb = breadcrumbs[i-1];
-		var crumbHTML = ['<li class="crumb ', 'done-crumb','"><a>', crumb['name'], '</a></li>'];
+		var crumbHTML = ['<li class="crumb ', 'done-crumb','" style="', '', '"><a>', crumb['name'], '</a></li>'];
 		if(i < curr[0]) {
 			crumbHTML[1] = 'done-crumb';
-			crumbHTML[3] += ' <i class="fa fa-check fa-green"></i>'
+			crumbHTML[5] += ' <i class="fa fa-check fa-green"></i>'
 		}else if(i == curr[0]){
 			crumbHTML[1] = 'in-progress-crumb';
+			var sum = 0;
+			wrapper.children().each( function(){ sum += $(this).width(); console.log($(this).width()) });
+			crumbHTML[3] = 'left: ' + (sum - (i == 1? 0 : 20)) + 'px';
 		}else if(i%2 == 0){
 			crumbHTML[1] = 'not-started-even-crumb';
 		}else{
 			crumbHTML[1] = 'not-started-odd-crumb';
 		}
+		if(Object.keys(crumb).indexOf('disabled') > -1 && crumb['disabled'] == 'true'){
+			crumbHTML[1] = 'disabled-crumb';
+		}
 
+		wrapper.append(crumbHTML.join(''));
 		if(i == curr[0]){
 			var subBreadcrumbs = crumb['sub'];
 			for(var j = 1; j <= subBreadcrumbs.length; j++){
@@ -87,6 +94,7 @@ function updateBreadcrumb(curr){
 				var subCrumbHTML = ['<li class="sub-crumb ', 'sub-done-crumb','"><a>', subCrumb['name'], '</a></li>'];
 				if(j < curr[1]) {
 					subCrumbHTML[1] = 'sub-done-crumb';
+					subCrumbHTML[3] += ' <i class="fa fa-check fa-green"></i>'
 				}else if(j == curr[1]){
 					subCrumbHTML[1] = 'sub-in-progress-crumb';
 				}else if(j%2 == 0){
@@ -94,10 +102,19 @@ function updateBreadcrumb(curr){
 				}else{
 					subCrumbHTML[1] = 'sub-not-started-odd-crumb';
 				}
+				if(Object.keys(subCrumb).indexOf('disabled') > -1 && subCrumb['disabled'] == 'true'){
+					subCrumbHTML[1] = 'disabled-crumb';
+				}
+				
+				if(j == subBreadcrumbs.length){
+					subCrumbHTML[1] += ' last';
+				}
+				if(i == 1 && j == 1){
+					subCrumbHTML[1] += ' first';
+				}
+				
 				wrapper.append(subCrumbHTML.join(''));
 			}
-		}else{
-			wrapper.append(crumbHTML.join(''));
 		}
 	}
 }
@@ -176,4 +193,7 @@ $("#chat-input").keydown(function(event){
 $('#chat-submit-btn').click(messageSubmit);
 $(document).on('click', '.chat-message.chat-button', buttonClick);
 $(document).on('click', '.done-crumb', getValidationTile);
+
+/*Setup*/
+updateBreadcrumb(breadcrumb_current);
 
