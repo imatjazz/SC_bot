@@ -77,10 +77,10 @@ def breadcrumb_personal_validation(context):
     if 'prevResidentialAddress' in context.keys():
         args += [
             {'field': 'prevResidentialAddress', 'name': 'Previous residential street address','value': context['prevResidentialAddress']},
-            {'field': 'prevResidentialSuburb', 'name': 'Previous residential suburb','value': context['prevResidentialSuburb']},
-            {'field': 'prevResidentialPostcodeState', 'name': 'Previous residential postcode','value': context['prevResidentialPostcodeState']},
-            {'field': 'prevResidentialPostcode', 'name': 'Previous residential postcode','value': context['prevResidentialPostcode']},
-            {'field': 'prevAddresslDateStart', 'name': 'Previous residential postcode','value': context['prevAddresslDateStart']},
+            {'field': 'prevResidentialAddressSuburb', 'name': 'Previous residential suburb','value': context['prevResidentialAddressSuburb']},
+            {'field': 'prevResidentiaAddresslPostcodeState', 'name': 'Previous residential postcode','value': context['prevResidentialAddressPostcodeState']},
+            {'field': 'prevResidentialAddressPostcode', 'name': 'Previous residential postcode','value': context['prevResidentialAddressPostcode']},
+            {'field': 'prevAddressDateStart', 'name': 'Previous residential postcode','value': context['prevAddressDateStart']},
         ]
     args += [
         {'field': 'currJobTitle', 'name': 'Job title','value': context['currJobTitle']},

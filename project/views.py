@@ -105,7 +105,6 @@ def create_app(debug = False):
 
         #Breadcrumb
         breadcrumb_current = session['state']['breadcrumb'] if 'state' in session else [1, 1] #this is 1 indexed, not 0 indexed!
-
         #Current tiles & buttons
         tiles = session['state']['tiles'] if 'state' in session else []
         buttons = session['state']['buttons']  if 'state' in session else []
