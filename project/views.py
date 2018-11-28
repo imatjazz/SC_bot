@@ -31,6 +31,17 @@ Me = api.Watson()
 #Major HACK HACK HACK
 #######################
 
+###################### Store Session Info ################################
+
+def store_conversation(sessionInfo):
+   
+    sessionInfo = sessionInfo["dialog"]
+    print("*********************** History Info ************************")
+   
+    print(sessionInfo)
+    print("************************************ ************************")
+    return sessionInfo
+##########################################################################
 
 ############################### Init ################################
 def create_app(debug = False):
@@ -45,6 +56,7 @@ def create_app(debug = False):
     DIR_ROOT = os.path.dirname(os.path.abspath(inspect.getfile(
         inspect.currentframe())))
     STATIC_ROOT = DIR_ROOT + '/static/'
+    print('STATIC_ROOT: ' + STATIC_ROOT)
 
     #imported loop controls for a feature in development, not used at the moment - delete if not needed.
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
@@ -202,6 +214,13 @@ def create_app(debug = False):
         session['state']['breadcrumb'] = breadcrumb_current
         for m in message_send:
             session['dialog'].append({'who': 'bot', 'message': m})
+
+        info = store_conversation(session) 
+        print("**********")
+        print(info)
+        print("**********")
+        
+
         #Log to audit log
         LogEntry(user_name = current_user.user_name, event_type = 'response sent').save()
         api.print_entities(response['entities'])
@@ -290,8 +309,8 @@ def create_app(debug = False):
         return User.query.get(user_name)
 
     ###################### Registration helper ##################################
-    @app.route('/register/<string:uname>/<string:upass>')
-    def register(uname = 'csuder1', upass= 'password'):
+    @app.route('/register/<string:uname>/<string:upass>')   # follow the route to register for new user
+    def register(uname = 'td', upass= 'password'):
         """
         Register a user in the DB with a username and password
         """

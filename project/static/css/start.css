@@ -2,7 +2,7 @@
 
 body::after {
   content: "";
-  background: url('../img/background.jpg') #EEF8FD;
+  background: url('../img/bg11.jpeg') rgb(131, 202, 238); 
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -39,7 +39,7 @@ body::after {
 
 /* Chat title */
 #chat-title-wrapper{
-  background-color: #8DCEF2;
+  background-color: rgb(256, 188, 188);
 }
 
 #chat-title{
@@ -103,8 +103,10 @@ body::after {
   margin-right: 0;
   cursor: pointer;
   display: inline-block;
-  border: 1px solid #81b8d7;
+  border: 1.5px solid #76c6f5;
   background-color: white;
+  padding: 1.5%;
+  align-items: center;
 }
 
 .chat-message.chat-button:hover{
@@ -345,15 +347,15 @@ body::after {
   border-left-color: white;
 }
 .custom-breadcrumb li.sub-in-progress-crumb a {
-  background-color: #007DBE;
+  background-color: #001e41;
   color: white;
 }
 .custom-breadcrumb li.sub-in-progress-crumb a:before {
-  border-color: #007DBE;
+  border-color: #001e41;
   border-left-color: transparent;
 }
 .custom-breadcrumb li.sub-in-progress-crumb a:after {
-  border-left-color: #007DBE;
+  border-left-color: #001e41;
 }
 
 .custom-breadcrumb li.sub-done-crumb a {
@@ -433,14 +435,7 @@ body::after {
   vertical-align: middle;
 }
 
-.tile-body .table > thead > tr > th, 
-.tile-body .table > tbody > tr > th, 
-.tile-body .table > tfoot > tr > th, 
-.tile-body .table > thead > tr > td, 
-.tile-body .table > tbody > tr > td, 
-.tile-body .table > tfoot > tr > td{
-  padding: 0;
-}
+
 
 .tile-body td.editable input{
   background-color: transparent;

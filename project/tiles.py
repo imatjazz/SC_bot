@@ -1,109 +1,40 @@
 ###################### Tile views ###########################################
-def applicant_details_from_sys(context):
-    productType = context['productType']
-    employment = context['prevEmploymentType'] if 'prevEmploymentType' in context.keys() else None
-    # if employment is not None:
-    #     # template = 'tiles/applicant_employment_details_full.html'
-    #     # args = {'employmentTypePrevious': context['employmentTypePrevious'], 'businessDescription': context['businessDescription']}
-    #     # title = 'Please validate your employment history'
-    #     template = 'tiles/validation_table.html'
-    #     title = 'Please validate your employment history'
-    #     args = [
-    #         {'field': 'prevEmploymentType', 'name': 'Previous job type','value': context['prevEmploymentType']},
-    #         {'field': 'prevEmploymentBusinessDescription', 'name': 'Previous employer/industry of business','value': context['prevEmploymentBusinessDescription']},
-    #         {'field': 'prevEmploymentDateStart', 'name': 'Previous employment start','value': context['prevEmploymentDateStart']},
-    #         {'field': 'prevEmploymentDateEnd', 'name': 'Previous employment end','value': context['prevEmploymentDateEnd']},
-    #     ]
-    # else:
-    template = 'tiles/validation_table.html'
-    title = 'Please validate your details'
+def more_info_ASA700(context):
+    template = 'tiles/ASA_table.html'
+    title = 'ASA Tables'
     args = [
-        {'field': 'title', 'name': 'Title','value': context['title']},
-        {'field': 'firstName', 'name': 'First name','value': context['firstName']},
-        {'field': 'middleNames', 'name': 'Middle name(s)','value': context['middleNames']},
-        {'field': 'surname', 'name': 'Last name','value': context['surname']},
-        {'field': 'previousNames', 'name': 'Previous names','value': context['previousNames']},
-        {'field': 'dateOfBirth', 'name': 'Date of birth','value': context['dateOfBirth']},
-        {'field': 'gender', 'name': 'Gender','value': context['gender']},
-        {'field': 'driversLicence', 'name': 'Driver\'s license','value': context['driversLicence']},
-        {'field': 'contactNumber', 'name': 'Contact phone','value': context['contactNumber']},
-        {'field': 'mobileNumber', 'name': 'Mobile phone','value': context['mobileNumber']},
-        {'field': 'email', 'name': 'Email','value': context['email']},
-        {'field': 'residentialAddress', 'name': 'Residential street address','value': context['residentialAddress']},
-        {'field': 'residentialSuburb', 'name': 'Residential suburb','value': context['residentialSuburb']},
-        {'field': 'residentialState', 'name': 'Residential state','value': context['residentialState']},
-        {'field': 'residentialPostcode', 'name': 'Residential postcode','value': context['residentialPostcode']},
-        {'field': 'postalAddress', 'name': 'Postal street address','value': context['postalAddress']},
-        {'field': 'postalSuburb', 'name': 'Postal suburb','value': context['postalSuburb']},
-        {'field': 'postalState', 'name': 'Postal state','value': context['postalState']},
-        {'field': 'postalPostcode', 'name': 'Postal postcode','value': context['postalPostcode']},
-        {'field': 'currJobTitle', 'name': 'Job title','value': context['currJobTitle']},
-        {'field': 'currEmploymentType', 'name': 'Job type','value': context['currEmploymentType']},
-        {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmploymentStartDate']},
-        {'field': 'currEmployer', 'name': 'Employer name','value': context['currEmployer']},
-        {'field': 'currEmployerSuburb', 'name': 'Employer suburb','value': context['currEmployerSuburb']},
-        {'field': 'currEmployerState', 'name': 'Employer state','value': context['currEmployerState']},
-        {'field': 'currEmployerPostcode', 'name': 'Employer postcode','value': context['currEmployerPostcode']},
-        {'field': 'accountNumber', 'name': 'AMP account number','value': context['accountNumber']},
+        {'standard': 'ASA 700', 
+        'example':'Public and large pty reporting entities, other entities using GP framework', 
+        'applicableManuals': 'KAM, Australian Standard Reports Manual',
+        'engagementToolLocation': 'Public & Large Pty, Regulatory/MIS/Financial reports'
+        },
+        {'standard': 'ASA 800', 
+        'example':'Public and large pty reporting entities, other entities using GP framework', 
+        'applicableManuals': 'KAM, Australian Standard Reports Manual',
+        'engagementToolLocation': 'Public & Large Pty, Regulatory/MIS/Financial reports'
+        }
     ]
     return [title, template, args]
 
-def applicant_employment_details_from_sys(context):
-    template = 'tiles/applicant_employment_details_from_sys.html'
-    title = 'Your employment history'
-    args = {'currEmployer': context['currEmployer'],
-            'currEmploymentStartDate': context['currEmploymentStartDate'],
-            'currJobTitle': context['currJobTitle'],
-            'currEmploymentType': context['currEmploymentType'],
-            'currEmployerAddress': context['currEmployerAddress']}
-
-    return [title, template, args]
-
-## Breadcrumb validation tiles
-def breadcrumb_personal_validation(context):
-    template = 'tiles/validation_table.html'
-    title = 'Personal details'
+def more_info_assurance_type(context):
+    template = 'tiles/more_info.html'
+    title = 'Reasonable vs Limited Assurance Engagement'
     args = [
-        {'field': 'borrowerType', 'name': 'Borrower type','value': context['borrowerType']},
-        {'field': 'applicantType', 'name': 'Applicant type','value': context['applicantType']},
-        {'field': 'maritalStatus', 'name': 'Marital status','value': context['maritalStatus']},
-        {'field': 'dependants', 'name': 'Number of Dependants','value': context['dependants']},
-        {'field': 'residentialAddress', 'name': 'Residential street address','value': context['residentialAddress']},
-        {'field': 'residentialSuburb', 'name': 'Residential suburb','value': context['residentialSuburb']},
-        {'field': 'residentialState', 'name': 'Residential state','value': context['residentialState']},
-        {'field': 'residentialPostcode', 'name': 'Residential postcode','value': context['residentialPostcode']},
+        {'Assurance Type': 'Reasonable', 
+        'example':'Public and large pty reporting entities, other entities using GP framework', 
+        'applicableManuals': 'KAM, Australian Standard Reports Manual',
+        'engagementToolLocation': 'Public & Large Pty, Regulatory/MIS/Financial reports'
+        },
+        {'Assurance Type': 'Limited', 
+        'example':'Public and large pty reporting entities, other entities using GP framework', 
+        'applicableManuals': 'KAM, Australian Standard Reports Manual',
+        'engagementToolLocation': 'Public & Large Pty, Regulatory/MIS/Financial reports'
+        }
     ]
-
-    if 'prevResidentialAddress' in context.keys():
-        args += [
-            {'field': 'prevResidentialAddress', 'name': 'Previous residential street address','value': context['prevResidentialAddress']},
-            {'field': 'prevResidentialAddressSuburb', 'name': 'Previous residential suburb','value': context['prevResidentialAddressSuburb']},
-            {'field': 'prevResidentiaAddresslPostcodeState', 'name': 'Previous residential postcode','value': context['prevResidentialAddressPostcodeState']},
-            {'field': 'prevResidentialAddressPostcode', 'name': 'Previous residential postcode','value': context['prevResidentialAddressPostcode']},
-            {'field': 'prevAddressDateStart', 'name': 'Previous residential postcode','value': context['prevAddressDateStart']},
-        ]
-    args += [
-        {'field': 'currJobTitle', 'name': 'Job title','value': context['currJobTitle']},
-        {'field': 'currEmploymentType', 'name': 'Job type','value': context['currEmploymentType']},
-        {'field': 'currEmployerStartDate', 'name': 'Start date (YYYY-MM-DD)','value': context['currEmploymentStartDate']},
-        {'field': 'currEmployer', 'name': 'Employer name','value': context['currEmployer']},
-        {'field': 'currEmployerSuburb', 'name': 'Employer suburb','value': context['currEmployerSuburb']},
-        {'field': 'currEmployerState', 'name': 'Employer state','value': context['currEmployerState']},
-        {'field': 'currEmployerPostcode', 'name': 'Employer postcode','value': context['currEmployerPostcode']},
-        {'field': 'accountNumber', 'name': 'AMP account number','value': context['accountNumber']},
-    ]
-    if 'prevEmploymentType' in context.keys():
-        args += [
-            {'field': 'prevEmploymentType', 'name': 'Previous job type','value': context['prevEmploymentType']},
-            {'field': 'prevEmploymentBusinessDescription', 'name': 'Previous employer/industry of business','value': context['prevEmploymentBusinessDescription']},
-            {'field': 'prevEmploymentDateStart', 'name': 'Previous employment start','value': context['prevEmploymentDateStart']},
-            {'field': 'prevEmploymentDateEnd', 'name': 'Previous employment end','value': context['prevEmploymentDateEnd']},
-        ]
     return [title, template, args]
 
 ###################### Tile index
 TILES_INDEX = {
-    'node_31_1519018934185' : [applicant_details_from_sys],
-    'node_6_1519866498803': [applicant_employment_details_from_sys],
-    'node_22_1519779685385': [breadcrumb_personal_validation]
+    'node_1_1521069602168' : [more_info_assurance_type],
+    'node_1_1520902465516': [more_info_ASA700]
 }

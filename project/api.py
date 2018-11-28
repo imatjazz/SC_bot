@@ -7,8 +7,9 @@ import re
 import datetime as dt
 
 #Local libraries
-from project import config
-from project.dbmodel import CRM, FormDB
+# from project import config
+import config
+# from project.dbmodel import CRM, FormDB
 
 
 
@@ -25,7 +26,8 @@ class Watson(watson.ConversationV1):
         response = self.message(
             workspace_id=config.WATSON_WORKPLACE_ID,
             input={'text': str(query)},
-            context=context)
+            context=context
+        )
         return response
 
 
@@ -67,7 +69,9 @@ def retrive_cached_context(session):
         context = session['context']
     except KeyError as e:
         context = None
-        print(e)                                                                #TODO log exception
+        
+        print(e)         
+                                                                                #TODO log exception
     return context
 
 
@@ -76,6 +80,9 @@ def cache_context(context, session):
     pass
 
 def log_response(response):
+    print("===============================")
+    print(response)
+    print("###############################")
     pass
 
 def update_form_DB(context, uname):

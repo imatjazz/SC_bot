@@ -20,3 +20,4 @@ SQLAlchemy==1.2.2
 urllib3==1.22
 watson-developer-cloud==1.0.2
 Werkzeug==0.14.1
+gunicorn==19.3.0

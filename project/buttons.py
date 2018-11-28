@@ -40,27 +40,33 @@ def repayment_type(context):
     bs = ['Principal & Interest', 'Interest Only']
     return bs, False
 
+# ASA bot 
+def assurance_type(context):
+    bs = ['Reasonable', 'Limited']
+    return bs, True
+
+def yes_or_no(context):
+    bs = ['Yes', 'No']
+    return bs, True
+
+def yes_or_no_otheronly(context):
+    bs = ['Yes, its a combination', 'No, other info only']
+    return bs, True
+
+def assurance_type_moreInfo(context):
+    bs = ['Reasonable', 'Limited', 'More Information']
+    return bs, False
+
+def end_conversation(context):
+    bs = ['Yes, I have more question', 'No, thats all.']
+    return bs, False
 
 ##################### Buttons index ##########################################
 BUTTONS_INDEX = {
-    'root': purpose_1,
-    'slot_23_1519017868184': purpose_1,
-    'slot_90_1519083513311': type_of_borrower,
-    'node_7_1519188615948': personal_details_redirect,
-    'node_20_1519017279147': type_of_applicant,
-    'node_6_1519866498803': employment_type,
-    'slot_50_1519019902036': employment_type,
-    'node_23_1519782186402': marital_status,
-    'node_79_1519796324896': calendar_one,
-    'node_11_1519775732721': calendar_one,
-    'node_1_1520204741645': loan_purpose,
-    'slot_3_1520205669786': loan_purpose,
-    'slot_7_1520205884325': loan_purpose,
-    'node_14_1519789207619': primary_purpose,
-    'node_23_1519790232269': product_type,
-    'slot_19_1520225026182': product_type,
-    'node_18_1520224926068': interest_type,
-    'slot_28_1520225452278': interest_type,
-    'node_26_1520225384213': repayment_type,
-    'slot_39_1520225912958': repayment_type,
+    #'node_5_1520314268627': assurance_type_moreInfo,
+    'node_8_1520395975530': yes_or_no,
+    'node_9_1520396160695': yes_or_no,
+    'node_1_1520384004385':yes_or_no_otheronly,
+    'node_1_1521069602168':assurance_type
+
 }

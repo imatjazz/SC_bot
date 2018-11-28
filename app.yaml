@@ -1,0 +1,33 @@
+runtime: python
+env: flex
+
+runtime_config:
+    python_version: 3
+
+# api_version: 1
+# threadsafe: false
+
+entrypoint: gunicorn -b :$PORT runserver:app
+# entrypoint: python runserver.py
+
+# handlers:
+# - url: /
+#   script: auto
+
+
+# - url: /index\.html
+#   script: home.app
+
+# - url: /stylesheets
+#   static_dir: stylesheets
+
+# - url: /(.*\.(gif|png|jpg))$
+#   static_files: static/\1
+#   upload: static/.*\.(gif|png|jpg)$
+
+# - url: /admin/.*
+#   script: admin.app
+#   login: admin
+
+# - url: /.*
+#   script: not_found.app

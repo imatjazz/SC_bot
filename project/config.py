@@ -6,65 +6,33 @@
     Flask app config.
 """
 HOST = '127.0.0.1'
-PORT = 8080
+PORT = 9999
 DEBUG = True
-WATSON_USERNAME='601885ca-73d2-4cfa-aefd-07d1c3f3401a'
-WATSON_PASSWORD='DGm2hKYjVnV3'
+
+# FairValue Bot
+WATSON_USERNAME= 'a3f43306-bc4a-4637-978d-2f442fc52395'
+WATSON_PASSWORD= 'T6IyGv4zTZfG' 
 WATSON_VERSION='2018-02-16'
-WATSON_WORKPLACE_ID = '281b119d-0c8c-471b-885d-313507c967ae'
+WATSON_WORKPLACE_ID = 'cfe80d70-dd0b-48a7-a11d-21a67827bdca' 
+
+# ASA Bot
+# WATSON_USERNAME= 'a3f43306-bc4a-4637-978d-2f442fc52395'#'601885ca-73d2-4cfa-aefd-07d1c3f3401a'
+# WATSON_PASSWORD= 'T6IyGv4zTZfG'#'DGm2hKYjVnV3'
+# WATSON_VERSION='2018-02-16'
+# WATSON_WORKPLACE_ID = 'ae8ddb74-7201-481a-ba2b-9698f58459bd' #'281b119d-0c8c-471b-885d-313507c967ae'
+
+# WATSON_USERNAME= 'b2d05851-c9f9-424e-964f-343be7b48fd9'
+# WATSON_PASSWORD= 'BoDxQM57T0OR'
+# WATSON_VERSION='2018-02-16'
+# WATSON_WORKPLACE_ID = 'ae8ddb74-7201-481a-ba2b-9698f58459bd' #'281b119d-0c8c-471b-885d-313507c967ae'
 
 VALIDATEABLE_FIELDS = ['node_31_1519018934185', 'node_22_1519017849723', '[applicant_details_from_sys]', 'node_68_1519021622252', 'node_35_1519792742214', 'node_30_1519792519750']
 
 #TODO finalise breadcrumb nodes
 BREADCRUMBS = [
-  {'name': 'Personal', 'node_id': 'root',
+  {'name': 'Information', 'node_id': 'root',
     'sub': [
-         {'name': 'Personal details', 'node_id': 'root'},
-         {'name': 'Addresses', 'node_id': 'node_79_1519796324896'},
-         {'name': 'Employment', 'node_id': 'node_6_1519866498803'}
-    ]
-  },
-  {'name': 'Financials', 'node_id': 'node_7_1519942056511',
-    'sub': [
-      {'name': 'Assets & Liabilities', 'node_id': 'node_7_1519942056511'},
-      {'name': 'Expenses', 'node_id': 'null', 'disabled': 'true'},
-      {'name': 'Funds position', 'node_id': 'node_1_1520204741645'}
-    ]
-  },
-  {'name': 'Loan requirements', 'node_id': 'null',
-    'sub': [
-      {'name': 'Purpose', 'node_id': 'null'},
-      {'name': 'Loan structure', 'node_id': 'null'},
-      {'name': 'Master Limit', 'node_id': 'null', 'disabled': 'true'},
-      {'name': 'LMI', 'node_id': 'null', 'disabled': 'true'},
-      {'name': 'SRG', 'node_id': 'null', 'disabled': 'true'}
-    ]
-  },
-  {'name': 'Additional', 'node_id': 'null',
-    'disabled': 'true',
-    'sub': [
-      {'name': 'Security', 'node_id': 'null'},
-      {'name': 'Solicitor', 'node_id': 'null'},
-      {'name': 'Source of wealth', 'node_id': 'null'},
-      {'name': 'Communications', 'node_id': 'null'}
-    ]
-  },
-  {'name': 'Privacy', 'node_id': 'null',
-    'disabled': 'true',
-    'sub': [
-      {'name': 'Loan requirements', 'node_id': 'null'},
-      {'name': 'Identification', 'node_id': 'null'},
-      {'name': 'Tax', 'node_id': 'null'},
-      {'name': 'Fee payments', 'node_id': 'null'},
-      {'name': 'Privacy statement', 'node_id': 'null'},
-      {'name': 'Declaration', 'node_id': 'null'}
-    ]
-  },
-  {'name': 'Documents', 'node_id': 'null',
-    'sub': [
-      {'name': 'Identification', 'node_id': 'null'},
-      {'name': 'Income', 'node_id': 'null'},
-      {'name': 'Property', 'node_id': 'null'}
+         {'name': 'INFORMATION', 'node_id': 'root'}
     ]
   }
 ]
